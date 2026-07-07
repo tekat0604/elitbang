@@ -1,0 +1,46 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2020-10-14 08:50:03 --> 404 Page Not Found: Assets_frontend/assets
+ERROR - 2020-10-14 09:58:31 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 42
+ERROR - 2020-10-14 10:03:10 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 42
+ERROR - 2020-10-14 10:03:11 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 42
+ERROR - 2020-10-14 10:05:53 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 40
+ERROR - 2020-10-14 10:05:55 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 40
+ERROR - 2020-10-14 10:06:17 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 40
+ERROR - 2020-10-14 10:06:32 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 43
+ERROR - 2020-10-14 10:06:33 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 43
+ERROR - 2020-10-14 10:07:57 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 43
+ERROR - 2020-10-14 10:07:58 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 43
+ERROR - 2020-10-14 10:08:11 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 43
+ERROR - 2020-10-14 10:08:45 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 40
+ERROR - 2020-10-14 10:08:59 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 40
+ERROR - 2020-10-14 10:09:00 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 40
+ERROR - 2020-10-14 10:09:01 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 40
+ERROR - 2020-10-14 10:09:02 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 40
+ERROR - 2020-10-14 10:09:02 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 40
+ERROR - 2020-10-14 10:09:03 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 40
+ERROR - 2020-10-14 10:09:04 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 40
+ERROR - 2020-10-14 10:09:05 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 40
+ERROR - 2020-10-14 10:33:11 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 40
+ERROR - 2020-10-14 10:33:13 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 40
+ERROR - 2020-10-14 10:35:39 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 42
+ERROR - 2020-10-14 10:40:34 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 97
+ERROR - 2020-10-14 10:40:39 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 97
+ERROR - 2020-10-14 10:41:15 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 97
+ERROR - 2020-10-14 10:41:19 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 97
+ERROR - 2020-10-14 10:41:59 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 97
+ERROR - 2020-10-14 10:42:44 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 97
+ERROR - 2020-10-14 10:45:57 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 95
+ERROR - 2020-10-14 10:45:59 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 95
+ERROR - 2020-10-14 10:46:11 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 95
+ERROR - 2020-10-14 10:46:25 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 97
+ERROR - 2020-10-14 10:46:37 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 97
+ERROR - 2020-10-14 10:53:02 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 103
+ERROR - 2020-10-14 10:53:04 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 103
+ERROR - 2020-10-14 10:54:04 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 110
+ERROR - 2020-10-14 10:54:05 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 110
+ERROR - 2020-10-14 10:54:18 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 107
+ERROR - 2020-10-14 10:54:26 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 105
+ERROR - 2020-10-14 11:05:12 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 27
+ERROR - 2020-10-14 11:05:14 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 27
+ERROR - 2020-10-14 11:05:42 --> Severity: Notice --> Undefined variable: locations /var/www/html/sukoharjo/bpbd/application/views/frontend/map/real_time/index.php 27

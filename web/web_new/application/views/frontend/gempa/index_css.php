@@ -1,0 +1,1 @@
+<link rel="stylesheet" href="<?= base_url()?>/assets/js/plugins/datatables/dataTables.bootstrap4.min.css"> 

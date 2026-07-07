@@ -1,0 +1,46 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "Nama_Jalan": "isi Nama Jalan",
+        "Panjang_Jalan": "isi Panjang Jalan",
+        "Lebar_Jalan": "isi Lebar Jalan",
+        "stroke": "#000000",
+        "stroke_opacity": 1,
+        "stroke_width": 2,
+        "fill": "#777777",
+        "fill_opacity": 0.2,
+        "icon_name": null
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              110.82824680176,
+              -7.568517689092
+            ],
+            [
+              110.82824680176,
+              -7.571517689092
+            ],
+            [
+              110.83024680176,
+              -7.571517689092
+            ],
+            [
+              110.83024680176,
+              -7.568517689092
+            ],
+            [
+              110.82824680176,
+              -7.568517689092
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

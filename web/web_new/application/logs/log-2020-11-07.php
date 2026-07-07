@@ -1,0 +1,5 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2020-11-07 13:27:37 --> Severity: Warning --> file_get_contents(http://103.70.79.66:8282/index.html?user=pde_smart_city&amp;kunci=24d6e4389472671719b8a7f087777554&amp;akses=nik&amp;nomor_nik=645654656): failed to open stream: No route to host /var/www/html/sukoharjo/bpbd/application/controllers/admin/Korban_bencana.php 163
+ERROR - 2020-11-07 13:27:40 --> Severity: Warning --> file_get_contents(http://103.70.79.66:8282/index.html?user=pde_smart_city&amp;kunci=24d6e4389472671719b8a7f087777554&amp;akses=nik&amp;nomor_nik=645654656): failed to open stream: No route to host /var/www/html/sukoharjo/bpbd/application/controllers/admin/Korban_bencana.php 163
+ERROR - 2020-11-07 13:28:00 --> Severity: Warning --> file_get_contents(http://103.70.79.66:8282/index.html?user=pde_smart_city&amp;kunci=24d6e4389472671719b8a7f087777554&amp;akses=nik&amp;nomor_nik=534546): failed to open stream: No route to host /var/www/html/sukoharjo/bpbd/application/controllers/admin/Korban_bencana.php 163

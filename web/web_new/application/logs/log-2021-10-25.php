@@ -1,0 +1,18 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2021-10-25 13:59:51 --> Severity: Warning --> mysqli::real_connect(): (HY000/2002): No route to host /home/phicosdev/projects/surakarta/bpbd/system/database/drivers/mysqli/mysqli_driver.php 203
+ERROR - 2021-10-25 13:59:51 --> Unable to connect to the database
+ERROR - 2021-10-25 13:59:51 --> Severity: Warning --> Cannot modify header information - headers already sent by (output started at /home/phicosdev/projects/surakarta/bpbd/system/core/Exceptions.php:271) /home/phicosdev/projects/surakarta/bpbd/system/core/Common.php 570
+ERROR - 2021-10-25 14:30:17 --> Severity: Warning --> "continue" targeting switch is equivalent to "break". Did you mean to use "continue 2"? /home/phicosdev/projects/surakarta/bpbd/application/controllers/Load_maps.php 33
+ERROR - 2021-10-25 14:30:17 --> Severity: Warning --> Cannot modify header information - headers already sent by (output started at /home/phicosdev/projects/surakarta/bpbd/system/core/Exceptions.php:271) /home/phicosdev/projects/surakarta/bpbd/application/controllers/Load_maps.php 9
+ERROR - 2021-10-25 14:30:17 --> Severity: Warning --> ini_set(): Headers already sent. You cannot change the session module's ini settings at this time /home/phicosdev/projects/surakarta/bpbd/system/libraries/Session/Session.php 282
+ERROR - 2021-10-25 14:30:17 --> Severity: Warning --> session_set_cookie_params(): Cannot change session cookie parameters when headers already sent /home/phicosdev/projects/surakarta/bpbd/system/libraries/Session/Session.php 294
+ERROR - 2021-10-25 14:30:17 --> Severity: Warning --> ini_set(): Headers already sent. You cannot change the session module's ini settings at this time /home/phicosdev/projects/surakarta/bpbd/system/libraries/Session/Session.php 304
+ERROR - 2021-10-25 14:30:17 --> Severity: Warning --> ini_set(): Headers already sent. You cannot change the session module's ini settings at this time /home/phicosdev/projects/surakarta/bpbd/system/libraries/Session/Session.php 314
+ERROR - 2021-10-25 14:30:17 --> Severity: Warning --> ini_set(): Headers already sent. You cannot change the session module's ini settings at this time /home/phicosdev/projects/surakarta/bpbd/system/libraries/Session/Session.php 315
+ERROR - 2021-10-25 14:30:17 --> Severity: Warning --> ini_set(): Headers already sent. You cannot change the session module's ini settings at this time /home/phicosdev/projects/surakarta/bpbd/system/libraries/Session/Session.php 316
+ERROR - 2021-10-25 14:30:17 --> Severity: Warning --> ini_set(): Headers already sent. You cannot change the session module's ini settings at this time /home/phicosdev/projects/surakarta/bpbd/system/libraries/Session/Session.php 317
+ERROR - 2021-10-25 14:30:17 --> Severity: Warning --> ini_set(): Headers already sent. You cannot change the session module's ini settings at this time /home/phicosdev/projects/surakarta/bpbd/system/libraries/Session/Session.php 375
+ERROR - 2021-10-25 14:30:17 --> Severity: Warning --> ini_set(): Headers already sent. You cannot change the session module's ini settings at this time /home/phicosdev/projects/surakarta/bpbd/system/libraries/Session/drivers/Session_files_driver.php 108
+ERROR - 2021-10-25 14:30:17 --> Severity: Warning --> session_set_save_handler(): Cannot change save handler when headers already sent /home/phicosdev/projects/surakarta/bpbd/system/libraries/Session/Session.php 110
+ERROR - 2021-10-25 14:30:17 --> Severity: Warning --> session_start(): Cannot start session when headers already sent /home/phicosdev/projects/surakarta/bpbd/system/libraries/Session/Session.php 143

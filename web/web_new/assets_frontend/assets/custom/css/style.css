@@ -1,0 +1,535 @@
+.logo-utama {
+  width: 150px;
+  margin: 0 !important;
+}
+
+.ch-item:hover .ch-info-back .icon-more {
+  -webkit-transform: rotateY(360deg);
+  transform: rotateY(360deg);
+}
+
+.ch-item .ch-info-back .icon-more {
+  width: 45px;
+  height: 45px;
+  border-radius: 45px;
+  border: 2px solid #ffffff;
+  margin-top: 1rem;
+  color: #ffffff;
+  font-size: 1.2rem;
+  text-align: center;
+  line-height: 40px;
+  display: inline-block;
+  -webkit-transition: all ease-in-out 0.5s;
+  transition: all ease-in-out 0.5s;
+  -webkit-transition-delay: 0.5s;
+  transition-delay: 0.5s;
+}
+
+#header-style-1,
+#header-style-1.affix {
+  border: none;
+  border-top: 2px solid #343b65;
+  border-bottom: 4px solid #e98024;
+  background: #2a3052;
+}
+
+#header-style-1 .navbar-default {
+  background: transparent;
+}
+
+#header-style-1 .navbar-nav > li > a {
+  color: #e5e5e5;
+  font-weight: 600;
+}
+
+#header-style-1 .navbar-nav > li > a:hover {
+  color: #e98024 !important;
+  color: #bfbfbf !important;
+}
+
+#header-style-1 .navbar-nav > li > a:hover,
+#header-style-1 .navbar-nav > li > a:focus,
+#header-style-1 .navbar-nav > li > a:active,
+#header-style-1 .navbar-default .navbar-nav > .open > a,
+#header-style-1 .navbar-default .navbar-nav > .open > a:hover,
+#header-style-1 .navbar-default .navbar-nav > .open > a:focus {
+  background: none;
+}
+
+#header-style-1 .navbar-default .navbar-nav > .open > a,
+#header-style-1 .navbar-default .navbar-nav > .open > a:hover,
+#header-style-1 .navbar-default .navbar-nav > .open > a:focus {
+  color: #bfbfbf !important;
+}
+
+.demo_changer .demo-icon,
+.group_box:hover .circle,
+.buddy_carousel .owl-controls .owl-page.active span,
+.buddy_carousel .owl-controls.clickable .owl-page:hover span,
+.recent_posts_widget > li img:hover,
+.buddypress_tabber_widget_member li img:hover,
+#tabbed_widget-1 .nav > li > a:hover,
+#tabbed_widget-1 .nav > li > a:focus,
+#footer-style-1 .social-icons span a:hover,
+#footer-style-2 .social-icons span a:hover,
+#footer-style-3 .social-icons span a:hover,
+.footer_post li img:hover,
+#tabbed_widget .recent_posts_widget img:hover,
+.pricing_detail:hover,
+.pricing_detail:hover .priceamount,
+.banners li:hover .img-thumbnail,
+.ch-info .ch-info-back,
+.service-with-image:hover .service-title,
+.calloutbox-full-mini,
+.services_vertical .icon-container,
+#services .owl-controls .owl-page span,
+.item:hover .icon-container,
+.white-wrapper #owl-testimonial .owl-controls .owl-page.active span,
+.make-bg,
+.buddy_image img:hover,
+.calloutbox,
+#owl-testimonial-widget .owl-controls .owl-prev:hover,
+#owl-testimonial-widget .owl-controls .owl-next:hover,
+#owl_blog_two_line .owl-controls .owl-prev:hover,
+#owl_blog_two_line .owl-controls .owl-next:hover,
+#owl_blog_three_line .owl-controls .owl-prev:hover,
+#owl_blog_three_line .owl-controls .owl-next:hover,
+#owl_portfolio_two_line .owl-controls .owl-prev:hover,
+#owl_portfolio_two_line .owl-controls .owl-next:hover,
+#owl_shop_carousel .owl-controls .owl-prev:hover,
+#owl_shop_carousel .owl-controls .owl-next:hover,
+#owl_shop_carousel_1 .owl-controls .owl-prev:hover,
+#owl_shop_carousel_1 .owl-controls .owl-next:hover,
+#owl-blog .owl-controls .owl-prev:hover,
+#owl-blog .owl-controls .owl-next:hover,
+.overlay #owl-testimonial .owl-controls .owl-page.active span,
+.progress-bar,
+.dmtop,
+h1 a:hover,
+h2 a:hover,
+h3 a:hover,
+h4 a:hover,
+h5 a:hover,
+h6 a:hover,
+.magnifier .btn-default:hover,
+.magnifier .btn-default:focus,
+.magnifier .btn-default:active,
+.rsDefaultInv .rsBullet.rsNavSelected span,
+.service-icon-circle.active,
+.servicebox:hover .service-icon-circle,
+.btn-primary,
+#accordion-first .accordion-heading .accordion-toggle.active em,
+#accordion-second .accordion-heading .accordion-toggle.active em,
+mark,
+.pager li > a,
+.pager li > span,
+.make-bg-full,
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus,
+.pagination > .active > span:focus,
+#bbpress-forums li.bbp-body ul.forum li.bbp-forum-reply-count:hover,
+#bbpress-forums li.bbp-body ul.forum li.bbp-forum-topic-count:hover,
+.tagcloud a:hover,
+.nav-stacked > li > a:hover,
+.nav-stacked > li > a:focus,
+.buddy_members img:hover,
+.buddy_carousel img:hover,
+#topbar .social-icons span a:hover {
+  background-color: #666;
+}
+
+.navbar-default .navbar-nav > .active > a {
+  border-radius: 3px;
+  color: #e98024 !important;
+  background: none !important;
+}
+
+.calloutbox {
+  background-color: #ff4400;
+}
+
+.btn-custom {
+  background-color: #e67820;
+  color: #ffffff;
+}
+
+.btn-custom:hover {
+  background-color: #fff;
+  color: #e67820;
+}
+
+#topbar {
+  background: #15212d;
+  color: #e98024;
+  border-bottom: 0;
+}
+
+#topbar a,
+#topbar,
+#topbar .topbar-email i,
+#topbar .topbar-phone i,
+#topbar .topbar-login i {
+  color: #eee;
+}
+
+#topbar a:hover i {
+  color: #e98024;
+}
+
+.social-icons span a,
+#topbar .topbar-email,
+#topbar .topbar-phone,
+#topbar .topbar-login {
+  border-left: 1px solid rgba(255, 255, 255, 0);
+}
+
+.topbar-email:hover a,
+.topbar-phone:hover,
+.topbar-login:hover a,
+.topbar-email:hover i,
+.topbar-phone:hover i,
+.topbar-login:hover i {
+  color: #e98024 !important;
+}
+
+#topbar .social-icons span.last a {
+  border-right: #a05316;
+}
+
+.widget-footer {
+  height: auto;
+  margin-bottom: 30px;
+}
+
+.icon-sosmed-footer {
+  padding: 25px;
+  font-size: 4rem;
+}
+
+.icon-sosmed-footer:hover {
+  color: white;
+  background-color: #e67820;
+  border-radius: 100px;
+}
+
+#topbar .social-icons span a:hover {
+  background-color: #fff;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #e67820;
+}
+
+.hide-this-on-mobile {
+  display: block;
+}
+
+.hide-this-on-pc {
+  display: none;
+}
+
+#copyrights {
+  background-color: #15212d;
+  padding: 20px 0 10px;
+  color: #c3c3c3;
+  display: block;
+  position: relative;
+}
+
+#footer-style-1 {
+  background-color: #2a3052;
+}
+
+.marque-judul {
+  font-weight: bold;
+}
+
+.konten-lapor {
+  background-color: #fff2e7;
+  padding: 15px;
+  position: relative;
+  margin: 10px 0 0 0;
+}
+
+.box-konten {
+  position: relative;
+}
+
+.konteks-lapor {
+  font-style: italic;
+  padding: 0 15px;
+  text-align: justify;
+}
+
+.judul-lapor {
+  color: #e67820;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.box {
+  margin: 15px 0;
+}
+
+.lapor-lengkap {
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: none;
+  padding: 0 15px;
+}
+
+.justify {
+  text-align: justify;
+}
+
+.card-cuaca {
+  border-radius: 5px;
+  padding: 30px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.filter {
+  width: 100%;
+  position: absolute;
+  height: 100%;
+  z-index: 1;
+  background: #0000001f;
+  top: 0;
+  left: 0;
+}
+
+.wrapper-cuaca {
+  position: relative;
+  z-index: 2;
+  color: white;
+}
+
+.jam-cuaca {
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.status-cuaca {
+  font-size: 2rem;
+  padding: 10px 0 0 0;
+}
+
+.suhu-cuaca {
+  font-size: 3rem;
+  padding: 10px 0 0 0;
+  font-weight: 500;
+}
+
+.lembab-cuaca {
+  font-size: 1.5rem;
+  padding: 10px 0 0 0;
+}
+
+.angin-cuaca {
+  font-size: 1.5rem;
+  padding: 10px 0 0 0;
+}
+
+.arah-cuaca {
+  font-size: 1.5rem;
+  padding: 10px 0 0 0;
+}
+
+.unduhan-ket {
+  font-size: 2rem;
+  max-width: 180px;
+  padding: 4px 0;
+}
+
+.recent_eq {
+  background: linear-gradient(0deg, #03417a 0%, #075dac 100%);
+  border-radius: 15px 15px 0 0;
+  padding: 20px;
+  margin: 0 !important;
+}
+
+.judul_recent_eq {
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
+}
+
+.subjudul_recent_eq {
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: white;
+  font-style: italic;
+  float: right;
+}
+
+.map_recent_eq {
+  margin: 0 !important;
+}
+
+.profil-point {
+  margin: 5px 0;
+}
+
+.profil-desc {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+  color: #e25703;
+}
+
+.overlay-dark {
+  background-color: #00000049;
+  position: absolute;
+  z-index: 1;
+  top: -10px;
+  left: -10px;
+  width: 110vw;
+  height: 110vh;
+}
+
+.tabbable .nav-tabs {
+  background: none;
+  border: 0 !important;
+}
+
+.nav-tabs > li > a {
+  border: 0;
+  border-bottom: 1px solid #ddd;
+  color: #2a3052 !important;
+  font-weight: 600;
+  text-align: center;
+}
+
+.nav-tabs > li:hover,
+.nav-tabs > li > a :hover {
+  background: none !important;
+}
+
+.nav-tabs > li.active,
+.nav-tabs > li.active a {
+  border: 0;
+  background: none !important;
+  border-bottom: 1px solid #2a3052;
+  color: #2a3052 !important;
+}
+
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  border: 0;
+  border-bottom: 1px solid #2a3052;
+  color: #2a3052 !important;
+}
+#tabbed_widget .nav-tabs > li.active > a,
+#tabbed_widget .nav-tabs > li.active > a:hover,
+#tabbed_widget .nav-tabs > li.active > a:focus,
+#tabbed_widget .nav > li > a:hover,
+#tabbed_widget .nav > li > a:focus,
+#tabbed_widget-1 .nav-tabs > li.active > a,
+#tabbed_widget-1 .nav-tabs > li.active > a:hover,
+#tabbed_widget-1 .nav-tabs > li.active > a:focus,
+#buddypress_features .nav-tabs > li > a:hover,
+#buddypress_features .nav-tabs > li > a:focus {
+}
+.title_orange {
+  font-size: 31px !important;
+  color: #e98024;
+  font-weight: 300 !important;
+}
+.title_dongker {
+  font-size: 31px !important;
+  color: #2a3052;
+  font-weight: 300 !important;
+}
+.sub_title_dongker {
+  color: #2a3052;
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+.text_dongker {
+  color: #2a3052;
+}
+
+.div_home_box img {
+  object-fit: cover;
+  width: 221px;
+  height: 168px;
+}
+
+.div_berita_box img {
+  object-fit: cover;
+  width: 317px;
+  height: 250px;
+}
+
+@media screen and (max-width: 767px) {
+  .div_berita_box img {
+    object-fit: none;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .hide-this-on-mobile {
+    display: none;
+  }
+
+  .hide-this-on-pc {
+    display: block;
+  }
+
+  .widget {
+    height: auto;
+    margin-bottom: 0px;
+  }
+
+  #header-style-1 {
+    padding: 10px 0;
+  }
+
+  .unduhan-ket {
+    font-size: 1.5rem;
+    max-width: 60%;
+    padding: 4px 0;
+  }
+
+  .recent_eq {
+    padding: 10px 0;
+  }
+
+  .judul_recent_eq {
+    font-size: 1.25rem;
+  }
+
+  .subjudul_recent_eq {
+    font-size: 1rem;
+    float: none;
+  }
+}

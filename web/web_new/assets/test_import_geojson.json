@@ -1,0 +1,32 @@
+{
+	"type": "FeatureCollection",
+	"features": [{
+		"type": "Feature",
+		"properties": {
+            "name": "bambang",
+            "group": null,
+            "Nama": "bambang",
+            "Umur": "26",
+            "Alamat": "solo",
+            "stroke": "#f987f4",
+            "stroke_opacity": 1,
+            "stroke_width": 2,
+            "fill": "#ff9045",
+            "fill_opacity": "0,3",
+            "icon_name": null
+        },
+		"geometry": {
+			"type": "Polygon",
+			"coordinates": [
+				[
+					[110.819628, -7.551655],
+					[110.8226, -7.551474],
+					[110.819982, -7.554165],
+					[110.817525, -7.553644],
+					[110.820014, -7.552878],
+					[110.819628, -7.551655]
+				]
+			]
+		}
+	}]
+}

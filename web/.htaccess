@@ -1,0 +1,36 @@
+Options -Indexes
+
+
+
+RewriteEngine On
+
+
+
+# === IZINKAN FILE KHUSUS ===
+
+<FilesMatch "^(index\.php|google[a-z0-9]+\.html)$">
+
+    Require all granted
+
+</FilesMatch>
+
+
+
+# === BLOKIR FILE DOKUMENTASI & CONFIG ===
+
+<FilesMatch "\.(md|rst|txt|json)$">
+
+    Require all denied
+
+</FilesMatch>
+
+
+
+# === ROUTING KE index.php ===
+
+RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^ index.php [L]
+

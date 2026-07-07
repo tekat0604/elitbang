@@ -1,0 +1,92 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2022-02-04 05:27:12 --> Severity: Notice --> Undefined index: HTTP_REFERER /home/phicosdev/projects/surakarta/bpbd/application/views/frontend/informasi_kebencanaan/detail.php 55
+ERROR - 2022-02-04 06:14:27 --> Severity: Notice --> Undefined index: HTTP_REFERER /home/phicosdev/projects/surakarta/bpbd/application/views/frontend/informasi_kebencanaan/detail.php 55
+ERROR - 2022-02-04 08:51:27 --> 404 Page Not Found: Assets_frontend/js
+ERROR - 2022-02-04 08:51:27 --> 404 Page Not Found: Assets_frontend/js
+ERROR - 2022-02-04 08:51:27 --> 404 Page Not Found: Assets_frontend/js
+ERROR - 2022-02-04 08:51:28 --> 404 Page Not Found: Assets_frontend/js
+ERROR - 2022-02-04 08:51:28 --> 404 Page Not Found: Assets_frontend/js
+ERROR - 2022-02-04 08:51:28 --> 404 Page Not Found: Assets_frontend/js
+ERROR - 2022-02-04 09:12:46 --> Severity: Notice --> Undefined index: HTTP_REFERER /home/phicosdev/projects/surakarta/bpbd/application/views/frontend/cuaca/index.php 51
+ERROR - 2022-02-04 12:01:22 --> Severity: Notice --> Undefined index: HTTP_REFERER /home/phicosdev/projects/surakarta/bpbd/application/views/frontend/informasi_kebencanaan/detail.php 55
+ERROR - 2022-02-04 12:46:05 --> 404 Page Not Found: Api_mobile/informasi
+ERROR - 2022-02-04 12:46:05 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:05 --> 404 Page Not Found: Api_mobile/berita
+ERROR - 2022-02-04 12:46:05 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:23 --> 404 Page Not Found: Api_mobile/berita
+ERROR - 2022-02-04 12:46:23 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:23 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:24 --> 404 Page Not Found: Api_mobile/informasi
+ERROR - 2022-02-04 12:46:25 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:25 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:26 --> 404 Page Not Found: Api_mobile/berita
+ERROR - 2022-02-04 12:46:26 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:26 --> 404 Page Not Found: Api_mobile/informasi
+ERROR - 2022-02-04 12:46:26 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:27 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:29 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:31 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:31 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:33 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:33 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:33 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:34 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:37 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:37 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:39 --> 404 Page Not Found: Api_mobile/berita
+ERROR - 2022-02-04 12:46:39 --> 404 Page Not Found: Api_mobile/informasi
+ERROR - 2022-02-04 12:46:39 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:46:39 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:47:03 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:47:03 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:47:04 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:47:09 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:47:49 --> 404 Page Not Found: Api_mobile/berita
+ERROR - 2022-02-04 12:47:49 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:47:49 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 12:47:49 --> 404 Page Not Found: Api_mobile/informasi
+ERROR - 2022-02-04 15:19:22 --> 404 Page Not Found: Api_mobile/berita
+ERROR - 2022-02-04 15:19:22 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:19:22 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:19:22 --> 404 Page Not Found: Api_mobile/informasi
+ERROR - 2022-02-04 15:20:19 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:20:19 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:20:19 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:20:50 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:20:50 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:20:50 --> 404 Page Not Found: Api_mobile/informasi
+ERROR - 2022-02-04 15:20:50 --> 404 Page Not Found: Api_mobile/berita
+ERROR - 2022-02-04 15:21:06 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:14 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:14 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:14 --> 404 Page Not Found: Api_mobile/berita
+ERROR - 2022-02-04 15:21:14 --> 404 Page Not Found: Api_mobile/informasi
+ERROR - 2022-02-04 15:21:17 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:19 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:19 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:21 --> 404 Page Not Found: Api_mobile/berita
+ERROR - 2022-02-04 15:21:21 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:21 --> 404 Page Not Found: Api_mobile/informasi
+ERROR - 2022-02-04 15:21:21 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:25 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:26 --> 404 Page Not Found: Api_mobile/informasi
+ERROR - 2022-02-04 15:21:26 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:26 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:26 --> 404 Page Not Found: Api_mobile/berita
+ERROR - 2022-02-04 15:21:27 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:28 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:28 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:28 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:28 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:29 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:31 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:31 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:32 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:33 --> 404 Page Not Found: Api_mobile/berita
+ERROR - 2022-02-04 15:21:33 --> 404 Page Not Found: Api_mobile/informasi
+ERROR - 2022-02-04 15:21:34 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:34 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 15:21:34 --> 404 Page Not Found: Api_mobile/dashboard
+ERROR - 2022-02-04 16:28:41 --> Severity: Notice --> Undefined index: HTTP_REFERER /home/phicosdev/projects/surakarta/bpbd/application/views/frontend/informasi_kebencanaan/detail.php 55
+ERROR - 2022-02-04 16:46:04 --> Severity: Notice --> Undefined index: HTTP_REFERER /home/phicosdev/projects/surakarta/bpbd/application/views/frontend/informasi_kebencanaan/detail.php 55

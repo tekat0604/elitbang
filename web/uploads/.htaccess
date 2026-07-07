@@ -1,0 +1,22 @@
+Options -Indexes
+php_flag engine off
+
+# Default: blok semua
+<FilesMatch ".*">
+    Require all denied
+</FilesMatch>
+
+# Izinkan file upload aman
+<FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|pdf|doc|docx|xls|xlsx|zip)$">
+    Require all granted
+</FilesMatch>
+
+# Izinkan geojson (jika dipakai frontend)
+<FilesMatch "\.geojson$">
+    Require all granted
+</FilesMatch>
+
+# Blok keras file berbahaya
+<FilesMatch "\.(php|phtml|php3|php4|php5|phar|sh|cgi|pl|py|jsp|asp|ini|log|env|json|txt)$">
+    Require all denied
+</FilesMatch>

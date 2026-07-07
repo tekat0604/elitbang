@@ -1,0 +1,83 @@
+{
+  "type"      : "FeatureCollection",
+  "features"  : [
+    {
+      "type"          : "Feature",
+      "geometry"      : {
+        "type"        : "Point", 
+        "coordinates": [
+          110.83878135694,
+          -7.6687939870423
+        ]
+      },
+      "properties"  : {
+        "id"          : 1,
+        "mynumber"    : 1,
+        "status"      : "black",
+        "nama"        : "Dwi Hendra",
+        "email"       : "dwihendra.info@gmail.com",
+        "no_hp"       : "085728775443"
+      }
+    },
+    {
+      "type"          : "Feature",
+      "geometry"      : {
+        "type"        : "Point",
+        "coordinates": [
+          110.8271658999999971229044604115188121795654296875,
+          -7.55077629999999988541503626038320362567901611328125
+        ]
+      },
+      "properties"  : {
+        "id"          : 2,
+        "mynumber"    : "2",
+        "status"      : "Blue"
+      }
+    },
+    {
+      "type"          : "Feature",
+      "geometry"      : {
+        "type"        : "Point",
+        "coordinates": [
+          110.82381309999999530191416852176189422607421875,
+          -7.58962459999999961013372740126214921474456787109375
+        ]
+      },
+      "properties"  : {
+        "id"          : 3,
+        "mynumber"    : "3",
+        "status"      : "green"
+      }
+    },
+    {
+      "type"          : "Feature",
+      "geometry"      : {
+        "type"        : "Point",
+        "coordinates": [
+          110.7888899000000009209543350152671337127685546875,
+          -7.514051399999999603096512146294116973876953125
+        ]
+      },
+      "properties"  : {
+        "id"          : 4,
+        "mynumber"    : "4",
+        "status"      : "Orange"
+      }
+    },
+    {
+      "type"          : "Feature",
+      "geometry"      : {
+        "type"        : "Point",
+        "coordinates": [
+          110.82381309999999530191416852176189422607421875,
+          -7.58962459999999961013372740126214921474456787109375
+        ]
+      },
+      "properties"  : {
+        "id"          : 5,
+        "mynumber"    : "5",
+        "status"      : "Green"
+      }
+    } 
+]
+}
