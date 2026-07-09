@@ -10,12 +10,15 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('layanan', function (Blueprint $table) {
+        Schema::create('anggota_permohonan', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_layanan');
-            $table->string('slug_layanan');
-            $table->string('logo');
-            $table->text('deskripsi')->nullable();
+
+            // Mengikat anggota ke satu ID permohonan spesifik
+            $table->foreignId('permohonan_id')->constrained('permohonan')->onDelete('cascade');
+
+            $table->string('nama_anggota');
+            $table->string('nik_nim');
+
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('layanan');
+        Schema::dropIfExists('anggota_permohonan');
     }
 };

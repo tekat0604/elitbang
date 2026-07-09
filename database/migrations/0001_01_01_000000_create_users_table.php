@@ -19,6 +19,13 @@ return new class extends Migration {
             $table->string('password')->nullable();
             $table->string('google_id')->nullable()->unique();
             $table->string('avatar')->nullable();
+            $table->enum('role', [
+                'user',
+                'admin',
+                'verifikator',
+                'tanda_tangan',
+                'superadmin'
+            ])->default('user');
             $table->rememberToken();
             $table->timestamps();
         });
