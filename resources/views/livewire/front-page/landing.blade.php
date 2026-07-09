@@ -61,7 +61,6 @@
                 </div>
             </div>
         </div>
-        @include('layouts/sections/footer/footer-front')
     </div>
   </section>
 </div>
