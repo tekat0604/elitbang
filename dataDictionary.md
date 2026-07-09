@@ -27,7 +27,7 @@ Tabel ini khusus untuk autentikasi sistem (Login/Register)
 Menyimpan profil detail pengguna yang mendaftar. Data ini wajib diisi dan diverifikasi oleh Kesbangpol sebelum pemohon dapat mengajukan permohonan izin.
 
 | Nama Kolom                  | Tipe Data            | Constraints          | Keterangan                                                              |
-| :-------------------------- | :------------------- | :------------------- | :---------------------------------------------------------------------- | --- |
+| :-------------------------- | :------------------- | :------------------- | :---------------------------------------------------------------------- | 
 | `id`                        | `unsignedBigInteger` | `PRIMARY KEY`        | ID unik profil pemohon                                                  |
 | `user_id`                   | `unsignedBigInteger` | `FOREIGN KEY`        | Relasi ke tabel `users`                                                 |
 | `nik`                       | `string(16)`         | `UNIQUE, NOT NULL`   | Nomor Induk Kependudukan / Paspor                                       |
@@ -43,7 +43,8 @@ Menyimpan profil detail pengguna yang mendaftar. Data ini wajib diisi dan diveri
 | `identitas`                 | `string`             | `NOT NULL`           | tempat file KTP/KTM/SIM yang diunggah                                   |
 | `status_verifikasi`         | `enum`               | `DEFAULT('pending')` | Status dari Kesbangpol: `pending`, `terverifikasi`, `revisi`, `ditolak` |
 | `catatan_verifikasi`        | `text`               | `NULLABLE`           | Pesan/alasan dari Kesbangpol jika data direvisi atau ditolak            |
-| `created_at` / `updated_at` | `timestamps`         | `NULLABLE`           | Waktu profil dibuat dan terakhir diubah                                 |     |
+| `created_at` / `updated_at` | `timestamps`         | `NULLABLE`           | Waktu profil dibuat dan terakhir diubah                                 |     
+
 
 ## 3. Tabel `layanan`
 
@@ -60,26 +61,10 @@ Tabel referensi untuk pilihan jenis izin.
 
 ## 4. Tabel `permohonan`
 
-Tabel transaksi utama untuk mencatat "Isian Data Penelitian" dari form permohonan.
-
-| Nama Kolom          | Tipe Data            | Constraints        | Keterangan                                                    |
-| :------------------ | :------------------- | :----------------- | :------------------------------------------------------------ |
-| `id`                | `unsignedBigInteger` | `PRIMARY KEY`      | ID unik permohonan izin                                       |
-| `pemohon_id`        | `unsignedBigInteger` | `FOREIGN KEY`      | Relasi ke tabel `pemohon` (Siapa yang mengajukan)             |
-| `jenis_layanan_id`  | `unsignedBigInteger` | `FOREIGN KEY`      | Relasi ke tabel `jenis_layanan`                               |
-| `judul`             | `string`             | `NOT NULL`         | Judul Penelitian/Kegiatan                                     |
-| `tujuan`            | `text`               | `NOT NULL`         | Tujuan dilakukan penelitian                                   |
-| `lokasi`            | `string`             | `NOT NULL`         | Lokasi / Dinas / Objek tempat penelitian                      |
-| `tgl_mulai`         | `date`               | `NOT NULL`         | Tanggal kegiatan dimulai                                      |
-| `tgl_selesai`       | `date`               | `NOT NULL`         | Tanggal kegiatan berakhir                                     |
-| `status_permohonan` | `enum`               | `DEFAULT('draft')` | Status: `draft`, `diajukan`, `revisi`, `disetujui`, `ditolak` |
-
-## 4. Tabel `permohonan`
-
 Tabel transaksi utama untuk mencatat "Isian Data Penelitian" dari form permohonan, mencakup alur verifikasi berjenjang hingga penerbitan surat ber-TTE.
 
 | Nama Kolom                  | Tipe Data (Laravel)  | Constraints           | Keterangan                                                                           |
-| :-------------------------- | :------------------- | :-------------------- | :----------------------------------------------------------------------------------- | --------------------------- |
+| :-------------------------- | :------------------- | :-------------------- | :----------------------------------------------------------------------------------- | 
 | `id`                        | `unsignedBigInteger` | `PRIMARY KEY`         | ID unik permohonan izin                                                              |
 | `pemohon_id`                | `unsignedBigInteger` | `FOREIGN KEY`         | Relasi ke tabel `pemohon` (Siapa yang mengajukan)                                    |
 | `layanan_id`                | `unsignedBigInteger` | `FOREIGN KEY`         | Relasi ke tabel `layanan`                                                            |
@@ -103,6 +88,8 @@ Tabel transaksi utama untuk mencatat "Isian Data Penelitian" dari form permohona
 | `file_surat_izin`           | `string`             | `NULLABLE`            | Menyimpan _file_ dokumen PDF yang sudah memiliki TTE                                 |
 | `qr_code`                   | `string`             | `NULLABLE`            | Menyimpan _link_ atau _hash_ QR Code pembuktian validitas izin                       |
 | `created_at` / `updated_at` | `timestamps`         | `NULLABLE`            | Catatan waktu otomatis saat permohonan dibuat/diubah                                 |
+
+---
 
 ## 6. Tabel `dokumen_syarat`
 
