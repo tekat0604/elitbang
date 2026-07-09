@@ -91,8 +91,8 @@ Tabel transaksi utama untuk mencatat "Isian Data Penelitian" dari form permohona
 | `jenjang_pendidikan`        | `string`             | `NOT NULL`            | Pilihan S1/S2/S3/D3/D4/SMA/SMP                                                       |
 | `bidang_penelitian`         | `string`             | `NOT NULL`            | Pilihan: Kesehatan, Lingkungan Hidup, Budaya, dll                                    |
 | `rumpun_penelitian`         | `string`             | `NOT NULL`            | Pilihan: Ekonomi, Sosial Budaya, Hukum, dll                                          |
-| `jenis_pengajuan'           | 'enum'               | 'DEFAULT('Personal')` | `NOT NULL`                                                                           | Pilihan: personal, kelompok |
-| `jumlah_anggota'            | 'integer'            | 'DEFAULT(1)`          | NOT NULL                                                                             | jumlah anggota              |
+| `jenis_pengajuan`           | `enum`               | `NOT NULL`            | Pilihan: personal, kelompok                                                          |
+| `jumlah_anggota`            |  `integer`            | `DEFAULT(1)`          | jumlah anggota                                                                       |
 | `nama_instansi_tujuan`      | `string`             | `NOT NULL`            | Nama instansi tempat penelitian dilakukan                                            |
 | `alamat_instansi_tujuan`    | `text`               | `NOT NULL`            | Alamat lengkap instansi tujuan penelitian                                            |
 | `status_permohonan`         | `enum`               | `DEFAULT('draft')`    | Status global: `draft`, `diajukan`, `proses_brida`, `revisi`, `disetujui`, `ditolak` |
