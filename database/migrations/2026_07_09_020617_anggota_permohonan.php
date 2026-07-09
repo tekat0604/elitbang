@@ -13,7 +13,6 @@ return new class extends Migration {
         Schema::create('anggota_permohonan', function (Blueprint $table) {
             $table->id();
 
-            // Mengikat anggota ke satu ID permohonan spesifik
             $table->foreignId('permohonan_id')->constrained('permohonan')->onDelete('cascade');
 
             $table->string('nama_anggota');

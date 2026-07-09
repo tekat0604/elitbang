@@ -12,17 +12,9 @@ return new class extends Migration {
     {
         Schema::create('dokumen_syarat', function (Blueprint $table) {
             $table->id();
-
-            // Relasi ke tabel permohonan
             $table->foreignId('permohonan_id')->constrained('permohonan')->onDelete('cascade');
-
-            // Jenis dokumen (misal: "Proposal", "Surat Pengantar")
-            $table->enum('jenis_dokumen');
-
-            // Link Google Drive
+            $table->string('jenis_dokumen');
             $table->text('tautan_dokumen');
-
-            // Status verifikasi khusus dokumen ini
             $table->enum('status_validasi', [
                 'pending',
                 'valid',

@@ -24,7 +24,6 @@ return new class extends Migration {
                 'admin',
                 'verifikator',
                 'tanda_tangan',
-                'superadmin'
             ])->default('user');
             $table->rememberToken();
             $table->timestamps();

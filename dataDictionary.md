@@ -113,7 +113,7 @@ Menyimpan lampiran _file_ yang wajib diunggah (seperti KTP, Surat Pengantar Kamp
 | `id`              | `unsignedBigInteger` | `PRIMARY KEY`        | ID unik dokumen                                     |
 | `permohonan_id`   | `unsignedBigInteger` | `FOREIGN KEY`        | Relasi ke tabel `permohonan`                        |
 | `jenis_dokumen`   | `string`             | `NOT NULL`           | Label dokumen (KTP, Proposal, Surat Pengantar)      |
-| `tautan`          | `text`               | `NOT NULL`           | Tempat penyimpanan file                             |
+| `tautan_dokumen`  | `text`               | `NOT NULL`           | Tempat penyimpanan file                             |
 | `status_validasi` | `enum`               | `DEFAULT('pending')` | Verifikasi admin: `pending`, `valid`, `tidak_valid` |
 | `catatan_revisi`  | `text`               | `NULLABLE`           | Pesan dari verifikator jika dokumen ditolak/revisi  |
 

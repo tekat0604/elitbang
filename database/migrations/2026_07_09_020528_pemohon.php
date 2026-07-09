@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('pemohon', function (Blueprint $table) {
             $table->id();
-            // Relasi ke tabel users
+
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
 
             $table->string('nik', 16)->unique();
@@ -21,17 +21,14 @@ return new class extends Migration {
             $table->string('instansi');
             $table->string('nim_nip')->nullable();
 
-            // Alamat dipecah
             $table->string('provinsi');
             $table->string('kota_kabupaten');
             $table->string('kecamatan');
             $table->string('kelurahan_desa');
             $table->text('alamat');
-
-            // File KTP/KTM
             $table->string('identitas');
 
-            // Verifikasi dari Kesbangpol
+            // verif
             $table->enum('status_verifikasi', [
                 'pending',
                 'terverifikasi',

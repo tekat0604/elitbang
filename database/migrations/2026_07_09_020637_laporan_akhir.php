@@ -12,14 +12,8 @@ return new class extends Migration {
     {
         Schema::create('laporan_akhir', function (Blueprint $table) {
             $table->id();
-
-            // Relasi ke tabel permohonan
             $table->foreignId('permohonan_id')->constrained('permohonan')->onDelete('cascade');
-
-            // Path file laporan PDF yang diunggah ke server lokal
             $table->string('file_laporan');
-
-            // Waktu upload laporan
             $table->dateTime('tanggal_upload');
 
             // Status verifikasi laporan oleh BRIDA
