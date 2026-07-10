@@ -93,7 +93,7 @@
             <span>Atau login disini</span>
           </p>
           <div class="d-flex justify-content-center">
-            <button type="button" class="btn rounded btn-facebook waves-effect waves-light w-100"><i class="icon-base ti tabler-brand-google icon-xs me-2"></i> Akun Gmail</button>
+            <a href="{{  route('google.login') }}" class="btn rounded btn-facebook waves-effect waves-light w-100"><i class="icon-base ti tabler-brand-google icon-xs me-2"></i> Akun Gmail</a>
           </div>
         </div>
       </div>
