@@ -40,45 +40,38 @@
   data-bs-theme="{{ $configData['theme'] }}" @if ($isAdminLayout && $semiDarkEnabled) data-semidark-menu="true" @endif>
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-  <title>{{ config('title_nav') }}</title>
-  <meta content="" name="{{ config('akronim') }}">
-  <meta content="" name="{{ config('deskripsi') }}">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>{{ config('title_nav') }}</title>
+    <meta content="" name="{{ config('akronim') }}">
+    <meta content="" name="{{ config('deskripsi') }}">
 
-  <!-- Favicon -->
-  <link href="{{ asset('displayFileFe/' . config('logo_nav')) }}" rel="icon">
+    <!-- Favicon -->
+    <link href="{{ asset('displayFileFe/' . config('logo_nav')) }}" rel="icon">
 
-  @include('layouts/sections/stylesFront')
-  <style>
+    @include('layouts/sections/stylesFront')
+    <style>
     {!! $themeCSS !!}
-  </style>
-  <!-- Include Scripts for customizer, helper, analytics, config -->
-  <!-- js -->
-  @include('layouts/sections/scriptsIncludesFront')
-  @livewireStyles
-  @stack('style')
+    </style>
+    <!-- Include Scripts for customizer, helper, analytics, config -->
+    <!-- js -->
+    @include('layouts/sections/scriptsIncludesFront')
+    @livewireStyles
+    @stack('style')
 </head>
 
 <body>
-  @include('layouts.sections.navbar.navbar-front')
+@include('layouts.sections.navbar.navbar-front')
   @yield('content')
     @if(isset($slot))
         {{ $slot }}
     @endif
 @include('layouts.sections.footer.footer-front')
 
+
   <!-- Include Scripts -->
   <!-- $isFront is used to append the front layout scripts only on the front layout otherwise the variable will be blank -->
   @include('layouts/sections/scripts' . $isFront)
-
-  @livewireScripts
-  @stack('script')
-
-  @isset($scripts)
-    {{ $scripts }}
-  @endisset
 </body>
 
 </html>

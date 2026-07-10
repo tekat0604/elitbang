@@ -1,0 +1,68 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('permohonan', function (Blueprint $table) {
+            $table->id();
+
+            $table->foreignId('pemohon_id')->constrained('pemohon')->onDelete('cascade');
+            $table->foreignId('layanan_id')->constrained('layanan')->onDelete('cascade');
+
+            $table->string('judul');
+            $table->text('tujuan');
+            $table->string('lokasi');
+            $table->date('tgl_mulai');
+            $table->date('tgl_selesai');
+            $table->string('jenjang_pendidikan');
+            $table->string('bidang_penelitian');
+            $table->string('rumpun_penelitian');
+
+            $table->enum('jenis_pengajuan', ['personal', 'kelompok'])->default('personal');
+            $table->integer('jumlah_anggota')->default(1);
+
+            $table->string('nama_instansi_tujuan')->nullable();
+            $table->text('alamat_instansi_tujuan')->nullable();
+
+            // status
+            $table->enum('status_permohonan', [
+                'draft',
+                'diajukan',
+                'proses_brida',
+                'revisi',
+                'disetujui',
+                'ditolak'
+            ])->default('draft');
+
+            // verif
+            // Kesbangpol
+            $table->enum('status_kesbangpol', ['pending', 'revisi', 'disetujui', 'ditolak'])->default('pending');
+            $table->text('catatan_kesbangpol')->nullable();
+
+            // BRIDA
+            $table->enum('status_brida', ['pending', 'revisi', 'disetujui', 'ditolak'])->default('pending');
+            $table->text('catatan_brida')->nullable();
+
+            // output
+            $table->string('file_surat_izin')->nullable();
+            $table->text('qr_code')->nullable();
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('permohonan');
+    }
+};

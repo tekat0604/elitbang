@@ -86,6 +86,22 @@
         <div class="modal-footer pt-4">
           <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Mulai Mendaftar</button>
         </div>
+    </div>
+  </section>
+</div>
+<div class="modal fade" id="alurPerizinan" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel4">Alur Perizinan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-dark">{!! $alur->deskripsi !!}</p>
+        <img src="{{ asset('storage/layanan/' . $alur->gambar_alur) }}" alt="alur" class="img-fluid w-100" data-speed="1" />
+      </div>
+      <div class="modal-footer pt-4">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Mulai Mendaftar</button>
       </div>
     </div>
   </div>
