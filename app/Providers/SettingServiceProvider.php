@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 use App\Models\Setting;
@@ -21,6 +22,10 @@ class SettingServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (! Schema::hasTable((new Setting)->getTable())) {
+            return;
+        }
+
         $setting = Setting::first();
         config()->set('id', $setting->id ?? null);
         config()->set('title_nav', $setting->title_nav ?? null);
