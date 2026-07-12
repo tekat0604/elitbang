@@ -31,77 +31,75 @@
 
             <form id="formPemohon" action="javascript:void(0);" method="POST">
               <div class="row gy-4">
-                <div class="col-12 form-control-validation">
-                  <label for="fullName" class="form-label">Nama Lengkap</label>
-                  <input type="text" id="fullName" name="fullName" class="form-control"
-                    placeholder="Masukkan nama lengkap" />
+                <div class="col-md-6 form-control-validation">
+                  <label for="nama_lengkap" class="form-label">Nama lengkap</label>
+                  <input type="text" id="nama_lengkap" name="nama_lengkap" class="form-control" placeholder="Silakan isi nama lengkap anda" />
                 </div>
 
                 <div class="col-md-6 form-control-validation">
-                  <label for="email" class="form-label">Email</label>
-                  <input type="email" id="email" name="email" class="form-control" placeholder="Masukkan email" />
-                </div>
-
-                <div class="col-md-6 form-control-validation">
-                  <label for="birthdate" class="form-label">Tanggal Lahir</label>
-                  <input type="date" id="birthdate" name="birthdate" class="form-control" />
-                </div>
-
-                <div class="col-12 form-control-validation">
-                  <label for="address" class="form-label">Alamat</label>
-                  <textarea id="address" name="address" class="form-control" rows="3" placeholder="Masukkan alamat lengkap"></textarea>
-                </div>
-
-                <div class="col-md-6 form-control-validation">
-                  <label for="identityType" class="form-label">Jenis Identitas</label>
-                  <select id="identityType" name="identityType" class="form-select">
+                  <label for="jenis_identitas" class="form-label">Jenis Identitas</label>
+                  <select id="jenis_identitas" name="jenis_identitas" class="form-select">
                     <option value="">Pilih jenis identitas</option>
                     <option value="ktp">KTP</option>
                     <option value="ktm">KTM</option>
-                    <option value="passport">Passport</option>
+                    <option value="passport">Paspor</option>
                     <option value="sim">SIM</option>
                   </select>
                 </div>
 
                 <div class="col-md-6 form-control-validation">
-                  <label for="identityNumber" class="form-label">Nomor Identitas</label>
-                  <input type="text" id="identityNumber" name="identityNumber" class="form-control"
-                    placeholder="Masukkan nomor identitas" />
+                  <label for="nomor_identitas" class="form-label">Nomor Identitas</label>
+                  <input type="text" id="nomor_identitas" name="nomor_identitas" class="form-control" placeholder="Masukkan nomor identitas" />
                 </div>
 
                 <div class="col-md-6 form-control-validation">
-                  <label for="phone" class="form-label">No Telp</label>
-                  <input type="text" id="phone" name="phone" class="form-control" placeholder="08xx xxxx xxxx" />
+                  <label for="no_hp" class="form-label">No HP</label>
+                  <input type="text" id="no_hp" name="no_hp" class="form-control" placeholder="08xx xxxx xxxx" />
                 </div>
 
                 <div class="col-md-6 form-control-validation">
-                  <label for="nationality" class="form-label">Kewarganegaraan</label>
-                  <input type="text" id="nationality" name="nationality" class="form-control"
-                    placeholder="Indonesia" />
+                  <label for="email" class="form-label">email</label>
+                  <input type="text" id="email" name="email" class="form-control" placeholder="Masukan email anda" />
+                </div>
+
+                <div class="col-md-6 form-control-validation">
+                  <label for="kewarganegaraan" class="form-label">Kewarganegaraan</label>
+                  <input type="text" id="kewarganegaraan" name="kewarganegaraan" class="form-control" placeholder="Indonesia" />
+                </div>
+
+                <div class="col-md-6 form-control-validation">
+                  <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
+                  <input type="text" id="tanggal_lahir" name="tanggal_lahir" class="form-control"/>
                 </div>
 
                 <div class="col-md-6 form-control-validation">
                   <label for="province" class="form-label">Provinsi</label>
-                  <input type="text" id="province" name="province" class="form-control"
-                    placeholder="Masukkan provinsi" />
+                  <input type="text" id="province" name="provinsi" class="form-control" placeholder="Masukkan provinsi" />
                 </div>
 
                 <div class="col-md-6 form-control-validation">
                   <label for="city" class="form-label">Kabupaten / Kota</label>
-                  <input type="text" id="city" name="city" class="form-control"
-                    placeholder="Masukkan kabupaten atau kota" />
+                  <input type="text" id="city" name="kota_kabupaten" class="form-control" placeholder="Masukkan kabupaten atau kota" />
                 </div>
 
                 <div class="col-md-6 form-control-validation">
                   <label for="district" class="form-label">Kecamatan</label>
-                  <input type="text" id="district" name="district" class="form-control"
-                    placeholder="Masukkan kecamatan" />
+                  <input type="text" id="district" name="kecamatan" class="form-control" placeholder="Masukkan kecamatan" />
                 </div>
 
                 <div class="col-md-6 form-control-validation">
-                  <label for="subdistrict" class="form-label">Kelurahan</label>
-                  <input type="text" id="subdistrict" name="subdistrict" class="form-control"
-                    placeholder="Masukkan kelurahan" />
+                  <label for="subdistrict" class="form-label">Kelurahan / Desa</label>
+                  <input type="text" id="subdistrict" name="kelurahan_desa" class="form-control" placeholder="Masukkan kelurahan atau desa" />
+                </div>
+
+                <div class="col-12 form-control-validation">
+                  <label for="address" class="form-label">Alamat</label>
+                  <textarea id="address" name="alamat" class="form-control" rows="3" placeholder="Masukkan alamat lengkap"></textarea>
+                </div>
+
+                <div class="col-12 form-control-validation">
+                  <label for="address" class="form-label">foto identitas</label>
+                  <textarea id="address" name="alamat" class="form-control" rows="3"></textarea>
                 </div>
               </div>
 
