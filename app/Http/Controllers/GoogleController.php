@@ -22,9 +22,9 @@ class GoogleController extends Controller
             $cariUser = User::where('google_id', $googleUser->id)->first();
             if ($cariUser) {
                 Auth::login($cariUser);
-                return redirect()->intended('/');
+                return redirect()->intended(route('dashboard'));
             } else {
-                $existingEmail = User::where('email', $gooogleUser->email)->first();
+                $existingEmail = User::where('email', $googleUser->email)->first();
 
                 if ($existingEmail) {
                     $existingEmail->update([
@@ -44,7 +44,7 @@ class GoogleController extends Controller
                     ]);
                     Auth::login($newUser);
                 }
-                return redirect()->intended('/');
+                return redirect()->intended(route('dashboard'));
             }
         } catch (Exception $e) {
             return redirect()->route('login')->with('error', 'Terjadi kesalahan saat login dengan Google. Silakan coba lagi.');

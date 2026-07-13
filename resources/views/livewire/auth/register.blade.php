@@ -19,47 +19,47 @@
 <div class="landing-login">
   <div class="authentication-wrapper authentication-basic">
     <div class="authentication-inner py-4">
-      <!-- Login -->
       <div class="card shadow-lg border-0 rounded-4 mx-auto" style="width: 100%; max-width: 420px;">
         <div class="card-body">
-          <!-- Logo -->
           <div class="app-brand justify-content-center mb-6 text-center">
                 <div class="mx-auto" style="max-width: 200px;">
                     <img src="{{ asset('storage/setting/' . config('logo_branding')) }}" alt="logo" class="w-100" data-speed="1" />
                 </div>
           </div>
-          <!-- /Logo -->
-          <p class="mb-6 text-center">Silahkan login untuk mengajukan permohonan</p>
+          <p class="mb-6 text-center">Silahkan buat akun untuk mengajukan permohonan</p>
 
-          @error('login_failed')
-            <div class="alert alert-danger alert-dismissible" role="alert">
-              {{ $message }}
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-          @enderror
-
-          <form class="mb-4" wire:submit="login">
-            
+          <form class="mb-4" wire:submit="register">
             <div class="mb-6">
-              <label for="email" class="form-label">Email atau Username</label>
-              <input type="text" class="form-control @error('email_username') is-invalid @enderror" 
-                wire:model="email_username" 
-                placeholder="Masukan email atau username anda" autofocus />
-              
-              @error('email_username') 
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control @error('username') is-invalid @enderror"
+                wire:model="username"
+                placeholder="Masukan username anda" autofocus />
+
+              @error('username') 
+                  <span class="invalid-feedback d-block">{{ $message }}</span> 
+              @enderror
+            </div>
+
+            <div class="mb-6">
+              <label for="email" class="form-label">Email</label>
+              <input type="text" class="form-control @error('email') is-invalid @enderror"
+                wire:model="email"
+                placeholder="Masukan email anda" />
+
+              @error('email') 
                   <span class="invalid-feedback d-block">{{ $message }}</span> 
               @enderror
             </div>
 
             <div class="mb-6 form-password-toggle">
               <label class="form-label" for="password">Password</label>
-              
+
               <div class="input-group input-group-merge" x-data="{ show: false }">
-                <input x-bind:type="show ? 'text' : 'password'" 
-                  class="form-control @error('password') is-invalid @enderror" 
+                <input x-bind:type="show ? 'text' : 'password'"
+                  class="form-control @error('password') is-invalid @enderror"
                   wire:model="password"
                   placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
-                
+
                 <span class="input-group-text cursor-pointer" @click="show = !show">
                   <i class="icon-base ti" :class="show ? 'tabler-eye' : 'tabler-eye-off'"></i>
                 </span>
@@ -70,37 +70,21 @@
               @enderror
             </div>
 
-            <div class="my-4">
-              <div class="d-flex justify-content-end">
-                <a href="{{ url('auth/forgot-password-basic') }}">
-                  <p class="mb-0">Lupa Password?</p>
-                </a>
-              </div>
-            </div>
-
             <div class="mb-4">
               <button class="btn btn-primary d-grid w-100" type="submit" wire:loading.attr="disabled">
-                <span wire:loading.remove>Login</span>
-                <span wire:loading>login</span>
+                <span wire:loading.remove>Daftar</span>
+                <span wire:loading>Processing...</span>
               </button>
-            </div>
-
-            <div class="text-center mb-4">
-              <span>Belum punya akun?</span>
-              <a href="{{ route('register') }}" class="text-primary"> Daftar sini</a>
             </div>
           </form>
 
-         <hr>
-  <p class="text-center">
-            <span>Atau login disini</span>
-          </p>
-          <div class="d-flex justify-content-center">
-            <a href="{{  route('google.login') }}" class="btn rounded btn-facebook waves-effect waves-light w-100"><i class="icon-base ti tabler-brand-google icon-xs me-2"></i> Akun Gmail</a>
+          <div class="text-center">
+            <span>Sudah punya akun?</span>
+            <a href="{{ route('login') }}"> Login di sini</a>
           </div>
         </div>
       </div>
-      <!-- /Login -->
+      <!-- /Register -->
     </div>
   </div>
 </div>

@@ -84,7 +84,7 @@
           @endif
         </div>
         <div class="modal-footer pt-4">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Mulai Mendaftar</button>
+          <a href="{{ route('login') }}" class="btn btn-primary" data-bs-dismiss="modal">Mulai Mendaftar</a>
         </div>
     </div>
   </section>
