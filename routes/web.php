@@ -9,7 +9,7 @@ use App\Livewire\Auth\Register;
 use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\ResetPassword;
 use App\Http\Controllers\GoogleController;
-
+use App\Http\Controllers\pages\UserProfile;
 
 Route::get('/', Landing::class)->name('landing');
 Route::get('/login', Login::class)->name('login');
@@ -18,6 +18,9 @@ Route::get('/auth/forgot-password-basic', ForgotPassword::class)->name('password
 Route::get('/reset-password/{token}', ResetPassword::class)->name('password.reset');
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('handleGoogleCallback');
+
+Route::get('/pages/profile-user', [UserProfile::class, 'index'])
+    ->name('pengguna.data.diri');
 
 Route::middleware(['auth'])->group(function () {
   Route::get('/dashboard', function () {
