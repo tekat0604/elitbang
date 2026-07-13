@@ -14,19 +14,21 @@ return new class extends Migration {
             $table->id();
 
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('nama_lengkap');
 
-            $table->string('nik', 16)->unique();
+            $table->enum('jenis_identitas', ['ktp', 'ktm', 'passport', 'sim']);
+            $table->string('nomor_identitas', 20)->unique();
+
             $table->string('no_hp', 20);
+            $table->string('email')->unique();
             $table->string('kewarganegaraan');
-            $table->string('instansi');
-            $table->string('nim_nip')->nullable();
-
+            $table->date('tanggal_lahir');
             $table->string('provinsi');
             $table->string('kota_kabupaten');
             $table->string('kecamatan');
             $table->string('kelurahan_desa');
             $table->text('alamat');
-            $table->string('identitas');
+            $table->string('path_identitas');
 
             // verif
             $table->enum('status_verifikasi', [

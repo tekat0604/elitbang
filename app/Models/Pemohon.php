@@ -15,11 +15,13 @@ class Pemohon extends Model
 
     protected $fillable = [
         'user_id',
-        'nik',
+        'nama_lengkap',
+        'jenis_identitas',
+        'nomor_identitas',
         'no_hp',
+        'email',
         'kewarganegaraan',
-        'instansi',
-        'nim_nip',
+        'tanggal_lahir',
         'provinsi',
         'kota_kabupaten',
         'kecamatan',
