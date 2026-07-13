@@ -40,7 +40,7 @@ class Login extends Component
 
         if (Auth::attempt([$fieldType => $this->email_username, 'password' => $this->password])) {
             session()->regenerate();
-            return redirect()->intended('/');
+            return redirect()->intended(route('dashboard'));
         }
 
         $this->addError('login_failed', 'Email, username, atau password tidak ditemukan.');
