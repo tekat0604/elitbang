@@ -61,15 +61,11 @@
           <nav class="nav flex-column">
             <a class="nav-link py-2 mb-1" href="{{ url('/') }}"><i class="ti ti-home me-2"></i> Dashboard</a>
             <a class="nav-link py-2 mb-1"
-              href="{{ \Illuminate\Support\Facades\Route::has('pengguna.data.diri')
-                  ? route('pengguna.data.diri')
-                  : url('pages/profile-user') }}">
+              href="{{ route('identitas') }}">
               <i class="ti ti-user me-2"></i> Data Diri
             </a>
             <a class="nav-link py-2 mb-1"
-              href="{{ \Illuminate\Support\Facades\Route::has('pengguna.permohonan.index')
-                  ? route('pengguna.permohonan.index')
-                  : url('permohonan') }}">
+              href="{{ route('permohonan') }}">
               <i class="ti ti-file-text me-2"></i> Permohonan
             </a>
           </nav>
