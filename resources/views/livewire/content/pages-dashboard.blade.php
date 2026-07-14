@@ -98,14 +98,10 @@
           <nav class="nav flex-column">
             <a class="nav-link py-2 mb-1" href="{{ url('/') }}"> Dashboard</a>
             <a class="nav-link py-2 mb-1"
-              href="{{ \Illuminate\Support\Facades\Route::has('pengguna.data.diri')
-                  ? route('pengguna.data.diri')
-                  : url('pages/profile-user') }}"> Data Diri
+              href="{{ route('identitas')}}"> Data Diri
             </a>
             <a class="nav-link py-2 mb-1"
-              href="{{ \Illuminate\Support\Facades\Route::has('pengguna.permohonan.index')
-                  ? route('pengguna.permohonan.index')
-                  : url('permohonan') }}"> Permohonan
+              href="{{ route('permohonan') }}"> Permohonan
             </a>
           </nav>
         </aside>
