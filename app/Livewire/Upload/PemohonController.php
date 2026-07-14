@@ -28,12 +28,34 @@ class PemohonController extends Component
 
     public function mount()
     {
-        if (Pemohon::where('user_id', Auth::id())->exists()) {
-            return redirect()->route('identitas')->with('info', 'Anda telah melengkapi proses identitas');
+        $pemohon = Auth::user()->pemohon;
+
+        if ($pemohon) {
+            if (in_array($pemohon->status_verifikasi, ['pending', 'terverifikasi'])) {
+                return redirect()->route('identitas')->with('info', 'Data Anda tidak dapat diubah');
+
+            }
+
+            if ($pemohon->status_verifikasi === 'revisi') {
+                $this->nama_lengkap = $pemohon->nama_lengkap;
+                $this->jenis_identitas = $pemohon->jenis_identitas;
+                $this->nomor_identitas = $pemohon->nomor_identitas;
+                $this->no_hp = $pemohon->no_hp;
+                $this->email = $pemohon->email;
+                $this->kewarganegaraan = $pemohon->kewarganegaraan;
+                $this->tanggal_lahir = $pemohon->tanggal_lahir;
+                $this->provinsi = $pemohon->provinsi;
+                $this->kota_kabupaten = $pemohon->kota_kabupaten;
+                $this->kecamatan = $pemohon->kecamatan;
+                $this->kelurahan_desa = $pemohon->kelurahan_desa;
+                $this->alamat = $pemohon->alamat;
+            }
+        } else {
+            $this->email = Auth::user()->email;
+            $this->nama_lengkap = Auth::user()->name;
         }
 
-        $this->email = Auth::user()->email;
-        $this->nama_lengkap = Auth::user()->name;
+
     }
     protected function rules()
     {
@@ -82,26 +104,50 @@ class PemohonController extends Component
         $this->validate();
 
         $path = $this->path_identitas->store('identitas', 'public');
+        $pemohon = Auth::user()->pemohon;
 
-        Pemohon::create([
-            'user_id' => Auth::id(),
-            'nama_lengkap' => $this->nama_lengkap,
-            'jenis_identitas' => $this->jenis_identitas,
-            'nomor_identitas' => $this->nomor_identitas,
-            'no_hp' => $this->no_hp,
-            'email' => $this->email,
-            'kewarganegaraan' => $this->kewarganegaraan,
-            'tanggal_lahir' => $this->tanggal_lahir,
-            'provinsi' => $this->provinsi,
-            'kota_kabupaten' => $this->kota_kabupaten,
-            'kecamatan' => $this->kecamatan,
-            'kelurahan_desa' => $this->kelurahan_desa,
-            'alamat' => $this->alamat,
-            'path_identitas' => $path,
-            'status_verifikasi' => 'pending',
-        ]);
+        if ($pemohon) {
+            $pemohon->update([
+                'nama_lengkap' => $this->nama_lengkap,
+                'jenis_identitas' => $this->jenis_identitas,
+                'nomor_identitas' => $this->nomor_identitas,
+                'no_hp' => $this->no_hp,
+                'email' => $this->email,
+                'kewarganegaraan' => $this->kewarganegaraan,
+                'tanggal_lahir' => $this->tanggal_lahir,
+                'provinsi' => $this->provinsi,
+                'kota_kabupaten' => $this->kota_kabupaten,
+                'kecamatan' => $this->kecamatan,
+                'kelurahan_desa' => $this->kelurahan_desa,
+                'alamat' => $this->alamat,
+                'path_identitas' => $path,
+                'status_verifikasi' => 'pending',
+                'catatan_verifikasi' => null,
+            ]);
 
-        session()->flash('success', 'Data identitas berhasil disimpan dan menunggu verifikasi Kesbangpol');
+            session()->flash('success', 'Data revisi berhasil dikirim ulang ke Kesbangpol.');
+        } else {
+            Pemohon::create([
+                'user_id' => Auth::id(),
+                'nama_lengkap' => $this->nama_lengkap,
+                'jenis_identitas' => $this->jenis_identitas,
+                'nomor_identitas' => $this->nomor_identitas,
+                'no_hp' => $this->no_hp,
+                'email' => $this->email,
+                'kewarganegaraan' => $this->kewarganegaraan,
+                'tanggal_lahir' => $this->tanggal_lahir,
+                'provinsi' => $this->provinsi,
+                'kota_kabupaten' => $this->kota_kabupaten,
+                'kecamatan' => $this->kecamatan,
+                'kelurahan_desa' => $this->kelurahan_desa,
+                'alamat' => $this->alamat,
+                'path_identitas' => $path,
+                'status_verifikasi' => 'pending',
+            ]);
+
+            session()->flash('success', 'Data identitas berhasil disimpan dan menunggu verifikasi Kesbangpol');
+        }
+
         return redirect()->route('identitas');
 
     }
