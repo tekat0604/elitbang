@@ -19,13 +19,14 @@ Route::get('/reset-password/{token}', ResetPassword::class)->name('password.rese
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('handleGoogleCallback');
 
-Route::get('/pages/profile-user', [UserProfile::class, 'index'])
-    ->name('pengguna.data.diri');
 
 Route::middleware(['auth'])->group(function () {
   Route::get('/dashboard', function () {
     return view('/content/pages/pages-dashboard');
   })->name('dashboard');
+
+  Route::view('/data-diri', 'livewire.content.pages-pemohon-form')
+    ->name('pengguna.data.diri');
 
   Route::post('/logout', function (Request $request) {
     Auth::logout();
