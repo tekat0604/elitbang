@@ -5,12 +5,12 @@
 @section('main-content')
   @php
     $jenisIzin = [
-        ['nama' => 'Penelitian', 'deskripsi' => 'Pengajuan izin untuk kegiatan penelitian.'],
-        ['nama' => 'KKN', 'deskripsi' => 'Pengajuan izin kegiatan Kuliah Kerja Nyata.'],
-        ['nama' => 'Pengabdian Masyarakat', 'deskripsi' => 'Pengajuan izin kegiatan pengabdian kepada masyarakat.'],
-        ['nama' => 'Survei', 'deskripsi' => 'Pengajuan izin untuk pelaksanaan survei.'],
-        ['nama' => 'Wawancara', 'deskripsi' => 'Pengajuan izin untuk kegiatan wawancara.'],
-        ['nama' => 'Permohonan Data', 'deskripsi' => 'Pengajuan permintaan data kepada instansi terkait.'],
+        ['nama' => 'Penelitian', 'deskripsi' => 'Pengajuan izin untuk kegiatan penelitian.', 'gambar' => 'assets/img/jenis-izin/penelitian.jpg' ],
+        ['nama' => 'KKN', 'deskripsi' => 'Pengajuan izin kegiatan Kuliah Kerja Nyata.', 'gambar' => 'assets/img/jenis-izin/kkn.jpeg'],
+        ['nama' => 'Pengabdian Masyarakat', 'deskripsi' => 'Pengajuan izin kegiatan pengabdian kepada masyarakat.', 'gambar' => 'assets/img/jenis-izin/pengabdian_masyarakat.jpg'],
+        ['nama' => 'Survei', 'deskripsi' => 'Pengajuan izin untuk pelaksanaan survei.', 'gambar' => 'assets/img/jenis-izin/survey.jpg'],
+        ['nama' => 'Wawancara', 'deskripsi' => 'Pengajuan izin untuk kegiatan wawancara.', 'gambar' => 'assets/img/jenis-izin/wawancara.jpg'],
+        ['nama' => 'Permohonan Data', 'deskripsi' => 'Pengajuan permintaan data kepada instansi terkait.', 'gambar' => 'assets/img/jenis-izin/data.jpg'],
     ];
   @endphp
 
@@ -29,11 +29,12 @@
       <div class="col-12 col-md-6 col-xl-4">
         <div class="card card-dash border-0 h-100">
           <div class="card-body p-4 d-flex flex-column">
-            <div
-              class="rounded-circle bg-primary-subtle text-primary d-inline-flex align-items-center justify-content-center mb-3"
-              style="width: 48px; height: 48px;">
-              <i class="fas fa-file-alt"></i>
-            </div>
+            <img
+              src="{{ asset($jenis['gambar']) }}"
+              alt="Ilustrasi {{ $jenis['nama'] }}"
+              class="w-100 rounded-3 object-fit-cover mb-3"
+              style="height: 160px;"
+            >
             <h5 class="fw-bold">{{ $jenis['nama'] }}</h5>
             <p class="text-body-secondary mb-4">{{ $jenis['deskripsi'] }}</p>
             <button type="button" class="btn btn-outline-primary mt-auto" disabled>

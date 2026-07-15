@@ -7,17 +7,18 @@
     $permohonan = auth()->user()->pemohon?->permohonan()->with('layanan')->latest()->get() ?? collect();
 
     $statusClass = [
-      'draft' => 'text-bg-secondary',
-      'diajukan' => 'text-bg-primary',
-      'proses_brida' => 'text-bg-info',
-      'revisi' => 'text-bg-warning',
-      'disetujui' => 'text-bg-success',
-      'ditolak' => 'text-bg-danger',
+        'draft' => 'text-bg-secondary',
+        'diajukan' => 'text-bg-primary',
+        'proses_brida' => 'text-bg-info',
+        'revisi' => 'text-bg-warning',
+        'disetujui' => 'text-bg-success',
+        'ditolak' => 'text-bg-danger',
     ];
   @endphp
 
   <div class="card card-dash border-0">
-    <div class="card-header bg-white border-bottom p-4 d-flex flex-column flex-md-row gap-3 justify-content-between align-items-md-center">
+    <div
+      class="card-header bg-white border-bottom p-4 d-flex flex-column flex-md-row gap-3 justify-content-between align-items-md-center">
       <div>
         <h5 class="mb-1 fw-bold">Daftar Pengajuan Permohonan</h5>
         <p class="mb-0 text-body-secondary">Pantau status seluruh permohonan izin yang pernah Anda ajukan.</p>
@@ -34,9 +35,6 @@
           <i class="fas fa-folder-open text-body-secondary fs-1"></i>
           <h6 class="mt-3 mb-1">Belum ada pengajuan permohonan izin</h6>
           <p class="text-body-secondary mb-3">Mulai pengajuan baru dengan memilih jenis izin yang Anda butuhkan.</p>
-          <a href="{{ route('permohonan.pilih-jenis') }}" class="btn btn-outline-primary">
-            Pilih Jenis Izin
-          </a>
         </div>
       @else
         <div class="table-responsive">
