@@ -7,8 +7,11 @@ use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Livewire\Attributes\Title;
 
-#[Layout('layouts.login_layout')]
+#[Layout('layouts.sidebar_layout_form')]
+#[Title('Form Data Pemohon')]
 class PemohonController extends Component
 {
     use WithFileUploads;
@@ -59,19 +62,21 @@ class PemohonController extends Component
     }
     protected function rules()
     {
+        $pemohon = Auth::user()->pemohon;
+
         return [
             'nama_lengkap' => ['required', 'string', 'max:255'],
             'jenis_identitas' => ['required', 'string', 'in:ktp,ktm,passport,sim'],
-            'nomor_identitas' => ['required', 'string', 'unique:pemohon,nomor_identitas'],
-            'no_hp' => ['required', 'string'],
+            'nomor_identitas' => ['required', 'string', 'min:7', 'max:16', Rule::unique('pemohon', 'nomor_identitas')->ignore($pemohon?->id)],
+            'no_hp' => ['required', 'string', 'regex:/^[0-9]+$/', 'min:10', 'max:13'],
             'email' => ['required', 'email', 'max:255'],
-            'kewarganegaraan' => ['required', 'string'],
-            'tanggal_lahir' => ['required', 'date'],
-            'provinsi' => ['required', 'string'],
-            'kota_kabupaten' => ['required', 'string'],
-            'kecamatan' => ['required', 'string'],
-            'kelurahan_desa' => ['required', 'string'],
-            'alamat' => ['required', 'string'],
+            'kewarganegaraan' => ['required', 'string', 'min:4', 'max:50'],
+            'tanggal_lahir' => ['required', 'date', 'before_or_equal:today'],
+            'provinsi' => ['required', 'string', 'max:50'],
+            'kota_kabupaten' => ['required', 'string', 'max:50'],
+            'kecamatan' => ['required', 'string', 'max:50'],
+            'kelurahan_desa' => ['required', 'string', 'max:50'],
+            'alamat' => ['required', 'string', 'max:255'],
             'path_identitas' => ['required', 'image', 'max:1024'], //maksimal 1 mb
         ];
     }
@@ -81,17 +86,34 @@ class PemohonController extends Component
         return [
             'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
             'jenis_identitas.required' => 'Jenis identitas wajib diisi.',
+            'jenis_identitas.in' => 'Jenis identitas tidak valid.',
             'nomor_identitas.required' => 'Nomor identitas wajib diisi.',
-            'nomor_identitas.unique' => 'Nomor identitas telah terdaftar dalam sistem',
+            'nomor_identitas.min' => 'Nomor identitas minimal 7 karakter',
+            'nomor_identitas.max' => 'Nomor identitas maksimal 16 karakter',
+            'nomor_identitas.unique' => 'Nomor identitas sudah terdaftar.',
             'no_hp.required' => 'Nomor handphone wajib diisi.',
+            'no_hp.regex' => 'Nomor handphone hanya boleh berisi angka.',
+            'no_hp.min' => 'Nomor handphone minimal 10 digit',
+            'no_hp.max' => 'Nomor handphone maksimal 13 digit',
             'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email salah.',
+            'email.max' => 'Email maksimal 255 karakter',
             'kewarganegaraan.required' => 'Kewarganegaraan wajib diisi.',
+            'kewarganegaraan.min' => 'Kewarganegaraan minimal 4 karakter',
+            'kewarganegaraan.max' => 'Kewarganegaraan maksimal 50 karakter',
             'tanggal_lahir.required' => 'tanggal lahir wajib diisi.',
+            'tanggal_lahir.date' => 'Format tanggal lahir salah.',
+            'tanggal_lahir.before_or_equal' => 'Tanggal lahir tidak dapat melebihi hari ini.',
             'provinsi.required' => 'Provinsi wajib diisi.',
+            'provinsi.max' => 'provinsi maksimal 50 karakter',
             'kota_kabupaten.required' => 'Kota atau Kabupaten wajib diisi.',
+            'kota_kabupaten.max' => 'Kota atau Kabupaten maksimal 50 karakter',
             'kecamatan.required' => 'Kecamatan wajib diisi.',
+            'kecamatan.max' => 'Kecamatan maksimal 50 karakter',
             'kelurahan_desa.required' => 'Kelurahan wajib diisi.',
+            'kelurahan_desa.max' => 'Kelurahan atau desa maksimal 50 karakter',
             'alamat.required' => 'Alamat wajib diisi.',
+            'alamat.max' => 'Alamat maksimal 255 karakter',
             'path_identitas.required' => 'File wajib diisi.',
             'path_identitas.image' => 'File harus berupa gambar (JPG/PNG)',
             'path_identitas.max' => 'Ukuran file maksimal 1 MB',

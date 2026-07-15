@@ -59,58 +59,61 @@ data-bs-theme="{{ $configData['theme'] }}" @if ($isAdminLayout && $semiDarkEnabl
 </head>
 
 <body>
-@yield('content')
-@if(isset($slot))
-    {{ $slot }}
-@endif
-@include('layouts/sections/scriptsFront' . $isFront)
-@livewireScripts
-@stack('script')
 
-@isset($scripts)
-{{ $scripts }}
-@endisset
+  @hasSection('content')
+      @yield('content')
+  @else
+      @if(isset($slot))
+          {{ $slot }}
+      @endif
+  @endif
+  @include('layouts/sections/scriptsFront' . $isFront)
+  @livewireScripts
+  @stack('script')
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        window.addEventListener('ErrorEvent', function(event) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Proses Gagal',
-                    text: event.detail.message,
-                showClass: {
-                popup: 'animate__animated animate__tada'
-                },
-                customClass: {
-                confirmButton: 'btn btn-primary waves-effect waves-light'
-                },
-                buttonsStyling: false,
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                timer: 2000
-            });
-        });
+  @isset($scripts)
+  {{ $scripts }}
+  @endisset
 
-        window.addEventListener('SuccessEvent', function(event) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Proses Berhasil',
-                    text: event.detail.message,
-                showClass: {
-                popup: 'animate__animated animate__tada'
-                },
-                customClass: {
-                confirmButton: 'btn btn-primary waves-effect waves-light'
-                },
-                buttonsStyling: false,
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                timer: 2000
-            });
-        });
-    });
-</script>
+  <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          window.addEventListener('ErrorEvent', function(event) {
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Proses Gagal',
+                  text: event.detail.message,
+                  showClass: {
+                      popup: 'animate__animated animate__tada'
+                  },
+                  customClass: {
+                      confirmButton: 'btn btn-primary waves-effect waves-light'
+                  },
+                  buttonsStyling: false,
+                  showConfirmButton: false,
+                  allowOutsideClick: false,
+                  timer: 2000
+              });
+          });
+
+          window.addEventListener('SuccessEvent', function(event) {
+              Swal.fire({
+                  icon: 'success',
+                  title: 'Proses Berhasil',
+                  text: event.detail.message,
+                  showClass: {
+                      popup: 'animate__animated animate__tada'
+                  },
+                  customClass: {
+                      confirmButton: 'btn btn-primary waves-effect waves-light'
+                  },
+                  buttonsStyling: false,
+                  showConfirmButton: false,
+                  allowOutsideClick: false,
+                  timer: 2000
+              });
+          });
+      });
+  </script>
 
 </body>
-
 </html>
