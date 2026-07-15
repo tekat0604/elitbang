@@ -9,7 +9,8 @@ use App\Livewire\Auth\Register;
 use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\ResetPassword;
 use App\Http\Controllers\GoogleController;
-use App\Http\Controllers\pages\UserProfile;
+use App\Livewire\Upload\PemohonController;
+use App\Http\Middleware\CekVerifikasiPemohon;
 
 Route::get('/', Landing::class)->name('landing');
 Route::get('/login', Login::class)->name('login');
@@ -19,14 +20,22 @@ Route::get('/reset-password/{token}', ResetPassword::class)->name('password.rese
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('handleGoogleCallback');
 
-
 Route::middleware(['auth'])->group(function () {
   Route::get('/dashboard', function () {
-    return view('/content/pages/pages-dashboard');
+    return view('livewire.content.pages-dashboard');
   })->name('dashboard');
 
-  Route::view('/data-diri', 'livewire.content.pages-pemohon-form')
-    ->name('pengguna.data.diri');
+  Route::get('/identitas-diri', function () {
+    return view('livewire.content.pages-pemohon');
+  })->name('identitas');
+
+  Route::get('/identitas-diri/form', PemohonController::class)->name('identitas-form');
+
+  Route::middleware(CekVerifikasiPemohon::class)->group(function () {
+    Route::get('/permohonan', function () {
+      return view('content.pages-permohonan');
+    })->name('permohonan');
+  });
 
   Route::post('/logout', function (Request $request) {
     Auth::logout();
