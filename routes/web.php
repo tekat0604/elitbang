@@ -10,7 +10,6 @@ use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\ResetPassword;
 use App\Http\Controllers\GoogleController;
 use App\Livewire\Upload\PemohonController;
-use App\Http\Middleware\CekVerifikasiPemohon;
 
 Route::get('/', Landing::class)->name('landing');
 Route::get('/login', Login::class)->name('login');
@@ -31,11 +30,14 @@ Route::middleware(['auth'])->group(function () {
 
   Route::get('/identitas-diri/form', PemohonController::class)->name('identitas-form');
 
-  Route::middleware(CekVerifikasiPemohon::class)->group(function () {
     Route::get('/permohonan', function () {
-      return view('content.pages-permohonan');
+      return view('livewire.content.pages-permohonan');
     })->name('permohonan');
-  });
+
+    Route::get('/permohonan/pilih-jenis', function () {
+      return view('livewire.content.pages-pilih-jenis-izin');
+    })->name('permohonan.pilih-jenis');
+  
 
   Route::post('/logout', function (Request $request) {
     Auth::logout();
