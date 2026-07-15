@@ -10,7 +10,11 @@ use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\ResetPassword;
 use App\Http\Controllers\GoogleController;
 use App\Livewire\Upload\PemohonController;
-use App\Http\Middleware\CekVerifikasiPemohon;
+use App\Livewire\Verifikator\PemohonList;
+use App\Livewire\Verifikator\PemohonDetail;
+use App\Http\Middleware\CekRoleVerifikator;
+use App\Http\Middleware\CekRoleUser;
+
 
 Route::get('/', Landing::class)->name('landing');
 Route::get('/login', Login::class)->name('login');
@@ -25,17 +29,19 @@ Route::middleware(['auth'])->group(function () {
     return view('livewire.content.pages-dashboard');
   })->name('dashboard');
 
-  Route::get('/identitas-diri', function () {
-    return view('livewire.content.pages-pemohon');
-  })->name('identitas');
+  Route::middleware([CekRoleUser::class])->group(function () {
+    Route::get('/identitas-diri', function () {
+      return view('livewire.content.pages-pemohon');
+    })->name('identitas');
 
-  Route::get('/identitas-diri/form', PemohonController::class)->name('identitas-form');
+    Route::get('/identitas-diri/form', PemohonController::class)->name('identitas-form');
 
-  Route::middleware(CekVerifikasiPemohon::class)->group(function () {
     Route::get('/permohonan', function () {
       return view('content.pages-permohonan');
     })->name('permohonan');
   });
+
+
 
   Route::post('/logout', function (Request $request) {
     Auth::logout();
@@ -44,4 +50,9 @@ Route::middleware(['auth'])->group(function () {
 
     return redirect()->route('landing');
   })->name('logout');
+
+  Route::middleware([CekRoleVerifikator::class])->prefix('verifikator')->name('verifikator.')->group(function () {
+    Route::get('/list-pemohon', PemohonList::class)->name('pemohon.list');
+    Route::get('/list-pemohon/{id}', PemohonDetail::class)->name('pemohon.detail');
+  });
 });

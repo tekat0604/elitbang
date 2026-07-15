@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Title;
 
-#[Layout('layouts.sidebar_layout_form')]
+#[Layout('layouts.sidebar_layout_livewire')]
 #[Title('Form Data Pemohon')]
 class PemohonController extends Component
 {
@@ -147,7 +147,7 @@ class PemohonController extends Component
                 'catatan_verifikasi' => null,
             ]);
 
-            session()->flash('success', 'Data revisi berhasil dikirim ulang ke Kesbangpol.');
+            session()->flash('success', 'Data revisi berhasil dikirim ulang ke BRIDA.');
         } else {
             Pemohon::create([
                 'user_id' => Auth::id(),
@@ -167,7 +167,7 @@ class PemohonController extends Component
                 'status_verifikasi' => 'pending',
             ]);
 
-            session()->flash('success', 'Data identitas berhasil disimpan dan menunggu verifikasi Kesbangpol');
+            session()->flash('success', 'Data identitas berhasil disimpan dan menunggu verifikasi BRIDA');
         }
 
         return redirect()->route('identitas');
