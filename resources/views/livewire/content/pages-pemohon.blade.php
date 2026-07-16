@@ -24,16 +24,14 @@
           <span class="badge bg-success px-3 py-2">Terverifikasi</span>
         @elseif($pemohon->status_verifikasi == 'revisi')
           <span class="badge bg-danger px-3 py-2">Perlu Revisi</span>
-        @elseif($pemohon->status_verifikasi == 'ditolak')
-          <span class="badge bg-dark px-3 py-2">Ditolak Permanen</span>
         @endif
       </div>
 
       <div class="card-body p-4">
-        @if (in_array($pemohon->status_verifikasi, ['revisi', 'ditolak']) && $pemohon->catatan_verifikasi)
+        @if ($pemohon->status_verifikasi==='revisi' && $pemohon->catatan_verifikasi)
           <div class="alert alert-danger mb-4">
             <h6 class="alert-heading fw-bold"><i class="fas fa-exclamation-triangle me-2"></i>Catatan dari
-              Kesbangpol:</h6>
+              Brida:</h6>
             <p class="mb-0">{{ $pemohon->catatan_verifikasi }}</p>
           </div>
         @endif
@@ -77,11 +75,6 @@
             <a href="{{ route('identitas-form') }}" class="btn btn-danger">
               <i class="fas fa-edit me-1"></i> Edit Data Identitas
             </a>
-          @elseif($pemohon->status_verifikasi == 'ditolak')
-            <button class="btn btn-dark"
-              onclick="alert('Fitur hapus data & mulai ulang akan dibuat di tahap selanjutnya.')">
-              <i class="fas fa-sync me-1"></i> Ajukan Ulang dari Awal
-            </button>
           @endif
         </div>
       </div>

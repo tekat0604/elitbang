@@ -1,5 +1,4 @@
 @extends('layouts.sidebar_layout')
-
 @section('title', 'Permohonan Izin')
 
 @section('main-content')
@@ -11,8 +10,7 @@
         'diajukan' => 'text-bg-primary',
         'proses_brida' => 'text-bg-info',
         'revisi' => 'text-bg-warning',
-        'disetujui' => 'text-bg-success',
-        'ditolak' => 'text-bg-danger',
+        'disetujui' => 'text-bg-success'
     ];
   @endphp
 
