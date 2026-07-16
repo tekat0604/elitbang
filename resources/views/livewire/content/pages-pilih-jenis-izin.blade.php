@@ -5,7 +5,7 @@
 @section('main-content')
   @php
     $jenisIzin = [
-        ['nama' => 'Penelitian', 'deskripsi' => 'Pengajuan izin untuk kegiatan penelitian.', 'gambar' => 'assets/img/jenis-izin/penelitian.jpg' ],
+        ['nama' => 'Penelitian', 'deskripsi' => 'Pengajuan izin untuk kegiatan penelitian.', 'gambar' => 'assets/img/jenis-izin/penelitian.jpg', 'route' => 'permohonan.penelitian' ],
         ['nama' => 'KKN', 'deskripsi' => 'Pengajuan izin kegiatan Kuliah Kerja Nyata.', 'gambar' => 'assets/img/jenis-izin/kkn.jpeg'],
         ['nama' => 'Pengabdian Masyarakat', 'deskripsi' => 'Pengajuan izin kegiatan pengabdian kepada masyarakat.', 'gambar' => 'assets/img/jenis-izin/pengabdian_masyarakat.jpg'],
         ['nama' => 'Survei', 'deskripsi' => 'Pengajuan izin untuk pelaksanaan survei.', 'gambar' => 'assets/img/jenis-izin/survey.jpg'],
@@ -37,9 +37,15 @@
             >
             <h5 class="fw-bold">{{ $jenis['nama'] }}</h5>
             <p class="text-body-secondary mb-4">{{ $jenis['deskripsi'] }}</p>
-            <button type="button" class="btn btn-outline-primary mt-auto" disabled>
-              Pilih Jenis Izin
-            </button>
+            @if (isset($jenis['route']))
+              <a href="{{ route($jenis['route']) }}" class="btn btn-outline-primary mt-auto">
+                Pilih Jenis Izin
+              </a>
+            @else
+              <button type="button" class="btn btn-outline-primary mt-auto" disabled>
+                Pilih Jenis Izin
+              </button>
+            @endif
           </div>
         </div>
       </div>

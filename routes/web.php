@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/identitas-diri', function () {
       return view('livewire.content.pages-pemohon');
     })->name('identitas');
-
+  
     Route::get('/identitas-diri/form', PemohonController::class)->name('identitas-form');
 
     Route::get('/permohonan', function () {
@@ -43,7 +43,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/permohonan/pilih-jenis', function () {
       return view('livewire.content.pages-pilih-jenis-izin');
     })->name('permohonan.pilih-jenis');
-  
+
+    Route::get('/permohonan/penelitian', function () {
+      return view('livewire.content.pages-permohonan-penelitian');
+    })->name('permohonan.penelitian');
+
+    Route::get('/permohonan/perizinan', function () {
+      return view('livewire.content.pages-permohonan-perizinan');
+    })->name('permohonan.perizinan');
+  });
 
 
 
