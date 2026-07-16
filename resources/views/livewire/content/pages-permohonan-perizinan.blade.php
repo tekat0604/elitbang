@@ -5,13 +5,33 @@
 @section('main-content')
   @php
     $bidangPenelitian = [
-      'Ekonomi', 'Sosial', 'Pemerintahan', 'Kependudukan', 'Pembangunan', 'Kesehatan',
-      'Lingkungan Hidup', 'Budaya', 'Politik',
+        'Ekonomi',
+        'Sosial',
+        'Pemerintahan',
+        'Kependudukan',
+        'Pembangunan',
+        'Kesehatan',
+        'Lingkungan Hidup',
+        'Budaya',
+        'Politik',
     ];
     $rumpunPenelitian = [
-      'Ekonomi', 'Sosial', 'Budaya', 'Hukum', 'Kesehatan', 'Pemerintahan', 'Politik',
-      'Pendidikan', 'Lingkungan Hidup', 'Teknik dan Pembangunan', 'Agama', 'Kependudukan',
-      'Ketenagakerjaan', 'Digital dan Teknologi', 'Transportasi dan Perhubungan', 'Lainnya',
+        'Ekonomi',
+        'Sosial',
+        'Budaya',
+        'Hukum',
+        'Kesehatan',
+        'Pemerintahan',
+        'Politik',
+        'Pendidikan',
+        'Lingkungan Hidup',
+        'Teknik dan Pembangunan',
+        'Agama',
+        'Kependudukan',
+        'Ketenagakerjaan',
+        'Digital dan Teknologi',
+        'Transportasi dan Perhubungan',
+        'Lainnya',
     ];
   @endphp
 
@@ -43,12 +63,15 @@
           </div>
           <div class="col-md-8">
             <label for="lokasi" class="form-label">Lokasi Penelitian <span class="text-danger">*</span></label>
-            <input type="text" id="lokasi" name="lokasi" class="form-control" placeholder="Contoh: Dinas/OPD atau wilayah lokasi penelitian" required>
+            <input type="text" id="lokasi" name="lokasi" class="form-control"
+              placeholder="Contoh: Dinas/OPD atau wilayah lokasi penelitian" required>
           </div>
           <div class="col-12">
             <label for="tembusan" class="form-label">Tembusan OPD</label>
-            <input type="text" id="tembusan" name="tembusan" class="form-control" placeholder="Masukkan OPD yang perlu menerima tembusan (jika ada)">
-            <small class="text-body-secondary">Data daftar OPD dan pengiriman tembusan akan disambungkan pada tahap berikutnya.</small>
+            <input type="text" id="tembusan" name="tembusan" class="form-control"
+              placeholder="Masukkan OPD yang perlu menerima tembusan (jika ada)">
+            <small class="text-body-secondary">Data daftar OPD dan pengiriman tembusan akan disambungkan pada tahap
+              berikutnya.</small>
           </div>
         </div>
       </div>
@@ -59,7 +82,8 @@
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-4">
           <div>
             <h5 class="fw-bold mb-1">Pembimbing / Penanggung Jawab</h5>
-            <p class="text-body-secondary mb-0">Tambahkan satu atau lebih pihak yang bertanggung jawab atas penelitian.</p>
+            <p class="text-body-secondary mb-0">Tambahkan satu atau lebih pihak yang bertanggung jawab atas penelitian.
+            </p>
           </div>
           <button type="button" id="tambahPenanggungJawab" class="btn btn-primary btn-sm">
             <i class="fas fa-plus me-1"></i> Tambah
@@ -84,7 +108,8 @@
             <input type="date" id="tgl_selesai" name="tgl_selesai" class="form-control" required>
           </div>
           <div class="col-md-6">
-            <label for="jenjang_pendidikan" class="form-label">Jenjang Pendidikan <span class="text-danger">*</span></label>
+            <label for="jenjang_pendidikan" class="form-label">Jenjang Pendidikan <span
+                class="text-danger">*</span></label>
             <select id="jenjang_pendidikan" name="jenjang_pendidikan" class="form-select" required>
               <option value="">Pilih jenjang pendidikan</option>
               @foreach (['S1', 'S2', 'S3', 'D3', 'D4', 'SMA', 'SMP'] as $jenjang)
@@ -111,12 +136,16 @@
             </select>
           </div>
           <div class="col-md-6">
-            <label for="nama_instansi_tujuan" class="form-label">Nama Instansi <span class="text-danger">*</span></label>
-            <input type="text" id="nama_instansi_tujuan" name="nama_instansi_tujuan" class="form-control" placeholder="Masukkan nama instansi" required>
+            <label for="nama_instansi_tujuan" class="form-label">Nama Instansi <span
+                class="text-danger">*</span></label>
+            <input type="text" id="nama_instansi_tujuan" name="nama_instansi_tujuan" class="form-control"
+              placeholder="Masukkan nama instansi" required>
           </div>
           <div class="col-md-6">
-            <label for="alamat_instansi_tujuan" class="form-label">Alamat Instansi <span class="text-danger">*</span></label>
-            <textarea id="alamat_instansi_tujuan" name="alamat_instansi_tujuan" class="form-control" rows="2" placeholder="Masukkan alamat lengkap instansi" required></textarea>
+            <label for="alamat_instansi_tujuan" class="form-label">Alamat Instansi <span
+                class="text-danger">*</span></label>
+            <textarea id="alamat_instansi_tujuan" name="alamat_instansi_tujuan" class="form-control" rows="2"
+              placeholder="Masukkan alamat lengkap instansi" required></textarea>
           </div>
         </div>
 
@@ -146,7 +175,8 @@
         </div>
         <div class="col-md-8">
           <label class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
-          <input type="text" name="penanggung_jawab[][nama]" class="form-control" placeholder="Masukkan nama lengkap" required>
+          <input type="text" name="penanggung_jawab[][nama]" class="form-control"
+            placeholder="Masukkan nama lengkap" required>
         </div>
       </div>
     </div>
