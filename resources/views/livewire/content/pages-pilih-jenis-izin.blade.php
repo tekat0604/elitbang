@@ -5,12 +5,12 @@
 @section('main-content')
   @php
     $jenisIzin = [
-        ['nama' => 'Penelitian', 'deskripsi' => 'Pengajuan izin untuk kegiatan penelitian.', 'gambar' => 'assets/img/jenis-izin/penelitian.jpg', 'route' => 'permohonan.penelitian' ],
-        ['nama' => 'KKN', 'deskripsi' => 'Pengajuan izin kegiatan Kuliah Kerja Nyata.', 'gambar' => 'assets/img/jenis-izin/kkn.jpeg'],
-        ['nama' => 'Pengabdian Masyarakat', 'deskripsi' => 'Pengajuan izin kegiatan pengabdian kepada masyarakat.', 'gambar' => 'assets/img/jenis-izin/pengabdian_masyarakat.jpg'],
-        ['nama' => 'Survei', 'deskripsi' => 'Pengajuan izin untuk pelaksanaan survei.', 'gambar' => 'assets/img/jenis-izin/survey.jpg'],
-        ['nama' => 'Wawancara', 'deskripsi' => 'Pengajuan izin untuk kegiatan wawancara.', 'gambar' => 'assets/img/jenis-izin/wawancara.jpg'],
-        ['nama' => 'Permohonan Data', 'deskripsi' => 'Pengajuan permintaan data kepada instansi terkait.', 'gambar' => 'assets/img/jenis-izin/data.jpg'],
+        ['nama' => 'Penelitian', 'slug' => 'penelitian', 'deskripsi' => 'Pengajuan izin untuk kegiatan penelitian.', 'gambar' => 'assets/img/jenis-izin/penelitian.jpg'],
+        ['nama' => 'KKN', 'slug' => 'kkn', 'deskripsi' => 'Pengajuan izin kegiatan Kuliah Kerja Nyata.', 'gambar' => 'assets/img/jenis-izin/kkn.jpeg'],
+        ['nama' => 'Pengabdian Masyarakat', 'slug' => 'pengabdian-masyarakat', 'deskripsi' => 'Pengajuan izin kegiatan pengabdian kepada masyarakat.', 'gambar' => 'assets/img/jenis-izin/pengabdian_masyarakat.jpg'],
+        ['nama' => 'Survei', 'slug' => 'survei', 'deskripsi' => 'Pengajuan izin untuk pelaksanaan survei.', 'gambar' => 'assets/img/jenis-izin/survey.jpg'],
+        ['nama' => 'Wawancara', 'slug' => 'wawancara', 'deskripsi' => 'Pengajuan izin untuk kegiatan wawancara.', 'gambar' => 'assets/img/jenis-izin/wawancara.jpg'],
+        ['nama' => 'Permohonan Data', 'slug' => 'permohonan-data', 'deskripsi' => 'Pengajuan permintaan data kepada instansi terkait.', 'gambar' => 'assets/img/jenis-izin/data.jpg'],
     ];
   @endphp
 
@@ -37,15 +37,9 @@
             >
             <h5 class="fw-bold">{{ $jenis['nama'] }}</h5>
             <p class="text-body-secondary mb-4">{{ $jenis['deskripsi'] }}</p>
-            @if (isset($jenis['route']))
-              <a href="{{ route($jenis['route']) }}" class="btn btn-outline-primary mt-auto">
-                Pilih Jenis Izin
-              </a>
-            @else
-              <button type="button" class="btn btn-outline-primary mt-auto" disabled>
-                Pilih Jenis Izin
-              </button>
-            @endif
+            <a href="{{ route('permohonan.penelitian', ['jenis' => $jenis['slug']]) }}" class="btn btn-outline-primary mt-auto">
+              Pilih Jenis Izin
+            </a>
           </div>
         </div>
       </div>

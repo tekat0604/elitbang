@@ -3,10 +3,23 @@
 @section('title', 'Pengajuan Izin Penelitian')
 
 @section('main-content')
+  @php
+    $daftarJenis = [
+      'penelitian' => 'Penelitian',
+      'kkn' => 'KKN',
+      'pengabdian-masyarakat' => 'Pengabdian Masyarakat',
+      'survei' => 'Survei',
+      'wawancara' => 'Wawancara',
+      'permohonan-data' => 'Permohonan Data',
+    ];
+    $jenis = request('jenis', 'penelitian');
+    $namaJenis = $daftarJenis[$jenis] ?? $daftarJenis['penelitian'];
+  @endphp
+
   <div class="d-flex flex-column flex-md-row gap-3 justify-content-between align-items-md-center mb-4">
     <div>
-      <h4 class="mb-1">Pengajuan Izin Penelitian</h4>
-      <p class="text-body-secondary mb-0">Lengkapi data penelitian dan anggota peneliti.</p>
+      <h4 class="mb-1">Pengajuan Izin {{ $namaJenis }}</h4>
+      <p class="text-body-secondary mb-0">Lengkapi data pengajuan dan anggota pemohon.</p>
     </div>
     <a href="{{ route('permohonan.pilih-jenis') }}" class="btn btn-outline-secondary">
       <i class="fas fa-arrow-left me-1"></i> Kembali ke Pilihan Izin
@@ -14,13 +27,14 @@
   </div>
 
   <form id="formPermohonanPenelitian" action="{{ route('permohonan.perizinan') }}" method="GET">
+    <input type="hidden" name="jenis" value="{{ $jenis }}">
     <div class="card card-dash border-0 mb-4">
       <div class="card-body p-4">
-        <h5 class="fw-bold mb-4">Data Penelitian</h5>
+        <h5 class="fw-bold mb-4">Data {{ $namaJenis }}</h5>
 
         <div class="mb-0">
-          <label for="judul" class="form-label fw-semibold">Judul Penelitian <span class="text-danger">*</span></label>
-          <input type="text" id="judul" name="judul" class="form-control" placeholder="Masukkan judul penelitian" required>
+          <label for="judul" class="form-label fw-semibold">Judul {{ $namaJenis }} <span class="text-danger">*</span></label>
+          <input type="text" id="judul" name="judul" class="form-control" placeholder="Masukkan judul {{ strtolower($namaJenis) }}" required>
         </div>
       </div>
     </div>

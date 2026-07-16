@@ -4,6 +4,16 @@
 
 @section('main-content')
   @php
+    $daftarJenis = [
+        'penelitian' => 'Penelitian',
+        'kkn' => 'KKN',
+        'pengabdian-masyarakat' => 'Pengabdian Masyarakat',
+        'survei' => 'Survei',
+        'wawancara' => 'Wawancara',
+        'permohonan-data' => 'Permohonan Data',
+    ];
+    $jenis = request('jenis', 'penelitian');
+    $namaJenis = $daftarJenis[$jenis] ?? $daftarJenis['penelitian'];
     $bidangPenelitian = [
         'Ekonomi',
         'Sosial',
@@ -37,15 +47,16 @@
 
   <div class="d-flex flex-column flex-md-row gap-3 justify-content-between align-items-md-center mb-4">
     <div>
-      <h4 class="mb-1">Detail Perizinan Penelitian</h4>
-      <p class="text-body-secondary mb-0">Lengkapi informasi lokasi, penanggung jawab, dan data penelitian.</p>
+      <h4 class="mb-1">Detail Perizinan {{ $namaJenis }}</h4>
+      <p class="text-body-secondary mb-0">Lengkapi informasi lokasi, penanggung jawab, dan data pengajuan.</p>
     </div>
-    <a href="{{ route('permohonan.penelitian') }}" class="btn btn-outline-secondary">
+    <a href="{{ route('permohonan.penelitian', ['jenis' => $jenis]) }}" class="btn btn-outline-secondary">
       <i class="fas fa-arrow-left me-1"></i> Kembali
     </a>
   </div>
 
   <form id="formDetailPerizinan">
+    <input type="hidden" name="jenis" value="{{ $jenis }}">
     <div class="card card-dash border-0 mb-4">
       <div class="card-body p-4">
         <h5 class="fw-bold mb-4">Lokasi Penelitian</h5>
@@ -150,7 +161,8 @@
         </div>
 
         <div class="d-flex justify-content-end gap-2 mt-4 pt-4 border-top">
-          <a href="{{ route('permohonan.penelitian') }}" class="btn btn-outline-secondary">Sebelumnya</a>
+          <a href="{{ route('permohonan.penelitian', ['jenis' => $jenis]) }}"
+            class="btn btn-outline-secondary">Sebelumnya</a>
           <button type="submit" class="btn btn-primary">Simpan dan Lanjutkan</button>
         </div>
       </div>
