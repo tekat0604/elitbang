@@ -43,9 +43,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/permohonan/pilih-jenis', function () {
       return view('livewire.content.pages-pilih-jenis-izin');
     })->name('permohonan.pilih-jenis');
-  
-
-
+  });
 
   Route::post('/logout', function (Request $request) {
     Auth::logout();
