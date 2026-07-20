@@ -56,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
       ->middleware(CekVerifikasiPemohon::class);
   });
 
+
+
   Route::post('/logout', function (Request $request) {
     Auth::logout();
     $request->session()->invalidate();
