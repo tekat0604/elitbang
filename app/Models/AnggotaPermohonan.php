@@ -15,7 +15,7 @@ class AnggotaPermohonan extends Model
     protected $fillable = [
         'permohonan_id',
         'nama_anggota',
-        'nik_nim',
+        'nik',
     ];
 
     /**

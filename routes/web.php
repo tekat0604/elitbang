@@ -10,10 +10,13 @@ use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\ResetPassword;
 use App\Http\Controllers\GoogleController;
 use App\Livewire\Upload\PemohonController;
+use App\Livewire\Upload\PermohonanController;
 use App\Livewire\Verifikator\PemohonList;
 use App\Livewire\Verifikator\PemohonDetail;
 use App\Http\Middleware\CekRoleVerifikator;
 use App\Http\Middleware\CekRoleUser;
+use App\Http\Middleware\CekVerifikasiPemohon;
+use App\Http\Middleware\CekVerifikasiPermohonan;
 
 
 Route::get('/', Landing::class)->name('landing');
@@ -42,7 +45,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/permohonan/pilih-jenis', function () {
       return view('livewire.content.pages-pilih-jenis-izin');
-    })->name('permohonan.pilih-jenis');
+    })->name('permohonan.pilih-jenis')->middleware(CekVerifikasiPemohon::class, CekVerifikasiPermohonan::class);
+
+    Route::get('/permohonan/form/{layanan_slug}', PermohonanController::class)
+      ->name('permohonan.form')
+      ->middleware(CekVerifikasiPemohon::class, CekVerifikasiPermohonan::class);
+
+    Route::get('/permohonan/revisi/{id}', PermohonanController::class)
+      ->name('permohonan.revisi')
+      ->middleware(CekVerifikasiPemohon::class);
   });
 
   Route::post('/logout', function (Request $request) {
