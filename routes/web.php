@@ -10,6 +10,7 @@ use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\ResetPassword;
 use App\Http\Controllers\GoogleController;
 use App\Livewire\Upload\PemohonController;
+use App\Livewire\SurveiKepuasanForm;
 use App\Livewire\Verifikator\PemohonList;
 use App\Livewire\Verifikator\PemohonDetail;
 use App\Http\Middleware\CekRoleVerifikator;
@@ -51,6 +52,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/permohonan/perizinan', function () {
       return view('livewire.content.pages-permohonan-perizinan');
     })->name('permohonan.perizinan');
+
+    Route::get('/survei-kepuasan-masyarakat', SurveiKepuasanForm::class)->name('survei-kepuasan');
   });
 
 
