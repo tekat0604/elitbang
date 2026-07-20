@@ -6,7 +6,8 @@ use App\Models\Pemohon;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
-use Illuminate\Support\Facades\Storage;
+use App\Mail\NotifikasiRevisi;
+use Illuminate\Support\Facades\Mail;
 
 
 #[Layout('layouts.sidebar_layout_livewire')]
@@ -56,6 +57,19 @@ class PemohonDetail extends Component
             'status_verifikasi' => $this->status_verifikasi,
             'catatan_verifikasi' => ($this->status_verifikasi === 'terverifikasi') ? null : $this->catatan_verifikasi,
         ]);
+
+        // kirim ke email setelah di update
+        if ($this->status_verifikasi === 'revisi') {
+            // Mengambil email dari relasi tabel User (pastikan model Pemohon punya fungsi user())
+            $emailTujuan = $this->pemohon->user->email;
+
+            // Kirim email notifikasi
+            Mail::to($emailTujuan)->send(new NotifikasiRevisi(
+                'Profil Identitas', // identitas
+                'BRIDA',            // Instansi yang memverifikasi profil
+                $this->catatan_verifikasi
+            ));
+        }
 
         session()->flash('success', 'Status verifikasi berhasil diperbarui!');
         return redirect()->route('verifikator.pemohon.list');

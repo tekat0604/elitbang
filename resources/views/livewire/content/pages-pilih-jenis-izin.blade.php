@@ -5,12 +5,12 @@
 @section('main-content')
   @php
     $jenisIzin = [
-        ['nama' => 'Penelitian', 'slug' => 'penelitian', 'deskripsi' => 'Pengajuan izin untuk kegiatan penelitian.', 'gambar' => 'assets/img/jenis-izin/penelitian.jpg'],
-        ['nama' => 'KKN', 'slug' => 'kkn', 'deskripsi' => 'Pengajuan izin kegiatan Kuliah Kerja Nyata.', 'gambar' => 'assets/img/jenis-izin/kkn.jpeg'],
-        ['nama' => 'Pengabdian Masyarakat', 'slug' => 'pengabdian-masyarakat', 'deskripsi' => 'Pengajuan izin kegiatan pengabdian kepada masyarakat.', 'gambar' => 'assets/img/jenis-izin/pengabdian_masyarakat.jpg'],
-        ['nama' => 'Survei', 'slug' => 'survei', 'deskripsi' => 'Pengajuan izin untuk pelaksanaan survei.', 'gambar' => 'assets/img/jenis-izin/survey.jpg'],
-        ['nama' => 'Wawancara', 'slug' => 'wawancara', 'deskripsi' => 'Pengajuan izin untuk kegiatan wawancara.', 'gambar' => 'assets/img/jenis-izin/wawancara.jpg'],
-        ['nama' => 'Permohonan Data', 'slug' => 'permohonan-data', 'deskripsi' => 'Pengajuan permintaan data kepada instansi terkait.', 'gambar' => 'assets/img/jenis-izin/data.jpg'],
+        ['nama' => 'Izin Penelitian', 'slug' => 'izin-penelitian', 'deskripsi' => 'Pengajuan izin untuk kegiatan penelitian.', 'gambar' => 'assets/img/jenis-izin/penelitian.jpg' ],
+        ['nama' => 'Izin KKN', 'slug' => 'izin-kkn', 'deskripsi' => 'Pengajuan izin kegiatan Kuliah Kerja Nyata.', 'gambar' => 'assets/img/jenis-izin/kkn.jpeg'],
+        ['nama' => 'Izin Pengabdian Masyarakat', 'slug' => 'izin-pengabdian-masyarakat', 'deskripsi' => 'Pengajuan izin kegiatan pengabdian kepada masyarakat.', 'gambar' => 'assets/img/jenis-izin/pengabdian_masyarakat.jpg'],
+        ['nama' => 'Izin Survey', 'slug' => 'izin-survey', 'deskripsi' => 'Pengajuan izin untuk pelaksanaan survei.', 'gambar' => 'assets/img/jenis-izin/survey.jpg'],
+        ['nama' => 'Izin Wawancara', 'slug' => 'izin-wawancara', 'deskripsi' => 'Pengajuan izin untuk kegiatan wawancara.', 'gambar' => 'assets/img/jenis-izin/wawancara.jpg'],
+        ['nama' => 'Izin Permohonan Data', 'slug' => 'izin-permohonan-data', 'deskripsi' => 'Pengajuan permintaan data kepada instansi terkait.', 'gambar' => 'assets/img/jenis-izin/data.jpg'],
     ];
   @endphp
 
@@ -37,7 +37,7 @@
             >
             <h5 class="fw-bold">{{ $jenis['nama'] }}</h5>
             <p class="text-body-secondary mb-4">{{ $jenis['deskripsi'] }}</p>
-            <a href="{{ route('permohonan.penelitian', ['jenis' => $jenis['slug']]) }}" class="btn btn-outline-primary mt-auto">
+            <a href="{{ route('permohonan.form', ['layanan_slug' => $jenis['slug']]) }}" class="btn btn-outline-primary mt-auto">
               Pilih Jenis Izin
             </a>
           </div>

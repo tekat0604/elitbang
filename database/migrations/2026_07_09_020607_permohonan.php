@@ -17,7 +17,6 @@ return new class extends Migration {
             $table->foreignId('layanan_id')->constrained('layanan')->onDelete('cascade');
 
             $table->string('judul');
-            $table->text('tujuan');
             $table->string('lokasi');
             $table->date('tgl_mulai');
             $table->date('tgl_selesai');
@@ -31,11 +30,14 @@ return new class extends Migration {
             $table->string('nama_instansi_tujuan')->nullable();
             $table->text('alamat_instansi_tujuan')->nullable();
 
+            $table->string('link_pengantar_kampus')->nullable();
+            $table->string('link_proposal')->nullable();
+
             // status
             $table->enum('status_permohonan', [
                 'draft',
                 'diajukan',
-                'proses_brida',
+                'proses_verifikasi',
                 'revisi',
                 'disetujui',
                 'ditolak'
