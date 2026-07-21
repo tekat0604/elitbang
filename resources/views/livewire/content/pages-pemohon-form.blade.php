@@ -144,7 +144,6 @@
       </div>
     </div>
 
-<<<<<<< Updated upstream
     <form wire:submit.prevent="uploadDokumenDataDiri">
       <div class="row gy-4">
         <div class="col-md-6 form-control-validation">
@@ -245,13 +244,3 @@
       </div>
     </form>
   </div>
-=======
-    <div class="mt-4 d-flex flex-wrap gap-2">
-      <button type="submit" class="btn btn-primary" wire:loading.attr="disabled">
-        <span wire:loading.remove>Simpan</span>
-        <span wire:loading>Memproses...</span>
-      </button>
-    </div>
-  </form>
-</div>
->>>>>>> Stashed changes
