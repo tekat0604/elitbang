@@ -15,6 +15,12 @@ use Livewire\Attributes\Title;
 class PemohonController extends Component
 {
     use WithFileUploads;
+
+    public array $provinces = [];
+    public array $regencies = [];
+    public array $districts = [];
+    public array $villages = [];
+
     public $nama_lengkap;
     public $jenis_identitas;
     public $nomor_identitas;
@@ -31,6 +37,7 @@ class PemohonController extends Component
 
     public function mount()
     {
+        $this->provinces = $this->loadProvinces();
         $pemohon = Auth::user()->pemohon;
 
         if ($pemohon) {
@@ -58,7 +65,137 @@ class PemohonController extends Component
             $this->nama_lengkap = Auth::user()->name;
         }
 
+        $this->regencies = $this->loadRegenciesForProvince($this->provinsi);
+        $this->districts = $this->loadDistrictsForRegency($this->kota_kabupaten);
+        $this->villages = $this->loadVillagesForDistrict($this->kecamatan);
 
+    }
+
+    public function updatedProvinsi(): void
+    {
+        $this->kota_kabupaten = null;
+        $this->kecamatan = null;
+        $this->kelurahan_desa = null;
+        $this->regencies = $this->loadRegenciesForProvince($this->provinsi);
+        $this->districts = [];
+        $this->villages = [];
+    }
+
+    public function updatedKotaKabupaten(): void
+    {
+        $this->kecamatan = null;
+        $this->kelurahan_desa = null;
+        $this->districts = $this->loadDistrictsForRegency($this->kota_kabupaten);
+        $this->villages = [];
+    }
+
+    public function updatedKecamatan(): void
+    {
+        $this->kelurahan_desa = null;
+        $this->villages = $this->loadVillagesForDistrict($this->kecamatan);
+    }
+
+    private function loadProvinces(): array
+    {
+        $csvPath = database_path('data/provinces.csv');
+
+        if (! is_readable($csvPath) || ($handle = fopen($csvPath, 'r')) === false) {
+            return [];
+        }
+
+        fgetcsv($handle); // Header: code,name
+        $provinces = [];
+
+        while (($row = fgetcsv($handle)) !== false) {
+            if (count($row) < 2) {
+                continue;
+            }
+
+            $provinces[trim($row[0])] = preg_replace('/\s+/', ' ', trim($row[1]));
+        }
+
+        fclose($handle);
+
+        return $provinces;
+    }
+
+    private function loadRegenciesForProvince(?string $provinceName): array
+    {
+        $provinceCode = array_search($provinceName, $this->provinces, true);
+        $csvPath = database_path('data/regencies.csv');
+
+        if ($provinceCode === false || ! is_readable($csvPath) || ($handle = fopen($csvPath, 'r')) === false) {
+            return [];
+        }
+
+        $provinceCode = (string) $provinceCode;
+
+        fgetcsv($handle); // Header: kode_kabkota,nama_kabkota,kode_provinsi
+        $regencies = [];
+
+        while (($row = fgetcsv($handle)) !== false) {
+            if (count($row) < 3 || trim($row[2]) !== $provinceCode) {
+                continue;
+            }
+
+            $regencies[trim($row[0])] = preg_replace('/\s+/', ' ', trim($row[1]));
+        }
+
+        fclose($handle);
+
+        return $regencies;
+    }
+
+    private function loadDistrictsForRegency(?string $regencyName): array
+    {
+        $regencyCode = array_search($regencyName, $this->regencies, true);
+        $csvPath = database_path('data/districts.csv');
+
+        if ($regencyCode === false || ! is_readable($csvPath) || ($handle = fopen($csvPath, 'r')) === false) {
+            return [];
+        }
+
+        $regencyCode = (string) $regencyCode;
+        fgetcsv($handle); // Header: kode_kabkota,kode_provinsi,kode_kecamatan,nama_kecamatan
+        $districts = [];
+
+        while (($row = fgetcsv($handle)) !== false) {
+            if (count($row) < 4 || trim($row[0]) !== $regencyCode) {
+                continue;
+            }
+
+            $districts[trim($row[2])] = preg_replace('/\s+/', ' ', trim($row[3]));
+        }
+
+        fclose($handle);
+
+        return $districts;
+    }
+
+    private function loadVillagesForDistrict(?string $districtName): array
+    {
+        $districtCode = array_search($districtName, $this->districts, true);
+        $csvPath = database_path('data/villages.csv');
+
+        if ($districtCode === false || ! is_readable($csvPath) || ($handle = fopen($csvPath, 'r')) === false) {
+            return [];
+        }
+
+        $districtCode = (string) $districtCode;
+        fgetcsv($handle); // Header: kode_kabkota,kode_provinsi,kode_kecamatan,kode_desa_kelurahan,nama_desa_kelurahan
+        $villages = [];
+
+        while (($row = fgetcsv($handle)) !== false) {
+            if (count($row) < 5 || trim($row[2]) !== $districtCode) {
+                continue;
+            }
+
+            $villages[trim($row[3])] = preg_replace('/\s+/', ' ', trim($row[4]));
+        }
+
+        fclose($handle);
+
+        return $villages;
     }
     protected function rules()
     {
@@ -72,10 +209,10 @@ class PemohonController extends Component
             'email' => ['required', 'email', 'max:255'],
             'kewarganegaraan' => ['required', 'string', 'min:4', 'max:50'],
             'tanggal_lahir' => ['required', 'date', 'before_or_equal:today'],
-            'provinsi' => ['required', 'string', 'max:50'],
-            'kota_kabupaten' => ['required', 'string', 'max:50'],
-            'kecamatan' => ['required', 'string', 'max:50'],
-            'kelurahan_desa' => ['required', 'string', 'max:50'],
+            'provinsi' => ['required', 'string', 'max:50', Rule::in(array_values($this->provinces))],
+            'kota_kabupaten' => ['required', 'string', 'max:50', Rule::in(array_values($this->regencies))],
+            'kecamatan' => ['required', 'string', 'max:50', Rule::in(array_values($this->districts))],
+            'kelurahan_desa' => ['required', 'string', 'max:50', Rule::in(array_values($this->villages))],
             'alamat' => ['required', 'string', 'max:255'],
             'path_identitas' => ['required', 'image', 'max:1024'], //maksimal 1 mb
         ];
@@ -106,12 +243,16 @@ class PemohonController extends Component
             'tanggal_lahir.before_or_equal' => 'Tanggal lahir tidak dapat melebihi hari ini.',
             'provinsi.required' => 'Provinsi wajib diisi.',
             'provinsi.max' => 'provinsi maksimal 50 karakter',
+            'provinsi.in' => 'Provinsi yang dipilih tidak valid.',
             'kota_kabupaten.required' => 'Kota atau Kabupaten wajib diisi.',
             'kota_kabupaten.max' => 'Kota atau Kabupaten maksimal 50 karakter',
+            'kota_kabupaten.in' => 'Kabupaten atau kota yang dipilih tidak valid.',
             'kecamatan.required' => 'Kecamatan wajib diisi.',
             'kecamatan.max' => 'Kecamatan maksimal 50 karakter',
+            'kecamatan.in' => 'Kecamatan yang dipilih tidak valid.',
             'kelurahan_desa.required' => 'Kelurahan wajib diisi.',
             'kelurahan_desa.max' => 'Kelurahan atau desa maksimal 50 karakter',
+            'kelurahan_desa.in' => 'Kelurahan atau desa yang dipilih tidak valid.',
             'alamat.required' => 'Alamat wajib diisi.',
             'alamat.max' => 'Alamat maksimal 255 karakter',
             'path_identitas.required' => 'File wajib diisi.',
