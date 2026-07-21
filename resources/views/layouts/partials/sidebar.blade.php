@@ -16,19 +16,29 @@
         Dashboard
       </a>
 
-      <a
-        class="nav-link py-2 mb-1 {{ request()->routeIs('identitas*') ? 'active' : '' }}"
-        href="{{ route('identitas') }}"
-      >
-        Data Diri
-      </a>
+      @if(auth()->user()->role === 'user' || empty(auth()->user()->role))
+        <a
+          class="nav-link py-2 mb-1 {{ request()->routeIs('identitas*') ? 'active' : '' }}"
+          href="{{ route('identitas') }}"
+        >
+          Data Diri
+        </a>
 
-      <a
-        class="nav-link py-2 mb-1 {{ request()->routeIs('permohonan*') ? 'active' : '' }}"
-        href="{{ route('permohonan') }}"
-      >
-        Permohonan
-      </a>
+        <a
+          class="nav-link py-2 mb-1 {{ request()->routeIs('permohonan*') ? 'active' : '' }}"
+          href="{{ route('permohonan') }}"
+        >
+          Permohonan
+        </a>
+      @elseif(auth()->user()->role === 'verifikator')
+        <a
+            class="nav-link py-2 mb-1 {{ request()->routeIs('verifikator.pemohon*') ? 'active' : '' }}"
+            href="{{ route('verifikator.pemohon.list') }}"
+          >
+            Pemohon
+          </a>
+          
+      @endif
     </nav>
   </div>
 </aside>
