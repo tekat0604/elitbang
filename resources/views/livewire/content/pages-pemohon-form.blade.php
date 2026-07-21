@@ -85,7 +85,7 @@
         </div>
 
         <div class="col-12 form-control-validation">
-          <label class="form-label">Foto Identitas (KTP/KTM)</label>
+          <label class="form-label">Foto Identitas</label>
           <input type="file" wire:model="path_identitas" class="form-control" accept="image/*" />
 
           @if ($path_identitas)

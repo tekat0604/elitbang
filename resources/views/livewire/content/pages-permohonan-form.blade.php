@@ -63,14 +63,14 @@
 
                 <div class="col-md-6">
                     <label class="form-label">Instansi/Universitas Asal</label>
-                    <input type="text" wire:model="nama_instansi_tujuan" class="form-control" placeholder="Nama Universitas / Instansi">
-                    @error('nama_instansi_tujuan') <span class="text-danger small">{{ $message }}</span> @enderror
+                    <input type="text" wire:model="nama_instansi" class="form-control" placeholder="Nama Universitas / Instansi">
+                    @error('nama_instansi') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
                 
                 <div class="col-12">
                     <label class="form-label">Alamat Instansi Asal</label>
-                    <textarea wire:model="alamat_instansi_tujuan" class="form-control" rows="2"></textarea>
-                    @error('alamat_instansi_tujuan') <span class="text-danger small">{{ $message }}</span> @enderror
+                    <textarea wire:model="alamat_instansi" class="form-control" rows="2"></textarea>
+                    @error('alamat_instansi') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
             </div>
             @endif

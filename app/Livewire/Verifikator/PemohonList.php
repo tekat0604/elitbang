@@ -15,6 +15,8 @@ class PemohonList extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
+
+
     public function render()
     {
         // Mengambil data pemohon, urutkan yang pending di paling atas

@@ -27,8 +27,8 @@ return new class extends Migration {
             $table->enum('jenis_pengajuan', ['personal', 'kelompok'])->default('personal');
             $table->integer('jumlah_anggota')->default(1);
 
-            $table->string('nama_instansi_tujuan')->nullable();
-            $table->text('alamat_instansi_tujuan')->nullable();
+            $table->string('nama_instansi')->nullable();
+            $table->text('alamat_instansi')->nullable();
 
             $table->string('link_pengantar_kampus')->nullable();
             $table->string('link_proposal')->nullable();

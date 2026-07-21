@@ -87,18 +87,24 @@
                     <td class="fw-semibold">{{ $item->layanan?->nama_layanan ?? '-' }}</td>
                     <td>{{ $item->judul }}</td>
                     <td>{{ $item->created_at?->translatedFormat('d M Y') }}</td>
+                    
+                    <!-- Status BRIDA -->
                     <td>
                       <span class="badge {{ $statusClass[$item->status_brida] ?? 'text-bg-secondary' }}">
-                        {{ str($item->status_permohonan)->replace('_', ' ')->title() }}
+                        {{ strtoupper($item->status_brida ?? 'PENDING') }}
                       </span>
                     </td>
                     <td>{{ $item->catatan_brida ?? '-'}}</td>
+                    
+                    <!-- Status KESBANGPOL -->
                     <td>
                       <span class="badge {{ $statusClass[$item->status_kesbangpol] ?? 'text-bg-secondary' }}">
-                        {{ str($item->status_permohonan)->replace('_', ' ')->title() }}
+                        {{ strtoupper($item->status_kesbangpol ?? 'PENDING') }}
                       </span>
                     </td>
                     <td>{{ $item->catatan_kesbangpol ?? '-'}}</td>
+                    
+                    <!-- Status Utama -->
                     <td>
                       <span class="badge {{ $statusClass[$item->status_permohonan] ?? 'text-bg-secondary' }}">
                         {{ str($item->status_permohonan)->replace('_', ' ')->title() }}

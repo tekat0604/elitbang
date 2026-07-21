@@ -8,6 +8,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use App\Mail\NotifikasiRevisi;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 
 #[Layout('layouts.sidebar_layout_livewire')]
@@ -20,6 +21,11 @@ class PemohonDetail extends Component
 
     public function mount($id)
     {
+        $user = Auth::user();
+        if ($user->role !== 'verifikator' || $user->instansi !== 'brida') {
+            abort(403, 'Akses ditolak! Verifikasi ini adalah khusus untuk BRIDA.');
+        }
+
         $this->pemohon = Pemohon::findOrFail($id);
         $this->status_verifikasi = $this->pemohon->status_verifikasi;
         $this->catatan_verifikasi = $this->pemohon->catatan_verifikasi;

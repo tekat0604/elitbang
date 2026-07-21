@@ -26,7 +26,7 @@ class PermohonanController extends Component
     public $nama_layanan_terpilih;
     public $isPenelitian = false;
     public $judul, $jenjang_pendidikan, $bidang_penelitian, $rumpun_penelitian;
-    public $nama_instansi_tujuan, $alamat_instansi_tujuan;
+    public $nama_instansi, $alamat_instansi;
     public $lokasi, $tgl_mulai, $tgl_selesai;
     public $jenis_pengajuan = 'Personal';
     public $pembimbing = [];
@@ -67,8 +67,8 @@ class PermohonanController extends Component
             $this->bidang_penelitian = $permohonan->bidang_penelitian;
             $this->rumpun_penelitian = $permohonan->rumpun_penelitian;
             $this->jenis_pengajuan = $permohonan->jenis_pengajuan;
-            $this->nama_instansi_tujuan = $permohonan->nama_instansi_tujuan;
-            $this->alamat_instansi_tujuan = $permohonan->alamat_instansi_tujuan;
+            $this->nama_instansi = $permohonan->nama_instansi;
+            $this->alamat_instansi = $permohonan->alamat_instansi;
             $this->link_pengantar_kampus = $permohonan->link_pengantar_kampus;
             $this->link_proposal = $permohonan->link_proposal;
 
@@ -148,8 +148,8 @@ class PermohonanController extends Component
             'jenjang_pendidikan.in' => 'Jenjang pendidikan tidak valid.',
             'bidang_penelitian.required' => 'Bidang penelitian wajib diisi.',
             'rumpun_penelitian.required' => 'Rumpun penelitian wajib diisi.',
-            'nama_instansi_tujuan.required' => 'Nama instansi atau universitas asal wajib diisi.',
-            'alamat_instansi_tujuan.required' => 'Alamat instansi asal wajib diisi.',
+            'nama_instansi.required' => 'Nama instansi atau universitas asal wajib diisi.',
+            'alamat_instansi.required' => 'Alamat instansi asal wajib diisi.',
 
             'lokasi.required' => 'Lokasi penelitian (OPD/Instansi) wajib diisi.',
             'tgl_mulai.required' => 'Tanggal mulai kegiatan wajib diisi.',
@@ -182,8 +182,8 @@ class PermohonanController extends Component
                 'jenjang_pendidikan' => 'required|string|in:SMA,D3,D4,S1,S2,S3',
                 'bidang_penelitian' => 'required|string',
                 'rumpun_penelitian' => 'required|string',
-                'nama_instansi_tujuan' => 'required|string',
-                'alamat_instansi_tujuan' => 'required|string',
+                'nama_instansi' => 'required|string',
+                'alamat_instansi' => 'required|string',
             ]);
         } elseif ($this->currentStep == 2) {
             $rules = [
@@ -229,8 +229,8 @@ class PermohonanController extends Component
                 'rumpun_penelitian' => $this->rumpun_penelitian,
                 'jenis_pengajuan' => $this->jenis_pengajuan,
                 'jumlah_anggota' => count($this->anggota) + 1,
-                'nama_instansi_tujuan' => $this->nama_instansi_tujuan,
-                'alamat_instansi_tujuan' => $this->alamat_instansi_tujuan,
+                'nama_instansi' => $this->nama_instansi,
+                'alamat_instansi' => $this->alamat_instansi,
                 'link_pengantar_kampus' => $this->link_pengantar_kampus,
                 'link_proposal' => $this->link_proposal,
                 'status_permohonan' => 'diajukan', // Set ulang ke diajukan
