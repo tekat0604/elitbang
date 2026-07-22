@@ -51,13 +51,43 @@
 
                 <div class="col-md-6">
                     <label class="form-label">Bidang Penelitian/Kegiatan</label>
-                    <input type="text" wire:model="bidang_penelitian" class="form-control" placeholder="Contoh: Kesehatan, Sosial, Teknologi, dll.">
+                    
+                    <select wire:model.live="bidang_penelitian" class="form-select">
+                        <option value="">Pilih Bidang...</option>
+                        <option value="Ekonomi">Ekonomi</option>
+                        <option value="Sosial">Sosial</option>
+                        <option value="Pemerintahan">Pemerintahan</option>
+                        <option value="Kependudukan">Kependudukan</option>
+                        <option value="Pembangunan">Pembangunan</option>
+                        <option value="Kesehatan">Kesehatan</option>
+                        <option value="Lingkungan Hidup">Lingkungan Hidup</option>
+                        <option value="Budaya">Budaya</option>
+                        <option value="Politik">Politik</option>
+                    </select>
                     @error('bidang_penelitian') <span class="text-danger small">{{ $message }}</span> @enderror
+                    
                 </div>
 
                 <div class="col-md-6">
                     <label class="form-label">Rumpun Penelitian/Kegiatan</label>
-                    <input type="text" wire:model="rumpun_penelitian" class="form-control" placeholder="Contoh: Sosial Budaya Hukum">
+                    <select wire:model.live="rumpun_penelitian" class="form-select">
+                        <option value="">Pilih Rumpun...</option>
+                        <option value="Ekonomi">Ekonomi</option>
+                        <option value="Sosial">Sosial</option>
+                        <option value="Budaya">Budaya</option>
+                        <option value="Hukum">Hukum</option>
+                        <option value="Kesehatan">Kesehatan</option>
+                        <option value="Pemerintah dan Politik">Pemerintah dan Politik</option>
+                        <option value="Pendidikan">Pendidikan</option>
+                        <option value="Lingkungan Hidup">Lingkungan Hidup</option>
+                        <option value="Teknik dan Pembangunan">Teknik dan Pembangunan</option>
+                        <option value="Agama">Agama</option>
+                        <option value="Kependudukan">Kependudukan</option>
+                        <option value="Ketenagakerjaan">Ketenagakerjaan</option>
+                        <option value="Digital dan Teknologi">Digital dan Teknologi</option>
+                        <option value="Transportasi dan Perhubungan">Transportasi dan Perhubungan</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
                     @error('rumpun_penelitian') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
 
@@ -90,10 +120,39 @@
                     @error('tgl_selesai') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
                 
-                <div class="col-12 mt-4">
-                    <label class="form-label">Lokasi Penelitian (OPD/Instansi Tujuan)</label>
-                    <input type="text" wire:model="lokasi" class="form-control" placeholder="Contoh: Dinas Kesehatan Kota Surakarta">
-                    @error('lokasi') <span class="text-danger small">{{ $message }}</span> @enderror
+                <div class="col-12 mt-4"><h6 class="fw-bold text-primary border-bottom pb-2">Tujuan Lokasi Penelitian</h6></div>
+                
+                <div class="col-md-4">
+                    <label class="form-label">Kategori Lokasi</label>
+                    <select wire:model.live="kategori_id" class="form-select border-primary">
+                        <option value="">-- Pilih Kategori --</option>
+                        @foreach($daftar_kategori as $kategori)
+                            <option value="{{ $kategori->id }}">{{ $kategori->kategori }}</option>
+                        @endforeach
+                    </select>
+                    @error('kategori_id') <span class="text-danger small">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Instansi Induk (Tembusan)</label>
+                    <select wire:model.live="opd_id" class="form-select border-primary" {{ empty($daftar_opd) ? 'disabled' : '' }}>
+                        <option value="">-- Pilih Instansi Induk --</option>
+                        @foreach($daftar_opd as $opd)
+                            <option value="{{ $opd->id }}">{{ $opd->nama_opd }}</option>
+                        @endforeach
+                    </select>
+                    @error('opd_id') <span class="text-danger small">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Lokasi Penelitian Asli</label>
+                    <select wire:model="opd_child_id" class="form-select border-primary" {{ empty($daftar_child) ? 'disabled' : '' }}>
+                        <option value="">-- Pilih Lokasi Asli --</option>
+                        @foreach($daftar_child as $child)
+                            <option value="{{ $child->id }}">{{ $child->nama }}</option>
+                        @endforeach
+                    </select>
+                    @error('opd_child_id') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="col-12 mt-4">
@@ -116,9 +175,11 @@
                 <div class="col-md-6">
                     <label class="form-label">Jenis Pengajuan</label>
                     <select wire:model.live="jenis_pengajuan" class="form-select border-primary">
+                        <option value="">-- Pilih Jenis Pengajuan --</option>
                         <option value="Personal">Personal (Individu)</option>
                         <option value="Kelompok">Kelompok (Memiliki Anggota)</option>
                     </select>
+                    @error('jenis_pengajuan') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
 
                 @if($jenis_pengajuan === 'Kelompok')

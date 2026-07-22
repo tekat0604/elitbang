@@ -1,4 +1,9 @@
 <div>
+    <div class="mb-3">
+        <a href="{{ route('verifikator.brida.permohonan.list') }}" class="btn btn-sm btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Kembali ke Antrean
+        </a>
+    </div>
     <div class="row g-4">
         <!-- Kolom Data Permohonan -->
         <div class="col-lg-8">
@@ -34,8 +39,8 @@
                         <div class="col-md-6 mb-3">
                             <span class="text-muted small">Jenis Pengajuan & Total Peserta</span>
                             <div class="fw-semibold">
-                                {{ $permohonan->jenis_pengajuan }} 
-                                @if($permohonan->jenis_pengajuan === 'Kelompok')
+                                {{ ucfirst($permohonan->jenis_pengajuan) }} 
+                                @if(strtolower($permohonan->jenis_pengajuan) === 'kelompok')
                                     <span class="badge bg-info ms-1">{{ $permohonan->jumlah_anggota }} Orang</span>
                                 @endif
                             </div>
@@ -64,8 +69,7 @@
                         @endif
 
                         <!-- Daftar Anggota Kelompok -->
-                        @if($permohonan->jenis_pengajuan === 'Kelompok' && $permohonan->anggota->count() > 0)
-                        <div class="col-12 mb-3">
+                        @if(strtolower($permohonan->jenis_pengajuan) === 'kelompok' && $permohonan->anggota->count() > 0)                        <div class="col-12 mb-3">
                             <span class="text-muted small">Daftar Anggota Kelompok</span>
                             <div class="table-responsive mt-1">
                                 <table class="table table-sm table-bordered mb-0">
@@ -73,7 +77,7 @@
                                         <tr>
                                             <th class="text-center" style="width: 50px;">No</th>
                                             <th>Nama Anggota</th>
-                                            <th>NIK / NIM</th>
+                                            <th>NIK</th>
                                         </tr>
                                     </thead>
                                     <tbody>

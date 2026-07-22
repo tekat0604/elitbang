@@ -18,7 +18,7 @@ class Permohonan extends Model
         'pemohon_id',
         'layanan_id',
         'judul',
-        'lokasi',
+        'id_opd_child',
         'tgl_mulai',
         'tgl_selesai',
         'jenjang_pendidikan',
@@ -50,6 +50,10 @@ class Permohonan extends Model
     public function layanan(): BelongsTo
     {
         return $this->belongsTo(Layanan::class);
+    }
+    public function opdChild(): BelongsTo
+    {
+        return $this->belongsTo(OpdChild::class, 'id_opd_child');
     }
 
     /**

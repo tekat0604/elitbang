@@ -11,6 +11,10 @@ use Livewire\Attributes\Title;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\KategoriOpd;
+use App\Models\Opd;
+use App\Models\OpdChild;
+
 
 #[Layout('layouts.sidebar_layout_livewire')]
 #[Title('Form Data Permohonan')]
@@ -27,7 +31,11 @@ class PermohonanController extends Component
     public $isPenelitian = false;
     public $judul, $jenjang_pendidikan, $bidang_penelitian, $rumpun_penelitian;
     public $nama_instansi, $alamat_instansi;
-    public $lokasi, $tgl_mulai, $tgl_selesai;
+    public $tgl_mulai, $tgl_selesai;
+    public $kategori_id, $opd_id, $opd_child_id;
+    public $daftar_kategori = [];
+    public $daftar_opd = [];
+    public $daftar_child = [];
     public $jenis_pengajuan = 'Personal';
     public $pembimbing = [];
     public $anggota = [];
@@ -42,6 +50,8 @@ class PermohonanController extends Component
             session()->flash('error', 'Akses Ditolak! Identitas Anda harus diverifikasi oleh BRIDA.');
             return redirect()->route('permohonan');
         }
+
+        $this->daftar_kategori = KategoriOpd::all();
 
         if ($id) {
             $this->isEditMode = true;
@@ -60,7 +70,7 @@ class PermohonanController extends Component
 
             // Suntik data lama ke form
             $this->judul = $permohonan->judul;
-            $this->lokasi = $permohonan->lokasi;
+            $this->opd_child_id = $permohonan->opd_child_id;
             $this->tgl_mulai = $permohonan->tgl_mulai;
             $this->tgl_selesai = $permohonan->tgl_selesai;
             $this->jenjang_pendidikan = $permohonan->jenjang_pendidikan;
@@ -110,6 +120,20 @@ class PermohonanController extends Component
         $this->currentStep--;
     }
 
+    public function updatedKategoriId($value)
+    {
+        $this->daftar_opd = Opd::where('id_kategori', $value)->get();
+        $this->opd_id = null;
+        $this->opd_child_id = null;
+        $this->daftar_child = [];
+    }
+
+    public function updatedOpdId($value)
+    {
+        $this->daftar_child = OpdChild::where('id_opd', $value)->get();
+        $this->opd_child_id = null;
+
+    }
     public function addPembimbing()
     {
         $this->pembimbing[] = ['nama_pembimbing' => ''];
@@ -147,11 +171,15 @@ class PermohonanController extends Component
             'jenjang_pendidikan.required' => 'Silakan pilih jenjang pendidikan.',
             'jenjang_pendidikan.in' => 'Jenjang pendidikan tidak valid.',
             'bidang_penelitian.required' => 'Bidang penelitian wajib diisi.',
+            'bidang_penelitian.in' => 'Bidang penelitian tidak valid.',
             'rumpun_penelitian.required' => 'Rumpun penelitian wajib diisi.',
+            'rumpun_penelitian.in' => 'Rumpun penelitian tidak valid.',
             'nama_instansi.required' => 'Nama instansi atau universitas asal wajib diisi.',
             'alamat_instansi.required' => 'Alamat instansi asal wajib diisi.',
 
-            'lokasi.required' => 'Lokasi penelitian (OPD/Instansi) wajib diisi.',
+            'kategori_id.required' => 'Kategori instansi wajib diisi.',
+            'opd_id.required' => 'Instansi wajib diisi.',
+            'opd_child_id.required' => 'Lokasi wajib diisi.',
             'tgl_mulai.required' => 'Tanggal mulai kegiatan wajib diisi.',
             'tgl_mulai.date' => 'Format tanggal mulai salah.',
             'tgl_mulai.after' => 'Tanggal mulai tidak boleh hari ini atau lebih awal dari hari ini.',
@@ -159,6 +187,9 @@ class PermohonanController extends Component
             'tgl_selesai.date' => 'Format tanggal selesai salah.',
             'tgl_selesai.after' => 'Tanggal selesai tidak boleh hari ini atau lebih awal dari hari ini.',
             'tgl_selesai.after_or_equal' => 'Tanggal selesai tidak boleh lebih awal dari tanggal mulai.',
+
+            'jenis_pengajuan.required' => 'Jenis pengajuan wajib diisi.',
+            'jenis_pengajuan.in' => 'Jenis pengajuan tidak valid.',
 
             'pembimbing.*.nama_pembimbing.required' => 'Nama pembimbing tidak boleh kosong.',
             'anggota.*.nama_anggota.required' => 'Nama anggota tidak boleh kosong.',
@@ -180,14 +211,16 @@ class PermohonanController extends Component
             $this->validate([
                 'judul' => 'required|string|max:255',
                 'jenjang_pendidikan' => 'required|string|in:SMA,D3,D4,S1,S2,S3',
-                'bidang_penelitian' => 'required|string',
-                'rumpun_penelitian' => 'required|string',
+                'bidang_penelitian' => 'required|string|in:Ekonomi,Sosial,Pemerintahan,Kependudukan,Pembangunan,Kesehatan,Lingkungan Hidup,Budaya,Politik',
+                'rumpun_penelitian' => 'required|string|in:Ekonomi,Sosial,Budaya,Hukum,Kesehatan,Pemerintah dan Politik,Pendidikan,Lingkungan Hidup,Teknik dan Pembangunan,Agama,Kependudukan,Ketenagakerjaan,Digital dan Teknologi,Transportasi dan Perhubungan,Lainnya',
                 'nama_instansi' => 'required|string',
                 'alamat_instansi' => 'required|string',
             ]);
         } elseif ($this->currentStep == 2) {
             $rules = [
-                'lokasi' => 'required|string',
+                'kategori_id' => 'required',
+                'opd_id' => 'required',
+                'opd_child_id' => 'required',
                 'tgl_mulai' => 'required|date|after:today',
                 'tgl_selesai' => 'required|date|after:today|after_or_equal:tgl_mulai',
                 'jenis_pengajuan' => 'required|in:Personal,Kelompok',
@@ -221,7 +254,7 @@ class PermohonanController extends Component
                 'pemohon_id' => $pemohon->id,
                 'layanan_id' => $this->layanan_id,
                 'judul' => $this->judul,
-                'lokasi' => $this->lokasi,
+                'id_opd_child' => $this->opd_child_id,
                 'tgl_mulai' => $this->tgl_mulai,
                 'tgl_selesai' => $this->tgl_selesai,
                 'jenjang_pendidikan' => $this->jenjang_pendidikan,
@@ -233,9 +266,9 @@ class PermohonanController extends Component
                 'alamat_instansi' => $this->alamat_instansi,
                 'link_pengantar_kampus' => $this->link_pengantar_kampus,
                 'link_proposal' => $this->link_proposal,
-                'status_permohonan' => 'diajukan', // Set ulang ke diajukan
-                'status_kesbangpol' => 'pending', // Set ulang ke pending
-                'status_brida' => 'pending', // Set ulang ke pending
+                'status_permohonan' => 'diajukan',
+                'status_kesbangpol' => 'pending',
+                'status_brida' => 'pending',
             ];
 
             if ($this->isEditMode) {

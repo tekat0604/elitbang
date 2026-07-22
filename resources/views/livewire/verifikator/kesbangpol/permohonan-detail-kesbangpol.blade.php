@@ -1,4 +1,9 @@
 <div>
+    <div class="mb-3">
+        <a href="{{ route('verifikator.kesbangpol.permohonan.list') }}" class="btn btn-sm btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Kembali ke Antrean
+        </a>
+    </div>
     <div class="row g-4">
         <!-- Kolom Data Permohonan -->
         <div class="col-lg-8">

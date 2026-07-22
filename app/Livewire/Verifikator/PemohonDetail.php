@@ -55,6 +55,11 @@ class PemohonDetail extends Component
             session()->flash('error', 'Data ini sudah diverifikasi dan tidak dapat diubah lagi.');
             return redirect()->route('verifikator.pemohon.list');
         }
+        // cek apakah sedang dalam proses revisi
+        if ($this->pemohon->status_verifikasi === 'revisi') {
+            session()->flash('error', 'Tindakan Ditolak! Pemohon sedang dalam proses memperbaiki data.');
+            return redirect()->route('verifikator.pemohon.list');
+        }
 
         $this->validate();
 
