@@ -17,9 +17,9 @@ return new class extends Migration {
             $table->string('nama_lengkap');
 
             $table->enum('jenis_identitas', ['ktp', 'ktm', 'passport', 'sim']);
-            $table->string('nomor_identitas', 20)->unique();
+            $table->string('nomor_identitas', 16)->unique();
 
-            $table->string('no_hp', 20);
+            $table->string('no_hp', 13);
             $table->string('email')->unique();
             $table->string('kewarganegaraan');
             $table->date('tanggal_lahir');
@@ -34,8 +34,7 @@ return new class extends Migration {
             $table->enum('status_verifikasi', [
                 'pending',
                 'terverifikasi',
-                'revisi',
-                'ditolak'
+                'revisi'
             ])->default('pending');
             $table->text('catatan_verifikasi')->nullable();
 

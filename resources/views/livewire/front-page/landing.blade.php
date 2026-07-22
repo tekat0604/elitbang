@@ -101,7 +101,7 @@
         <img src="{{ asset('storage/layanan/' . $alur->gambar_alur) }}" alt="alur" class="img-fluid w-100" data-speed="1" />
       </div>
       <div class="modal-footer pt-4">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Mulai Mendaftar</button>
+        <button type="button" wire:navigate="{{ route('login') }}" class="btn btn-primary" data-bs-dismiss="modal">Mulai Mendaftar</button>
       </div>
     </div>
   </div>

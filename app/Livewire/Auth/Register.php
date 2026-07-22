@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Illuminate\Auth\Events\Registered;
 
 #[Layout('layouts.login_layout')]
 class Register extends Component
@@ -45,13 +46,16 @@ class Register extends Component
   {
     $this->validate();
 
-    User::create([
+    $user = User::create([
       'name' => $this->username,
       'username' => $this->username,
       'email' => $this->email,
       'password' => $this->password,
     ]);
 
+    event(new Registered($user));
+
+    session()->flash('success', 'Registrasi berhasil! Silakan cek email Anda untuk verifikasi sebelum login.');
     return redirect()->route('login');
   }
 
