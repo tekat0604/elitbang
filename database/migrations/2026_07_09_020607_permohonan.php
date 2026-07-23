@@ -17,8 +17,7 @@ return new class extends Migration {
             $table->foreignId('layanan_id')->constrained('layanan')->onDelete('cascade');
 
             $table->string('judul');
-            $table->text('tujuan');
-            $table->string('lokasi');
+            $table->foreignId('id_opd_child')->constrained('opd_child')->onDelete('cascade');
             $table->date('tgl_mulai');
             $table->date('tgl_selesai');
             $table->string('jenjang_pendidikan');
@@ -28,14 +27,17 @@ return new class extends Migration {
             $table->enum('jenis_pengajuan', ['personal', 'kelompok'])->default('personal');
             $table->integer('jumlah_anggota')->default(1);
 
-            $table->string('nama_instansi_tujuan')->nullable();
-            $table->text('alamat_instansi_tujuan')->nullable();
+            $table->string('nama_instansi')->nullable();
+            $table->text('alamat_instansi')->nullable();
+
+            $table->string('link_pengantar_kampus')->nullable();
+            $table->string('link_proposal')->nullable();
 
             // status
             $table->enum('status_permohonan', [
                 'draft',
                 'diajukan',
-                'proses_brida',
+                'proses_verifikasi',
                 'revisi',
                 'disetujui',
                 'ditolak'

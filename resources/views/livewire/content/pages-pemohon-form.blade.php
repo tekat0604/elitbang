@@ -131,12 +131,8 @@
       </div>
 
       <div class="col-12 form-control-validation">
-        <label class="form-label">Foto Identitas (KTP/KTM)</label>
+        <label class="form-label">Foto Identitas</label>
         <input type="file" wire:model="path_identitas" class="form-control" accept="image/*" />
-
-        @if ($path_identitas)
-          <img src="{{ $path_identitas->temporaryUrl() }}" class="mt-2 rounded" style="max-height: 150px;">
-        @endif
 
         @error('path_identitas')
           <span class="text-danger small">{{ $message }}</span>

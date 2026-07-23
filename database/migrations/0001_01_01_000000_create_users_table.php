@@ -25,6 +25,10 @@ return new class extends Migration {
                 'verifikator',
                 'tanda_tangan',
             ])->default('user');
+            $table->enum('instansi', [
+                'brida',
+                'kesbangpol',
+            ])->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -61,6 +61,12 @@
                             <h6 class="fw-bold mb-1">Telah Diverifikasi</h6>
                             <p class="small mb-0">Data ini sudah berstatus valid dan terkunci di dalam sistem. Tidak ada tindakan lanjutan yang diperlukan.</p>
                         </div>
+                    @elseif($pemohon->status_verifikasi === 'revisi')
+                        <div class="alert alert-warning text-center mb-0 border-0 shadow-sm">
+                            <i class="fas fa-exclamation-triangle fa-2x mb-2 text-warning"></i>
+                            <h6 class="fw-bold mb-1">Menunggu Perbaikan Pemohon</h6>
+                            <p class="small mb-0">Keputusan terkunci. Anda baru bisa memverifikasi ulang setelah pemohon memperbaiki dan mengirim kembali datanya.</p>
+                        </div>
                     @else
                         <form wire:submit.prevent="simpanVerifikasi">
                             <div class="mb-4">

@@ -39,6 +39,13 @@ class Login extends Component
         $fieldType = filter_var($this->email_username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
         if (Auth::attempt([$fieldType => $this->email_username, 'password' => $this->password])) {
+            $user = Auth::user();
+
+            if (!$user->hasVerifiedEmail()) {
+                Auth::logout();
+                session()->flash('error', 'Silakan verifikasi alamat email Anda terlebih dahulu melalui tautan yang telah kami kirimkan.');
+                return redirect()->route('login');
+            }
             session()->regenerate();
             return redirect()->intended(route('dashboard'));
         }

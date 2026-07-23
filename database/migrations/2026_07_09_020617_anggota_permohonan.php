@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->foreignId('permohonan_id')->constrained('permohonan')->onDelete('cascade');
 
             $table->string('nama_anggota');
-            $table->string('nik_nim');
+            $table->string('nik');
 
             $table->timestamps();
         });
