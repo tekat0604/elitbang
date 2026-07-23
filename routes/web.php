@@ -5,6 +5,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use App\Models\Permohonan;
 use App\Livewire\FrontPage\Landing;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
@@ -12,6 +13,7 @@ use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\ResetPassword;
 use App\Http\Controllers\GoogleController;
 use App\Livewire\Upload\PemohonController;
+use App\Livewire\SurveiKepuasanForm;
 use App\Livewire\Upload\PermohonanController;
 use App\Livewire\Verifikator\PemohonList;
 use App\Livewire\Verifikator\PemohonDetail;
@@ -54,7 +56,31 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) 
 
 Route::middleware(['auth'])->group(function () {
   Route::get('/dashboard', function () {
-    return view('livewire.content.pages-dashboard');
+    $user = Auth::user();
+    $isPemohon = strtolower(trim($user->role ?? 'user')) === 'user';
+    $statistikPermohonan = null;
+
+    if ($isPemohon) {
+      $queryPermohonan = Permohonan::query()
+        ->where('pemohon_id', $user->pemohon?->id);
+
+      $statistikPermohonan = [
+        'diajukan' => (clone $queryPermohonan)
+          ->whereIn('status_permohonan', ['diajukan', 'proses_verifikasi', 'revisi', 'disetujui', 'ditolak'])
+          ->count(),
+        'pending' => (clone $queryPermohonan)
+          ->whereIn('status_permohonan', ['diajukan', 'proses_verifikasi'])
+          ->count(),
+        'disetujui' => (clone $queryPermohonan)
+          ->where('status_permohonan', 'disetujui')
+          ->count(),
+        'perlu_tindakan' => (clone $queryPermohonan)
+          ->whereIn('status_permohonan', ['ditolak', 'revisi'])
+          ->count(),
+      ];
+    }
+
+    return view('livewire.content.pages-dashboard', compact('isPemohon', 'statistikPermohonan'));
   })->name('dashboard');
 
   Route::middleware([CekRoleUser::class])->group(function () {
@@ -76,6 +102,11 @@ Route::middleware(['auth'])->group(function () {
       ->name('permohonan.form')
       ->middleware(CekVerifikasiPemohon::class, CekVerifikasiPermohonan::class);
 
+    Route::get('/permohonan/perizinan', function () {
+      return view('livewire.content.pages-permohonan-perizinan');
+    })->name('permohonan.perizinan');
+
+    Route::get('/survei-kepuasan-masyarakat', SurveiKepuasanForm::class)->name('survei-kepuasan');
     Route::get('/permohonan/revisi/{id}', PermohonanController::class)
       ->name('permohonan.revisi')
       ->middleware(CekVerifikasiPemohon::class);
