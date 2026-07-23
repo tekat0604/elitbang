@@ -8,52 +8,46 @@
       <small class="text-white-50">{{ config('unit') ?? '' }}</small>
     </div>
 
+    @php
+        $user = auth()->user();
+        $role = $user->role ?: 'user'; // Default ke 'user' jika kosong
+        $instansi = $user->instansi;
+
+        $userType = $role === 'user' ? 'user' : $role . '_' . $instansi;
+
+        $menus = [
+            'user' => [
+                ['label' => 'Data Diri', 'route' => 'identitas', 'active' => 'identitas*'],
+                ['label' => 'Permohonan', 'route' => 'permohonan', 'active' => 'permohonan*'],
+            ],
+            'verifikator_brida' => [
+                ['label' => 'Verifikasi Pemohon', 'route' => 'verifikator.pemohon.list', 'active' => 'verifikator.pemohon*'],
+                ['label' => 'Pengajuan Perizinan', 'route' => 'verifikator.brida.permohonan.list', 'active' => 'verifikator.brida.permohonan*'],
+            ],
+            'verifikator_kesbangpol' => [
+                ['label' => 'Pengajuan Perizinan', 'route' => 'verifikator.kesbangpol.permohonan.list', 'active' => 'verifikator.kesbangpol.permohonan*'],
+            ],
+            'tanda_tangan_brida' => [
+                ['label' => 'Pengajuan Perizinan', 'route' => 'tte.brida.list', 'active' => 'tte.brida*'],
+            ],
+            'tanda_tangan_kesbangpol' => [
+                ['label' => 'Pengajuan Perizinan', 'route' => 'tte.kesbangpol.list', 'active' => 'tte.kesbangpol*'],
+            ],
+        ];
+
+        $activeMenus = $menus[$userType] ?? [];
+    @endphp
+
     <nav class="nav flex-column">
-      <a
-        class="nav-link py-2 mb-1 {{ request()->routeIs('dashboard') ? 'active' : '' }}"
-        href="{{ route('dashboard') }}"
-      >
+      <a class="nav-link py-2 mb-1 {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
         Dashboard
       </a>
 
-      @if(auth()->user()->role === 'user' || empty(auth()->user()->role))
-        <a
-          class="nav-link py-2 mb-1 {{ request()->routeIs('identitas*') ? 'active' : '' }}"
-          href="{{ route('identitas') }}"
-        >
-          Data Diri
+      @foreach($activeMenus as $menu)
+        <a class="nav-link py-2 mb-1 {{ request()->routeIs($menu['active']) ? 'active' : '' }}" href="{{ route($menu['route']) }}">
+          {{ $menu['label'] }}
         </a>
-
-        <a
-          class="nav-link py-2 mb-1 {{ request()->routeIs('permohonan*') ? 'active' : '' }}"
-          href="{{ route('permohonan') }}"
-        >
-          Permohonan
-        </a>
-
-      @elseif(auth()->user()->role === 'verifikator' && auth()->user()->instansi === 'brida')
-        <a
-            class="nav-link py-2 mb-1 {{ request()->routeIs('verifikator.pemohon*') ? 'active' : '' }}"
-            href="{{ route('verifikator.pemohon.list') }}"
-          >
-            Verifikasi Pemohon
-          </a>
-          
-        <a
-            class="nav-link py-2 mb-1 {{ request()->routeIs('verifikator.brida.permohonan*') ? 'active' : '' }}"
-            href="{{ route('verifikator.brida.permohonan.list') }}"
-          >
-            Pengajuan Perizinan
-          </a>
-
-      @elseif(auth()->user()->role === 'verifikator' && auth()->user()->instansi === 'kesbangpol')
-        <a
-            class="nav-link py-2 mb-1 {{ request()->routeIs('verifikator.kesbangpol.permohonan*') ? 'active' : '' }}"
-            href="{{ route('verifikator.kesbangpol.permohonan.list') }}" 
-          >
-            Pengajuan Perizinan
-          </a>
-      @endif
+      @endforeach
     </nav>
   </div>
 </aside>

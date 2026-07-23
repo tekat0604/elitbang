@@ -26,7 +26,7 @@ class PermohonanDetailBrida extends Component
             abort(403, 'Akses ditolak! Verifikasi ini adalah khusus untuk BRIDA.');
         }
 
-        $this->permohonan = Permohonan::with(['pemohon', 'layanan', 'anggota', 'pembimbing'])->findOrFail($id);
+        $this->permohonan = Permohonan::with(['pemohon', 'layanan', 'anggota', 'pembimbing', 'opdChild'])->findOrFail($id);
         $this->status_brida = $this->permohonan->status_brida;
         $this->catatan_brida = $this->permohonan->catatan_brida;
     }

@@ -107,7 +107,7 @@
                         </div>
                         <div class="col-12 mb-3">
                             <span class="text-muted small">Lokasi Penelitian (OPD)</span>
-                            <div class="fw-semibold">{{ $permohonan->lokasi }}</div>
+                            <div class="fw-semibold">{{ $permohonan->opdChild->nama ?? 'Lokasi tidak ditemukan' }}</div>
                         </div>
                         <div class="col-12 mt-2">
                             <a href="{{ $permohonan->link_pengantar_kampus }}" target="_blank" class="btn btn-outline-primary btn-sm">

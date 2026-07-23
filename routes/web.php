@@ -21,6 +21,7 @@ use App\Http\Middleware\CekRoleVerifikator;
 use App\Http\Middleware\CekRoleUser;
 use App\Http\Middleware\CekVerifikasiPemohon;
 use App\Http\Middleware\CekVerifikasiPermohonan;
+use App\Http\Middleware\CekRoleTandaTangan;
 use App\Livewire\Verifikator\Kesbangpol\PermohonanListKesbangpol;
 use App\Livewire\Verifikator\Kesbangpol\PermohonanDetailKesbangpol;
 
@@ -100,6 +101,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/kesbangpol/permohonan', PermohonanListKesbangpol::class)->name('kesbangpol.permohonan.list');
     Route::get('/kesbangpol/permohonan/{id}', PermohonanDetailKesbangpol::class)->name('kesbangpol.permohonan.detail');
+  });
+
+  Route::middleware([CekRoleTandaTangan::class])->prefix('penandatangan')->name('penandatangan.')->group(function () {
+    // Route::get('/brida/list-penandatangan', )->name('penandatangan.brida.list');
+
   });
 
 
