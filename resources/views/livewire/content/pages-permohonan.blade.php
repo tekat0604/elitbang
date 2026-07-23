@@ -6,7 +6,9 @@
     $permohonan = auth()->user()->pemohon?->permohonan()->with('layanan')->latest()->get() ?? collect();
     $pemohon = auth()->user()->pemohon;
 
-    $adaIzinAktif = $permohonan->whereIn('status_permohonan', ['draft', 'diajukan', 'proses_verifikasi', 'revisi', 'disetujui'])->isNotEmpty();
+    $adaIzinAktif = $permohonan
+        ->whereIn('status_permohonan', ['draft', 'diajukan', 'proses_verifikasi', 'revisi', 'disetujui'])
+        ->isNotEmpty();
 
     $statusClass = [
         'draft' => 'text-bg-primary',
@@ -15,7 +17,7 @@
         'pending' => 'text-bg-warning',
         'revisi' => 'text-bg-warning',
         'disetujui' => 'text-bg-success',
-        'ditolak' => 'text-bg-danger'
+        'ditolak' => 'text-bg-danger',
     ];
   @endphp
 
@@ -29,10 +31,12 @@
         </div>
       @elseif ($pemohon->status_verifikasi === 'pending')
         <h4 class="mb-3 text-warning">Menunggu Verifikasi</h4>
-        <p class="mb-0">Silakan menunggu profil identitas Anda diverifikasi oleh BRIDA sebelum dapat membuat permohonan.</p>
+        <p class="mb-0">Silakan menunggu profil identitas Anda diverifikasi oleh BRIDA sebelum dapat membuat permohonan.
+        </p>
       @elseif ($pemohon->status_verifikasi === 'revisi')
         <h4 class="mb-3 text-danger">Profil Perlu Revisi</h4>
-        <p class="mb-4">Data identitas Anda dikembalikan dengan catatan. Harap perbaiki sebelum dapat membuat permohonan.</p>
+        <p class="mb-4">Data identitas Anda dikembalikan dengan catatan. Harap perbaiki sebelum dapat membuat permohonan.
+        </p>
         <div>
           <a href="{{ route('identitas') }}" class="btn btn-danger">Lihat Catatan BRIDA</a>
         </div>
@@ -40,13 +44,14 @@
     </div>
   @else
     <div class="card card-dash border-0">
-      <div class="card-header bg-white border-bottom p-4 d-flex flex-column flex-md-row gap-3 justify-content-between align-items-md-center">
+      <div
+        class="card-header bg-white border-bottom p-4 d-flex flex-column flex-md-row gap-3 justify-content-between align-items-md-center">
         <div>
           <h5 class="mb-1 fw-bold">Daftar Pengajuan Permohonan</h5>
           <p class="mb-0 text-body-secondary">Pantau status seluruh permohonan izin yang pernah Anda ajukan.</p>
         </div>
 
-        @if($adaIzinAktif)
+        @if ($adaIzinAktif)
           <button type="button" class="btn btn-info" disabled>
             <i class="fas fa-lock me-1"></i> Selesaikan Izin Aktif Terlebih Dahulu
           </button>
@@ -88,30 +93,30 @@
                     <td class="fw-semibold">{{ $item->layanan?->nama_layanan ?? '-' }}</td>
                     <td>{{ $item->judul }}</td>
                     <td>{{ $item->created_at?->translatedFormat('d M Y') }}</td>
-                    
+
                     <!-- Status BRIDA -->
                     <td>
                       <span class="badge {{ $statusClass[$item->status_brida] ?? 'text-bg-secondary' }}">
                         {{ strtoupper($item->status_brida ?? 'PENDING') }}
                       </span>
                     </td>
-                    <td>{{ $item->catatan_brida ?? '-'}}</td>
-                    
+                    <td>{{ $item->catatan_brida ?? '-' }}</td>
+
                     <!-- Status KESBANGPOL -->
                     <td>
                       <span class="badge {{ $statusClass[$item->status_kesbangpol] ?? 'text-bg-secondary' }}">
                         {{ strtoupper($item->status_kesbangpol ?? 'PENDING') }}
                       </span>
                     </td>
-                    <td>{{ $item->catatan_kesbangpol ?? '-'}}</td>
-                    
+                    <td>{{ $item->catatan_kesbangpol ?? '-' }}</td>
+
                     <!-- Status Utama -->
                     <td>
                       <span class="badge {{ $statusClass[$item->status_permohonan] ?? 'text-bg-secondary' }}">
                         {{ str($item->status_permohonan)->replace('_', ' ')->title() }}
                       </span>
 
-                      @if($item->status_permohonan === 'revisi')
+                      @if ($item->status_permohonan === 'revisi')
                         <div class="mt-2">
                           <a href="{{ route('permohonan.revisi', $item->id) }}" class="btn btn-sm btn-warning shadow-sm">
                             <i class="fas fa-edit me-1"></i> Perbaiki Data
@@ -119,19 +124,20 @@
                         </div>
                       @endif
                     </td>
-                
-                  <!-- Surat Rekomendasi -->
-                  <td>
-                    @if($item->status_permohonan === 'disetujui' && $item->path_surat_rekomendasi)
-                      <a href="{{ asset('storage/' .$item->path_surat_rekomendasi) }}" target="_blank" class="btn btn-sm btn-success shadow-sm">
-                        <i class="fas fa-download me-1"></i> Unduh Surat
-                      </a>
-                    @else
-                      <span class="text-body-secondary">Belum tersedia</span>
-                    @endif
-                  </td>
-                </tr>
-                  @endforeach
+
+                    <!-- Surat Rekomendasi -->
+                    <td>
+                      @if ($item->status_permohonan === 'disetujui' && $item->path_surat_rekomendasi)
+                        <a href="{{ asset('storage/' . $item->path_surat_rekomendasi) }}" target="_blank"
+                          class="btn btn-sm btn-success shadow-sm">
+                          <i class="fas fa-download me-1"></i> Unduh Surat
+                        </a>
+                      @else
+                        <span class="text-body-secondary">Belum tersedia</span>
+                      @endif
+                    </td>
+                  </tr>
+                @endforeach
               </tbody>
             </table>
           </div>
