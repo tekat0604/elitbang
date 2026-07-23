@@ -108,7 +108,7 @@
                     @endif
                 </div>
             </div>
-          @else
+          
             <form wire:submit.prevent="simpanVerifikasi">
               <div class="mb-4">
                 <label class="form-label fw-semibold">Keputusan Verifikasi</label>
@@ -142,7 +142,7 @@
                 <span wire:loading>Memproses...</span>
               </button>
             </form>
-          @endif
+          
         </div>
       </div>
     </div>

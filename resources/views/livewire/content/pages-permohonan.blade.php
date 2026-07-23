@@ -78,6 +78,7 @@
                   <th>Status Kesbangpol</th>
                   <th>Catatan Kesbangpol</th>
                   <th>Status Utama</th>
+                  <th>Surat Rekomendasi</th>
                 </tr>
               </thead>
               <tbody>
@@ -118,8 +119,19 @@
                         </div>
                       @endif
                     </td>
-                  </tr>
-                @endforeach
+                
+                  <!-- Surat Rekomendasi -->
+                  <td>
+                    @if($item->status_permohonan === 'disetujui' && $item->path_surat_rekomendasi)
+                      <a href="{{ asset('storage/' .$item->path_surat_rekomendasi) }}" target="_blank" class="btn btn-sm btn-success shadow-sm">
+                        <i class="fas fa-download me-1"></i> Unduh Surat
+                      </a>
+                    @else
+                      <span class="text-body-secondary">Belum tersedia</span>
+                    @endif
+                  </td>
+                </tr>
+                  @endforeach
               </tbody>
             </table>
           </div>
