@@ -24,6 +24,10 @@ use App\Http\Middleware\CekVerifikasiPermohonan;
 use App\Http\Middleware\CekRoleTandaTangan;
 use App\Livewire\Verifikator\Kesbangpol\PermohonanListKesbangpol;
 use App\Livewire\Verifikator\Kesbangpol\PermohonanDetailKesbangpol;
+use App\Livewire\Penandatangan\Brida\TandaTanganList as TandaTanganListBrida;
+use App\Livewire\Penandatangan\Brida\TandaTanganDetail as TandaTanganDetailBrida;
+use App\Livewire\Penandatangan\Kesbangpol\TandaTanganList as TandaTanganListKesbangpol;
+use App\Livewire\Penandatangan\Kesbangpol\TandaTanganDetail as TandaTanganDetailKesbangpol;
 
 
 Route::get('/', Landing::class)->name('landing');
@@ -104,8 +108,13 @@ Route::middleware(['auth'])->group(function () {
   });
 
   Route::middleware([CekRoleTandaTangan::class])->prefix('penandatangan')->name('penandatangan.')->group(function () {
-    // Route::get('/brida/list-penandatangan', )->name('penandatangan.brida.list');
+    Route::get('/brida/permohonan', TandaTanganListBrida::class)->name('brida.list');
+    Route::get('/brida/permohonan/{id}', TandaTanganDetailBrida::class)->name('brida.detail');
+    Route::get('/brida/permohonan/{id}/{mode}', TandaTanganDetailBrida::class)->name('brida.surat');
 
+    Route::get('/kesbangpol/permohonan', TandaTanganListKesbangpol::class)->name('kesbangpol.list');
+    Route::get('/kesbangpol/permohonan/{id}', TandaTanganDetailKesbangpol::class)->name('kesbangpol.detail');
+    Route::get('/kesbangpol/permohonan/{id}/{mode}', TandaTanganDetailKesbangpol::class)->name('kesbangpol.surat');
   });
 
 

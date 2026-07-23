@@ -28,10 +28,10 @@
                 ['label' => 'Pengajuan Perizinan', 'route' => 'verifikator.kesbangpol.permohonan.list', 'active' => 'verifikator.kesbangpol.permohonan*'],
             ],
             'tanda_tangan_brida' => [
-                ['label' => 'Pengajuan Perizinan', 'route' => 'tte.brida.list', 'active' => 'tte.brida*'],
+                ['label' => 'Pengajuan Perizinan', 'route' => 'penandatangan.brida.list', 'active' => 'penandatangan.brida*'],
             ],
             'tanda_tangan_kesbangpol' => [
-                ['label' => 'Pengajuan Perizinan', 'route' => 'tte.kesbangpol.list', 'active' => 'tte.kesbangpol*'],
+                ['label' => 'Pengajuan Perizinan', 'route' => 'penandatangan.kesbangpol.list', 'active' => 'penandatangan.kesbangpol*'],
             ],
         ];
 
