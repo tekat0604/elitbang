@@ -16,7 +16,7 @@
           <div>
             <h4 class="mb-1">Dashboard</h4>
             <strong><small class="text-body-secondary">Selamat datang,
-              {{ auth()->user()->name ?? auth()->user()->username }}</small></strong>
+                {{ auth()->user()->name ?? auth()->user()->username }}</small></strong>
           </div>
           <div>
             <form method="POST" action="{{ route('logout') }}">
@@ -32,6 +32,80 @@
         </div>
       </div>
     </div>
+
+    @if ($isPemohon)
+      <div class="col-12">
+        <div class="row g-4">
+          <div class="col-sm-6 col-xl-3">
+            <div class="card card-dash h-100 border-0">
+              <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <p class="mb-2 text-body-secondary">Permohonan Diajukan</p>
+                    <h3 class="mb-1">{{ $statistikPermohonan['diajukan'] }}</h3>
+                    <small class="text-body-secondary">Total permohonan yang telah dikirim</small>
+                  </div>
+                  <span class="badge rounded-circle text-bg-primary p-3">
+                    <i class="fas fa-file-alt fs-5"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-xl-3">
+            <div class="card card-dash h-100 border-0">
+              <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <p class="mb-2 text-body-secondary">Menunggu Persetujuan</p>
+                    <h3 class="mb-1">{{ $statistikPermohonan['pending'] }}</h3>
+                    <small class="text-body-secondary">Sedang dalam proses verifikasi</small>
+                  </div>
+                  <span class="badge rounded-circle text-bg-warning p-3">
+                    <i class="fas fa-hourglass-half fs-5"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-xl-3">
+            <div class="card card-dash h-100 border-0">
+              <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <p class="mb-2 text-body-secondary">Perizinan Disetujui</p>
+                    <h3 class="mb-1">{{ $statistikPermohonan['disetujui'] }}</h3>
+                    <small class="text-body-secondary">Izin yang telah disetujui</small>
+                  </div>
+                  <span class="badge rounded-circle text-bg-success p-3">
+                    <i class="fas fa-check-circle fs-5"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-xl-3">
+            <div class="card card-dash h-100 border-0">
+              <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <p class="mb-2 text-body-secondary">Ditolak atau Direvisi</p>
+                    <h3 class="mb-1">{{ $statistikPermohonan['perlu_tindakan'] }}</h3>
+                    <small class="text-body-secondary">Permohonan yang perlu ditindaklanjuti</small>
+                  </div>
+                  <span class="badge rounded-circle text-bg-danger p-3">
+                    <i class="fas fa-exclamation-circle fs-5"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    @endif
 
     <!-- Tahapan Pengajuan Permohonan Izin -->
     <div class="col-12">
@@ -59,7 +133,8 @@
               <span class="badge text-bg-primary mb-2">Tahap 2</span>
               <h6>Isi Data Pemohon</h6>
               <p class="mb-0 text-body-secondary">
-                Setelah berhasil mendaftar dan bisa login akun. pemohon wajib mengisi data diri sebelum bisa mengajukan permohonan.
+                Setelah berhasil mendaftar dan bisa login akun. pemohon wajib mengisi data diri sebelum bisa mengajukan
+                permohonan.
               </p>
             </div>
           </div>
@@ -69,7 +144,8 @@
               <span class="badge text-bg-primary mb-2">Tahap 3</span>
               <h6>Verifikasi Identitas</h6>
               <p class="mb-0 text-body-secondary">
-                Verfikasi data diri pemohon oleh admin dari BRIDA. Pemohon akan menerima notifikasi jika data diri telah diverifikasi.
+                Verfikasi data diri pemohon oleh admin dari BRIDA. Pemohon akan menerima notifikasi jika data diri telah
+                diverifikasi.
               </p>
             </div>
           </div>
@@ -79,7 +155,8 @@
               <span class="badge text-bg-primary mb-2">Tahap 4</span>
               <h6>Pilih Jenis Izin</h6>
               <p class="mb-0 text-body-secondary">
-                Setelah data diri Pemohon terverifikasi, Pemohon dapat mengajukan permohonan dan bisa memilih katergori yang akan diajukan.
+                Setelah data diri Pemohon terverifikasi, Pemohon dapat mengajukan permohonan dan bisa memilih katergori
+                yang akan diajukan.
               </p>
             </div>
           </div>
@@ -89,7 +166,8 @@
               <span class="badge text-bg-warning mb-2">Tahap 5</span>
               <h6>Isikan Data Penelitian</h6>
               <p class="mb-0 text-body-secondary">
-                Setelah memilih kategori permohonan yang akan diajukan, pemohon mengisi data informasi sesuai dengan permohonan yang diajukan.
+                Setelah memilih kategori permohonan yang akan diajukan, pemohon mengisi data informasi sesuai dengan
+                permohonan yang diajukan.
               </p>
             </div>
           </div>
@@ -119,7 +197,8 @@
               <span class="badge text-bg-warning mb-2">Tahap 8</span>
               <h6>TTE Kesbangpol</h6>
               <p class="mb-0 text-body-secondary">
-                Setelah verifikasi distujui oleh 2 Perangkat daerah, data permohonan akan di generate menjadi dokumen pdf yang nanti bisa ditandatangi menggunakan TTE dari 2 Perangkat Daerah.
+                Setelah verifikasi distujui oleh 2 Perangkat daerah, data permohonan akan di generate menjadi dokumen pdf
+                yang nanti bisa ditandatangi menggunakan TTE dari 2 Perangkat Daerah.
               </p>
             </div>
           </div>
@@ -129,7 +208,8 @@
               <span class="badge text-bg-success mb-2">Tahap 9</span>
               <h6>Isi Survei</h6>
               <p class="mb-0 text-body-secondary">
-                Setelah dokumen disetujui dan di tandatangni, pemohon diminta untuk mengisi SKM (Survey Kepuasan Masyarakat).
+                Setelah dokumen disetujui dan di tandatangni, pemohon diminta untuk mengisi SKM (Survey Kepuasan
+                Masyarakat).
               </p>
             </div>
           </div>
@@ -139,7 +219,8 @@
               <span class="badge text-bg-success mb-2">Tahap 10</span>
               <h6>Permohonan Disetujui</h6>
               <p class="mb-0 text-body-secondary">
-                Pemohon bisa mengunduh Dokumen persetujuan dan surat selesai penelitian yang telah di tandatangani oleh 2 Perangkat Daerah.
+                Pemohon bisa mengunduh Dokumen persetujuan dan surat selesai penelitian yang telah di tandatangani oleh 2
+                Perangkat Daerah.
               </p>
             </div>
           </div>
@@ -149,7 +230,8 @@
               <span class="badge text-bg-success mb-2">Tahap 11</span>
               <h6>Upload Laporan Penelitian</h6>
               <p class="mb-0 text-body-secondary">
-                Setelah Pemohon melaksanakan kegiatan penelitian, Pemohon wajib mengunggah laporan penelitian ke sistem BRIDA Kota Surakarta.
+                Setelah Pemohon melaksanakan kegiatan penelitian, Pemohon wajib mengunggah laporan penelitian ke sistem
+                BRIDA Kota Surakarta.
               </p>
             </div>
           </div>
@@ -180,13 +262,13 @@
         <div class="accordion" id="faqDashboard">
           <div class="accordion-item">
             <h2 class="accordion-header" id="faqHeadingOne">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                data-bs-target="#faqOne" aria-expanded="true" aria-controls="faqOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqOne"
+                aria-expanded="true" aria-controls="faqOne">
                 Bagaimana cara membuat permohonan?
               </button>
             </h2>
-            <div id="faqOne" class="accordion-collapse collapse show"
-              aria-labelledby="faqHeadingOne" data-bs-parent="#faqDashboard">
+            <div id="faqOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne"
+              data-bs-parent="#faqDashboard">
               <div class="accordion-body">
                 Pilih menu <strong>Permohonan</strong>, lalu lengkapi formulir dan unggah
                 dokumen persyaratan yang diminta.
@@ -201,8 +283,8 @@
                 Bagaimana melihat status permohonan?
               </button>
             </h2>
-            <div id="faqTwo" class="accordion-collapse collapse"
-              aria-labelledby="faqHeadingTwo" data-bs-parent="#faqDashboard">
+            <div id="faqTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo"
+              data-bs-parent="#faqDashboard">
               <div class="accordion-body">
                 Status permohonan dapat dilihat pada menu <strong>Permohonan</strong>
                 setelah Anda berhasil mengirimkan pengajuan.
@@ -217,8 +299,8 @@
                 Apa yang dilakukan jika dokumen ditolak?
               </button>
             </h2>
-            <div id="faqThree" class="accordion-collapse collapse"
-              aria-labelledby="faqHeadingThree" data-bs-parent="#faqDashboard">
+            <div id="faqThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree"
+              data-bs-parent="#faqDashboard">
               <div class="accordion-body">
                 Periksa catatan atau alasan penolakan, perbaiki dokumen yang diperlukan,
                 kemudian kirim ulang permohonan Anda.

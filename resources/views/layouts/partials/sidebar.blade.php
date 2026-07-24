@@ -21,6 +21,7 @@
             'user' => [
                 ['label' => 'Data Diri', 'route' => 'identitas', 'active' => 'identitas*'],
                 ['label' => 'Permohonan', 'route' => 'permohonan', 'active' => 'permohonan*'],
+                ['label' => 'Survei Kepuasan', 'route' => 'survei-kepuasan', 'active' => 'survei-kepuasan*'],
             ],
             'verifikator_brida' => [
                 ['label' => 'Verifikasi Pemohon', 'route' => 'verifikator.pemohon.list', 'active' => 'verifikator.pemohon*'],
