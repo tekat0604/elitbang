@@ -9,7 +9,7 @@ use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NotifikasiRevisi;
-
+use App\Services\SuratIzinService;
 
 #[Layout('layouts.sidebar_layout_livewire')]
 #[Title('Verifikasi Permohonan - BRIDA')]
@@ -57,6 +57,9 @@ class PermohonanDetailBrida extends Component
             $this->permohonan->status_permohonan = 'revisi';
         } elseif ($this->status_brida === 'disetujui' && $status_kesbang === 'disetujui') {
             $this->permohonan->status_permohonan = 'disetujui';
+            $this->permohonan->save();
+
+            SuratIzinService::generateAndSave($this->permohonan);
         } else {
             $this->permohonan->status_permohonan = 'proses_verifikasi';
         }

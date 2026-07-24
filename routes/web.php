@@ -23,7 +23,9 @@ use App\Http\Middleware\CekVerifikasiPemohon;
 use App\Http\Middleware\CekVerifikasiPermohonan;
 use App\Livewire\Verifikator\Kesbangpol\PermohonanListKesbangpol;
 use App\Livewire\Verifikator\Kesbangpol\PermohonanDetailKesbangpol;
-
+use App\Livewire\Verifikator\Brida\PenomoranSurat;
+use App\Models\SuratIzin;
+use Illuminate\Support\Facades\Storage;
 
 Route::get('/', Landing::class)->name('landing');
 Route::get('/login', Login::class)->name('login');
@@ -56,6 +58,26 @@ Route::middleware(['auth'])->group(function () {
   Route::get('/dashboard', function () {
     return view('livewire.content.pages-dashboard');
   })->name('dashboard');
+
+  Route::get('/preview-surat/{id}', function ($id) {
+    $user = auth()->user();
+
+    // Sesuaikan nama string ini dengan isi tabel users milikmu
+    $roleDiizinkan = ['verifikator', 'tanda_tangan'];
+
+    if (!in_array($user->role, $roleDiizinkan)) {
+      abort(403, 'Akses Ditolak: Hanya Verifikator dan Pejabat Instansi yang diizinkan melihat draf dokumen ini.');
+    }
+
+    $surat = SuratIzin::findOrFail($id);
+    $path = $surat->file_surat_draft;
+
+    if (!Storage::disk('public')->exists($path)) {
+      abort(404, 'File PDF tidak ditemukan di server.');
+    }
+
+    return Storage::disk('public')->response($path);
+  })->name('preview-surat');
 
   Route::middleware([CekRoleUser::class])->group(function () {
     Route::get('/identitas-diri', function () {
@@ -98,8 +120,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/brida/permohonan', PermohonanListBrida::class)->name('brida.permohonan.list');
     Route::get('/brida/permohonan/{id}', PermohonanDetailBrida::class)->name('brida.permohonan.detail');
 
+    Route::get('/brida/penomoran-surat', PenomoranSurat::class)->name('brida.penomoran');
+
     Route::get('/kesbangpol/permohonan', PermohonanListKesbangpol::class)->name('kesbangpol.permohonan.list');
     Route::get('/kesbangpol/permohonan/{id}', PermohonanDetailKesbangpol::class)->name('kesbangpol.permohonan.detail');
+
   });
 
 
