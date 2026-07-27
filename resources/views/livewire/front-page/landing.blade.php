@@ -97,8 +97,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        @if ($alur)
         <p class="text-dark">{!! $alur->deskripsi !!}</p>
         <img src="{{ asset('storage/layanan/' . $alur->gambar_alur) }}" alt="alur" class="img-fluid w-100" data-speed="1" />
+       @else
+       <p class="text-dark">Tidak ada alur perizinan yang tersedia.</p>
+       @endif
       </div>
       <div class="modal-footer pt-4">
         <button type="button" wire:navigate="{{ route('login') }}" class="btn btn-primary" data-bs-dismiss="modal">Mulai Mendaftar</button>
