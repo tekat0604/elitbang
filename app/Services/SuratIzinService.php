@@ -19,7 +19,7 @@ class SuratIzinService
       $pdf = Pdf::loadView('pdf.surat-izin', [
         'permohonan' => $permohonan,
         'nomor_surat' => $nomorSurat,
-        'tanggal_cetak' => Carbon::now()->translatedFormat('d F Y')
+        'tanggal_cetak' => Carbon::now()->locale('id')->isoFormat('D MMMM Y')
       ])->setPaper('a4', 'portrait');
 
       $filename = 'draft_surat_izin_' . $permohonan->id . '_' . time() . '.pdf';

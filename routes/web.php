@@ -160,3 +160,32 @@ Route::middleware(['auth'])->group(function () {
 
 
 });
+
+
+Route::get('/cek-desain-surat', function () {
+  $permohonan = (object) [
+    'nama_instansi' => 'Universitas Sebelas Maret',
+    'alamat_instansi' => 'Jl. Ir. Sutami No.36A, Surakarta',
+    'judul' => 'Pengaruh AI Terhadap Pendidikan',
+    'tgl_mulai' => '2026-08-01',
+    'tgl_selesai' => '2026-08-31',
+    'pemohon' => (object) [
+      'nama_lengkap' => 'Budi Santoso',
+      'nomor_identitas' => 'L12345678',
+      'alamat' => 'Jl. Kebangsaan No. 1'
+    ],
+    'opdChild' => (object) [
+      'nama' => 'Dinas Pendidikan Kota Surakarta'
+    ],
+    'pembimbing' => [
+      (object) ['nama_pembimbing' => 'Dr. Umi Salamah'],
+      (object) ['nama_pembimbing' => 'Prof. Ahmad']
+    ]
+  ];
+
+  return view('pdf.surat-izin', [
+    'nomor_surat' => '070/123/VIII/2026',
+    'tanggal_cetak' => '24 Juli 2026',
+    'permohonan' => $permohonan
+  ]);
+});

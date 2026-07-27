@@ -56,93 +56,50 @@
         <div class="card-header bg-white border-bottom p-4">
           <h5 class="mb-0 fw-bold">Tindakan Verifikator</h5>
         </div>
-
-        <div class="col-lg-4">
-            <div class="card card-dash border-0 sticky-top" style="top: 2rem;">
-                <div class="card-header bg-white border-bottom p-4">
-                    <h5 class="mb-0 fw-bold">Tindakan Verifikator</h5>
+        
+        <div class="card-body p-4">
+            @if($pemohon->status_verifikasi === 'terverifikasi')
+                <div class="alert alert-success text-center mb-0">
+                    <i class="fas fa-check-circle fa-2x mb-2"></i>
+                    <h6 class="fw-bold mb-1">Telah Diverifikasi</h6>
+                    <p class="small mb-0">Data ini sudah berstatus valid dan terkunci di dalam sistem. Tidak ada tindakan lanjutan yang diperlukan.</p>
                 </div>
-                
-                <div class="card-body p-4">
-                    @if($pemohon->status_verifikasi === 'terverifikasi')
-                        <div class="alert alert-success text-center mb-0">
-                            <i class="fas fa-check-circle fa-2x mb-2"></i>
-                            <h6 class="fw-bold mb-1">Telah Diverifikasi</h6>
-                            <p class="small mb-0">Data ini sudah berstatus valid dan terkunci di dalam sistem. Tidak ada tindakan lanjutan yang diperlukan.</p>
-                        </div>
-                    @elseif($pemohon->status_verifikasi === 'revisi')
-                        <div class="alert alert-warning text-center mb-0 border-0 shadow-sm">
-                            <i class="fas fa-exclamation-triangle fa-2x mb-2 text-warning"></i>
-                            <h6 class="fw-bold mb-1">Menunggu Perbaikan Pemohon</h6>
-                            <p class="small mb-0">Keputusan terkunci. Anda baru bisa memverifikasi ulang setelah pemohon memperbaiki dan mengirim kembali datanya.</p>
-                        </div>
-                    @else
-                        <form wire:submit.prevent="simpanVerifikasi">
-                            <div class="mb-4">
-                                <label class="form-label fw-semibold">Keputusan Verifikasi</label>
-                                <select wire:model.live="status_verifikasi" class="form-select border-2">
-                                    <option value="pending">Menunggu (Pending)</option>
-                                    <option value="terverifikasi" class="text-success fw-bold">Terverifikasi (Setujui)</option>
-                                    <option value="revisi" class="text-danger fw-bold">Kembalikan (Revisi)</option>
-                                </select>
-                                @error('status_verifikasi') <span class="text-danger small">{{ $message }}</span> @enderror
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="form-label fw-semibold">
-                                    Catatan / Alasan
-                                    @if($status_verifikasi === 'revisi')
-                                        <span class="text-danger">*</span>
-                                    @endif
-                                </label>
-                                <textarea wire:model="catatan_verifikasi" class="form-control" rows="4" placeholder="Tuliskan catatan perbaikan di sini..."></textarea>
-                                <small class="text-muted d-block mt-1">Wajib diisi jika Anda meminta revisi data.</small>
-                                @error('catatan_verifikasi') <span class="text-danger small fw-bold">{{ $message }}</span> @enderror
-                            </div>
-
-                            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" wire:loading.attr="disabled">
-                                <span wire:loading.remove><i class="fas fa-save me-1"></i> Simpan Keputusan</span>
-                                <span wire:loading>Memproses...</span>
-                            </button>
-                        </form>
-                    @endif
+            @elseif($pemohon->status_verifikasi === 'revisi')
+                <div class="alert alert-warning text-center mb-0 border-0 shadow-sm">
+                    <i class="fas fa-exclamation-triangle fa-2x mb-2 text-warning"></i>
+                    <h6 class="fw-bold mb-1">Menunggu Perbaikan Pemohon</h6>
+                    <p class="small mb-0">Keputusan terkunci. Anda baru bisa memverifikasi ulang setelah pemohon memperbaiki dan mengirim kembali datanya.</p>
                 </div>
-            </div>
-          
-            <form wire:submit.prevent="simpanVerifikasi">
-              <div class="mb-4">
-                <label class="form-label fw-semibold">Keputusan Verifikasi</label>
-                <select wire:model.live="status_verifikasi" class="form-select border-2">
-                  <option value="pending">Menunggu (Pending)</option>
-                  <option value="terverifikasi" class="text-success fw-bold">Terverifikasi (Setujui)</option>
-                  <option value="revisi" class="text-danger fw-bold">Kembalikan (Revisi)</option>
-                </select>
-                @error('status_verifikasi')
-                  <span class="text-danger small">{{ $message }}</span>
-                @enderror
-              </div>
+            @else
+                <form wire:submit.prevent="simpanVerifikasi">
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Keputusan Verifikasi</label>
+                        <select wire:model.live="status_verifikasi" class="form-select border-2">
+                            <option value="pending">Menunggu (Pending)</option>
+                            <option value="terverifikasi" class="text-success fw-bold">Terverifikasi (Setujui)</option>
+                            <option value="revisi" class="text-danger fw-bold">Kembalikan (Revisi)</option>
+                        </select>
+                        @error('status_verifikasi') <span class="text-danger small">{{ $message }}</span> @enderror
+                    </div>
 
-              <div class="mb-4">
-                <label class="form-label fw-semibold">
-                  Catatan / Alasan
-                  @if ($status_verifikasi === 'revisi')
-                    <span class="text-danger">*</span>
-                  @endif
-                </label>
-                <textarea wire:model="catatan_verifikasi" class="form-control" rows="4"
-                  placeholder="Tuliskan catatan perbaikan di sini..."></textarea>
-                <small class="text-muted d-block mt-1">Wajib diisi jika Anda meminta revisi data.</small>
-                @error('catatan_verifikasi')
-                  <span class="text-danger small fw-bold">{{ $message }}</span>
-                @enderror
-              </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">
+                            Catatan / Alasan
+                            @if($status_verifikasi === 'revisi')
+                                <span class="text-danger">*</span>
+                            @endif
+                        </label>
+                        <textarea wire:model="catatan_verifikasi" class="form-control" rows="4" placeholder="Tuliskan catatan perbaikan di sini..."></textarea>
+                        <small class="text-muted d-block mt-1">Wajib diisi jika Anda meminta revisi data.</small>
+                        @error('catatan_verifikasi') <span class="text-danger small fw-bold">{{ $message }}</span> @enderror
+                    </div>
 
-              <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" wire:loading.attr="disabled">
-                <span wire:loading.remove><i class="fas fa-save me-1"></i> Simpan Keputusan</span>
-                <span wire:loading>Memproses...</span>
-              </button>
-            </form>
-          
+                    <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" wire:loading.attr="disabled">
+                        <span wire:loading.remove><i class="fas fa-save me-1"></i> Simpan Keputusan</span>
+                        <span wire:loading>Memproses...</span>
+                    </button>
+                </form>
+            @endif
         </div>
       </div>
     </div>

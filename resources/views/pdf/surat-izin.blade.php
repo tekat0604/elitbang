@@ -12,7 +12,7 @@
         .content { margin-left: 20px; margin-right: 20px; }
         .table-meta, .table-data { width: 100%; border-collapse: collapse; }
         .table-meta td, .table-data td { vertical-align: top; padding: 2px 0; }
-        .label-col { width: 15%; }
+        .label-col { width: 16%; }
         .colon-col { width: 2%; text-align: center; }
         .sign-container { width: 100%; margin-top: 30px; }
         .sign-left { width: 50%; float: left; text-align: center; }
@@ -34,37 +34,39 @@
             </td>
             
             <td class="header-text">
-                <h3>PEMERINTAH KOTA SURAKARTA</h3>
-                <h2>BADAN RISET DAN INOVASI DAERAH</h2>
+                <h3><b>PEMERINTAH KOTA SURAKARTA</b></h3>
+                <h2><b>BADAN RISET DAN INOVASI DAERAH</b></h2>
                 <p style="font-size: 9pt;">
                     Jalan Jenderal Sudirman No.2 Kampung Baru, Pasar Kliwon, Telp: (0271) 636426<br>
-                    Website http://brida.surakarta.go.id dan E-mail: brida@surakarta.go.id; bridasurakarta@gmail.com<br>
-                    SURAKARTA 57111
+                    Website http://brida.surakarta.go.id dan E-mail:<br>brida@surakarta.go.id; bridasurakarta@gmail.com<br>
+                    <b>SURAKARTA</b><br><b>57111</b>
                 </p>
             </td>
         </tr>
     </table>
 
     <div class="content">
-        <table class="table-meta">
+        <!-- TABEL UTAMA -->
+        <table class="table-meta" style="width: 100%; border-collapse: collapse;">
+            <!-- Beri ukuran langsung di baris pertama agar tidak lari ke kanan -->
             <tr>
-                <td class="label-col">Nomor</td>
-                <td class="colon-col">:</td>
-                <td>{{ $nomor_surat }}</td>
+                <td style="width: 18%;">Nomor</td>
+                <td style="width: 3%; text-align: center;">:</td>
+                <td style="width: 79%;">{{ $nomor_surat }}</td>
             </tr>
             <tr>
                 <td>Perihal</td>
-                <td>:</td>
-                <td>Pengabdian masyarakat</td>
+                <td style="text-align: center;">:</td>
+                <td>{{ $permohonan->layanan->nama_layanan }}</td>
             </tr>
             <tr>
                 <td>Dasar</td>
-                <td>:</td>
+                <td style="text-align: center;">:</td>
                 <td>Surat Izin Rekomendasi Dari Instansi Pemohon</td>
             </tr>
             <tr>
                 <td>Mengingat</td>
-                <td>:</td>
+                <td style="text-align: center;">:</td>
                 <td>
                     <ol style="margin-top: 0; padding-left: 15px;">
                         <li>Peraturan Menteri Dalam Negeri Republik Indonesia Nomor 07 Tahun 2014 tentang Perubahan atas Peraturan Menteri Dalam Negeri Republik Indonesia Nomor 64 Tahun 2011 tentang Pedoman Penerbitan Rekomendasi Penelitian</li>
@@ -72,58 +74,67 @@
                     </ol>
                 </td>
             </tr>
-            <tr><td colspan="3"><br>Diijinkan Kepada :</td></tr>
-        </table>
+            
+            <tr>
+                <td style="vertical-align: top; padding-top: 10px;">Diijinkan Kepada</td>
+                <td style="vertical-align: top; text-align: center; padding-top: 10px;">:</td>
+                <td style="padding-top: 10px;">
+                    
+                    <!-- TABEL ANAK (BERSARANG) -->
+                    <table class="table-data" style="width: 100%; border-collapse: collapse;">
+                        <!-- Beri ukuran langsung di baris pertama tabel anak -->
+                        <tr>
+                            <td style="width: 25%;">Nama</td>
+                            <td style="width: 4%; text-align: center;">:</td>
+                            <td style="width: 71%;">{{ $permohonan->pemohon->nama_lengkap }}</td>
+                        </tr>
+                        <tr>
+                            <td>No Identitas</td>
+                            <td style="text-align: center;">:</td>
+                            <td>{{ $permohonan->pemohon->nomor_identitas }}</td>
+                        </tr>
+                        <tr>
+                            <td>Alamat</td>
+                            <td style="text-align: center;">:</td>
+                            <td>{{ $permohonan->pemohon->alamat }}</td>
+                        </tr>
+                        <tr>
+                            <td>Instansi</td>
+                            <td style="text-align: center;">:</td>
+                            <td>{{ $permohonan->nama_instansi }}</td>
+                        </tr>
+                        <tr>
+                            <td>Alamat Instansi</td>
+                            <td style="text-align: center;">:</td>
+                            <td>{{ $permohonan->alamat_instansi }}</td>
+                        </tr>
+                        <tr>
+                            <td>Judul</td>
+                            <td style="text-align: center;">:</td>
+                            <td>{{ $permohonan->judul }}</td>
+                        </tr>
+                        <tr>
+                            <td>Lokasi</td>
+                            <td style="text-align: center;">:</td>
+                            <td>{{ $permohonan->opdChild->nama ?? '-' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Penanggung Jawab<br>(Dosen pembimbing)</td>
+                            <td style="text-align: center;">:</td>
+                            <td>
+                                @foreach($permohonan->pembimbing as $dosen)
+                                     {{ $dosen->nama_pembimbing }}{{ !$loop->last ? ', ' : '' }}
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Waktu</td>
+                            <td style="text-align: center;">:</td>
+                            <td>{{ \Carbon\Carbon::parse($permohonan->tgl_mulai)->locale('id')->isoFormat('D MMMM Y') }} - {{ \Carbon\Carbon::parse($permohonan->tgl_selesai)->locale('id')->isoFormat('D MMMM Y') }}</td>
+                        </tr>
+                    </table>
 
-        <table class="table-data">
-            <tr>
-                <td style="width: 25%;">Nama</td>
-                <td class="colon-col">:</td>
-                <td>{{ $permohonan->pemohon->nama_lengkap }}</td>
-            </tr>
-            <tr>
-                <td>No Identitas</td>
-                <td>:</td>
-                <td>{{ $permohonan->pemohon->nomor_identitas }}</td>
-            </tr>
-            <tr>
-                <td>Alamat</td>
-                <td>:</td>
-                <td>{{ $permohonan->pemohon->alamat }}</td>
-            </tr>
-            <tr>
-                <td>Instansi</td>
-                <td>:</td>
-                <td>{{ $permohonan->nama_instansi }}</td>
-            </tr>
-            <tr>
-                <td>Alamat Instansi</td>
-                <td>:</td>
-                <td>{{ $permohonan->alamat_instansi }}</td>
-            </tr>
-            <tr>
-                <td>Judul</td>
-                <td>:</td>
-                <td>{{ $permohonan->judul }}</td>
-            </tr>
-            <tr>
-                <td>Lokasi</td>
-                <td>:</td>
-                <td>{{ $permohonan->opdChild->nama ?? '-' }}</td>
-            </tr>
-            <tr>
-                <td>Penanggung Jawab<br>(Dosen pembimbing)</td>
-                <td>:</td>
-                <td>
-                    @foreach($permohonan->pembimbing as $dosen)
-                        {{ $dosen->nama_pembimbing }}{{ !$loop->last ? ', ' : '' }}
-                    @endforeach
                 </td>
-            </tr>
-            <tr>
-                <td>Waktu</td>
-                <td>:</td>
-                <td>{{ \Carbon\Carbon::parse($permohonan->tgl_mulai)->translatedFormat('d F Y') }} - {{ \Carbon\Carbon::parse($permohonan->tgl_selesai)->translatedFormat('d F Y') }}</td>
             </tr>
         </table>
 
@@ -149,3 +160,5 @@
     </div>
 </body>
 </html>
+
+    

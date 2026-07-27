@@ -97,7 +97,7 @@
                     <!-- Status BRIDA -->
                     <td>
                       <span class="badge {{ $statusClass[$item->status_brida] ?? 'text-bg-secondary' }}">
-                        {{ strtoupper($item->status_brida ?? 'PENDING') }}
+                        {{ $item->status_brida ?? 'Pending' }}
                       </span>
                     </td>
                     <td>{{ $item->catatan_brida ?? '-' }}</td>
@@ -105,7 +105,7 @@
                     <!-- Status KESBANGPOL -->
                     <td>
                       <span class="badge {{ $statusClass[$item->status_kesbangpol] ?? 'text-bg-secondary' }}">
-                        {{ strtoupper($item->status_kesbangpol ?? 'PENDING') }}
+                        {{ $item->status_kesbangpol ?? 'Pending' }}
                       </span>
                     </td>
                     <td>{{ $item->catatan_kesbangpol ?? '-' }}</td>
@@ -116,7 +116,7 @@
                         {{ str($item->status_permohonan)->replace('_', ' ')->title() }}
                       </span>
 
-                      @if ($item->status_permohonan === 'revisi')
+                      @if ($item->status_brida === 'revisi' || $item->status_kesbangpol === 'revisi')
                         <div class="mt-2">
                           <a href="{{ route('permohonan.revisi', $item->id) }}" class="btn btn-sm btn-warning shadow-sm">
                             <i class="fas fa-edit me-1"></i> Perbaiki Data

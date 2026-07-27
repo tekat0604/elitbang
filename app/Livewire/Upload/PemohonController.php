@@ -9,6 +9,9 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 #[Layout('layouts.sidebar_layout_livewire')]
 #[Title('Form Data Pemohon')]
@@ -34,6 +37,7 @@ class PemohonController extends Component
     public $kelurahan_desa;
     public $alamat;
     public $path_identitas;
+    public $existing_path_identitas;
 
     public function mount()
     {
@@ -59,6 +63,7 @@ class PemohonController extends Component
                 $this->kecamatan = $pemohon->kecamatan;
                 $this->kelurahan_desa = $pemohon->kelurahan_desa;
                 $this->alamat = $pemohon->alamat;
+                $this->existing_path_identitas = $pemohon->path_identitas;
             }
         } else {
             $this->email = Auth::user()->email;
@@ -69,6 +74,12 @@ class PemohonController extends Component
         $this->districts = $this->loadDistrictsForRegency($this->kota_kabupaten);
         $this->villages = $this->loadVillagesForDistrict($this->kecamatan);
 
+    }
+
+    public function updatedPathIdentitas()
+    {
+        // Langsung validasi khusus untuk input gambar ini saja
+        $this->validateOnly('path_identitas');
     }
 
     public function updatedProvinsi(): void
@@ -97,105 +108,104 @@ class PemohonController extends Component
 
     private function loadProvinces(): array
     {
-        $csvPath = database_path('data/provinces.csv');
-
-        if (! is_readable($csvPath) || ($handle = fopen($csvPath, 'r')) === false) {
-            return [];
-        }
-
-        fgetcsv($handle); // Header: code,name
-        $provinces = [];
-
-        while (($row = fgetcsv($handle)) !== false) {
-            if (count($row) < 2) {
-                continue;
+        return Cache::rememberForever('data_provinces', function () {
+            $csvPath = database_path('data/provinces.csv');
+            if (!is_readable($csvPath) || ($handle = fopen($csvPath, 'r')) === false) {
+                return [];
             }
 
-            $provinces[trim($row[0])] = preg_replace('/\s+/', ' ', trim($row[1]));
-        }
-
-        fclose($handle);
-
-        return $provinces;
+            fgetcsv($handle);
+            $provinces = [];
+            while (($row = fgetcsv($handle)) !== false) {
+                if (count($row) < 2)
+                    continue;
+                $provinces[trim($row[0])] = preg_replace('/\s+/', ' ', trim($row[1]));
+            }
+            fclose($handle);
+            return $provinces;
+        });
     }
 
     private function loadRegenciesForProvince(?string $provinceName): array
     {
-        $provinceCode = array_search($provinceName, $this->provinces, true);
-        $csvPath = database_path('data/regencies.csv');
-
-        if ($provinceCode === false || ! is_readable($csvPath) || ($handle = fopen($csvPath, 'r')) === false) {
+        if (!$provinceName)
             return [];
-        }
 
-        $provinceCode = (string) $provinceCode;
+        // Buat nama cache unik berdasarkan provinsi yang dipilih
+        $cacheKey = 'regencies_' . Str::slug($provinceName);
 
-        fgetcsv($handle); // Header: kode_kabkota,nama_kabkota,kode_provinsi
-        $regencies = [];
+        return Cache::rememberForever($cacheKey, function () use ($provinceName) {
+            $provinceCode = array_search($provinceName, $this->provinces, true);
+            $csvPath = database_path('data/regencies.csv');
 
-        while (($row = fgetcsv($handle)) !== false) {
-            if (count($row) < 3 || trim($row[2]) !== $provinceCode) {
-                continue;
+            if ($provinceCode === false || !is_readable($csvPath) || ($handle = fopen($csvPath, 'r')) === false) {
+                return [];
             }
 
-            $regencies[trim($row[0])] = preg_replace('/\s+/', ' ', trim($row[1]));
-        }
-
-        fclose($handle);
-
-        return $regencies;
+            fgetcsv($handle);
+            $regencies = [];
+            while (($row = fgetcsv($handle)) !== false) {
+                if (count($row) < 3 || trim($row[2]) !== (string) $provinceCode)
+                    continue;
+                $regencies[trim($row[0])] = preg_replace('/\s+/', ' ', trim($row[1]));
+            }
+            fclose($handle);
+            return $regencies;
+        });
     }
 
     private function loadDistrictsForRegency(?string $regencyName): array
     {
-        $regencyCode = array_search($regencyName, $this->regencies, true);
-        $csvPath = database_path('data/districts.csv');
-
-        if ($regencyCode === false || ! is_readable($csvPath) || ($handle = fopen($csvPath, 'r')) === false) {
+        if (!$regencyName)
             return [];
-        }
 
-        $regencyCode = (string) $regencyCode;
-        fgetcsv($handle); // Header: kode_kabkota,kode_provinsi,kode_kecamatan,nama_kecamatan
-        $districts = [];
+        $cacheKey = 'districts_' . Str::slug($regencyName);
 
-        while (($row = fgetcsv($handle)) !== false) {
-            if (count($row) < 4 || trim($row[0]) !== $regencyCode) {
-                continue;
+        return Cache::rememberForever($cacheKey, function () use ($regencyName) {
+            $regencyCode = array_search($regencyName, $this->regencies, true);
+            $csvPath = database_path('data/districts.csv');
+
+            if ($regencyCode === false || !is_readable($csvPath) || ($handle = fopen($csvPath, 'r')) === false) {
+                return [];
             }
 
-            $districts[trim($row[2])] = preg_replace('/\s+/', ' ', trim($row[3]));
-        }
-
-        fclose($handle);
-
-        return $districts;
+            fgetcsv($handle);
+            $districts = [];
+            while (($row = fgetcsv($handle)) !== false) {
+                if (count($row) < 4 || trim($row[0]) !== (string) $regencyCode)
+                    continue;
+                $districts[trim($row[2])] = preg_replace('/\s+/', ' ', trim($row[3]));
+            }
+            fclose($handle);
+            return $districts;
+        });
     }
 
     private function loadVillagesForDistrict(?string $districtName): array
     {
-        $districtCode = array_search($districtName, $this->districts, true);
-        $csvPath = database_path('data/villages.csv');
-
-        if ($districtCode === false || ! is_readable($csvPath) || ($handle = fopen($csvPath, 'r')) === false) {
+        if (!$districtName)
             return [];
-        }
 
-        $districtCode = (string) $districtCode;
-        fgetcsv($handle); // Header: kode_kabkota,kode_provinsi,kode_kecamatan,kode_desa_kelurahan,nama_desa_kelurahan
-        $villages = [];
+        $cacheKey = 'villages_' . Str::slug($districtName);
 
-        while (($row = fgetcsv($handle)) !== false) {
-            if (count($row) < 5 || trim($row[2]) !== $districtCode) {
-                continue;
+        return Cache::rememberForever($cacheKey, function () use ($districtName) {
+            $districtCode = array_search($districtName, $this->districts, true);
+            $csvPath = database_path('data/villages.csv');
+
+            if ($districtCode === false || !is_readable($csvPath) || ($handle = fopen($csvPath, 'r')) === false) {
+                return [];
             }
 
-            $villages[trim($row[3])] = preg_replace('/\s+/', ' ', trim($row[4]));
-        }
-
-        fclose($handle);
-
-        return $villages;
+            fgetcsv($handle);
+            $villages = [];
+            while (($row = fgetcsv($handle)) !== false) {
+                if (count($row) < 5 || trim($row[2]) !== (string) $districtCode)
+                    continue;
+                $villages[trim($row[3])] = preg_replace('/\s+/', ' ', trim($row[4]));
+            }
+            fclose($handle);
+            return $villages;
+        });
     }
     protected function rules()
     {
@@ -214,7 +224,13 @@ class PemohonController extends Component
             'kecamatan' => ['required', 'string', 'max:50', Rule::in(array_values($this->districts))],
             'kelurahan_desa' => ['required', 'string', 'max:50', Rule::in(array_values($this->villages))],
             'alamat' => ['required', 'string', 'max:255'],
-            'path_identitas' => ['required', 'image', 'max:1024'], //maksimal 1 mb
+            'path_identitas' => [
+                $this->existing_path_identitas ? 'nullable' : 'required',
+                'file',
+                'mimes:jpg,jpeg',
+                'mimetypes:image/jpeg',
+                'max:1024'
+            ],
         ];
     }
 
@@ -255,8 +271,9 @@ class PemohonController extends Component
             'kelurahan_desa.in' => 'Kelurahan atau desa yang dipilih tidak valid.',
             'alamat.required' => 'Alamat wajib diisi.',
             'alamat.max' => 'Alamat maksimal 255 karakter',
-            'path_identitas.required' => 'File wajib diisi.',
-            'path_identitas.image' => 'File harus berupa gambar (JPG/PNG)',
+            'path_identitas.required' => 'File gambar wajib diunggah.',
+            'path_identitas.mimes' => 'File harus berupa gambar dengan ekstensi .JPG atau .JPEG',
+            'path_identitas.mimetypes' => 'Format file palsu.',
             'path_identitas.max' => 'Ukuran file maksimal 1 MB',
 
         ];
@@ -266,7 +283,17 @@ class PemohonController extends Component
     {
         $this->validate();
 
-        $path = $this->path_identitas->store('identitas', 'public');
+        $finalPath = $this->existing_path_identitas;
+
+        if ($this->path_identitas) {
+
+            if ($this->existing_path_identitas) {
+                Storage::disk('public')->delete($this->existing_path_identitas);
+            }
+
+            $finalPath = $this->path_identitas->store('identitas', 'public');
+        }
+
         $pemohon = Auth::user()->pemohon;
 
         if ($pemohon) {
@@ -283,7 +310,7 @@ class PemohonController extends Component
                 'kecamatan' => $this->kecamatan,
                 'kelurahan_desa' => $this->kelurahan_desa,
                 'alamat' => $this->alamat,
-                'path_identitas' => $path,
+                'path_identitas' => $finalPath,
                 'status_verifikasi' => 'pending',
                 'catatan_verifikasi' => null,
             ]);
@@ -304,7 +331,7 @@ class PemohonController extends Component
                 'kecamatan' => $this->kecamatan,
                 'kelurahan_desa' => $this->kelurahan_desa,
                 'alamat' => $this->alamat,
-                'path_identitas' => $path,
+                'path_identitas' => $finalPath,
                 'status_verifikasi' => 'pending',
             ]);
 

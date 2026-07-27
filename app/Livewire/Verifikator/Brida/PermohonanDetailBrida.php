@@ -26,7 +26,7 @@ class PermohonanDetailBrida extends Component
             abort(403, 'Akses ditolak! Verifikasi ini adalah khusus untuk BRIDA.');
         }
 
-        $this->permohonan = Permohonan::with(['pemohon', 'layanan', 'anggota', 'pembimbing'])->findOrFail($id);
+        $this->permohonan = Permohonan::with(['pemohon', 'layanan', 'anggota', 'pembimbing', 'opdChild'])->findOrFail($id);
         $this->status_brida = $this->permohonan->status_brida;
         $this->catatan_brida = $this->permohonan->catatan_brida;
     }
@@ -43,7 +43,7 @@ class PermohonanDetailBrida extends Component
     {
         $this->validate([
             'status_brida' => 'required|in:pending,revisi,disetujui,ditolak',
-            'catatan_brida' => 'required_if:status_brida,revisi|nullable|string'
+            'catatan_brida' => 'required_if:status_brida,revisi,ditolak|nullable|string'
         ]);
 
         $this->permohonan->status_brida = $this->status_brida;
@@ -53,13 +53,11 @@ class PermohonanDetailBrida extends Component
 
         if ($this->status_brida === 'ditolak' || $status_kesbang === 'ditolak') {
             $this->permohonan->status_permohonan = 'ditolak';
-        } elseif ($this->status_brida === 'revisi' || $status_kesbang === 'revisi') {
-            $this->permohonan->status_permohonan = 'revisi';
         } elseif ($this->status_brida === 'disetujui' && $status_kesbang === 'disetujui') {
             $this->permohonan->status_permohonan = 'disetujui';
-            $this->permohonan->save();
 
-            SuratIzinService::generateAndSave($this->permohonan);
+            // Simpan status  
+            $this->permohonan->save();
         } else {
             $this->permohonan->status_permohonan = 'proses_verifikasi';
         }
