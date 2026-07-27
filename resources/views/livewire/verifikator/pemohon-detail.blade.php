@@ -57,12 +57,6 @@
           <h5 class="mb-0 fw-bold">Tindakan Verifikator</h5>
         </div>
 
-        <div class="col-lg-4">
-            <div class="card card-dash border-0 sticky-top" style="top: 2rem;">
-                <div class="card-header bg-white border-bottom p-4">
-                    <h5 class="mb-0 fw-bold">Tindakan Verifikator</h5>
-                </div>
-                
                 <div class="card-body p-4">
                     @if($pemohon->status_verifikasi === 'terverifikasi')
                         <div class="alert alert-success text-center mb-0">
@@ -108,40 +102,6 @@
                     @endif
                 </div>
             </div>
-          
-            <form wire:submit.prevent="simpanVerifikasi">
-              <div class="mb-4">
-                <label class="form-label fw-semibold">Keputusan Verifikasi</label>
-                <select wire:model.live="status_verifikasi" class="form-select border-2">
-                  <option value="pending">Menunggu (Pending)</option>
-                  <option value="terverifikasi" class="text-success fw-bold">Terverifikasi (Setujui)</option>
-                  <option value="revisi" class="text-danger fw-bold">Kembalikan (Revisi)</option>
-                </select>
-                @error('status_verifikasi')
-                  <span class="text-danger small">{{ $message }}</span>
-                @enderror
-              </div>
-
-              <div class="mb-4">
-                <label class="form-label fw-semibold">
-                  Catatan / Alasan
-                  @if ($status_verifikasi === 'revisi')
-                    <span class="text-danger">*</span>
-                  @endif
-                </label>
-                <textarea wire:model="catatan_verifikasi" class="form-control" rows="4"
-                  placeholder="Tuliskan catatan perbaikan di sini..."></textarea>
-                <small class="text-muted d-block mt-1">Wajib diisi jika Anda meminta revisi data.</small>
-                @error('catatan_verifikasi')
-                  <span class="text-danger small fw-bold">{{ $message }}</span>
-                @enderror
-              </div>
-
-              <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" wire:loading.attr="disabled">
-                <span wire:loading.remove><i class="fas fa-save me-1"></i> Simpan Keputusan</span>
-                <span wire:loading>Memproses...</span>
-              </button>
-            </form>
           
         </div>
       </div>
