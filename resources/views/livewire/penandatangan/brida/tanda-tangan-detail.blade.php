@@ -1,6 +1,5 @@
 <div>
     <div class="mb-3"><a href="{{ route('penandatangan.brida.list') }}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-arrow-left me-1"></i> Kembali ke Daftar</a></div>
-    @if ($mode === 'detail')
         <div class="card card-dash border-0">
             <div class="card-header bg-white border-bottom p-4"><h5 class="mb-1 fw-bold">Detail Surat Rekomendasi</h5><small class="text-muted">Tinjau kelengkapan surat sebelum proses tanda tangan elektronik.</small></div>
             <div class="card-body p-4">
@@ -25,22 +24,14 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <div class="border rounded p-3 h-100">
-                            <i class="fas fa-file-alt text-primary me-2"></i><span class="fw-semibold">Surat Rekomendasi</span>
-                            <p class="small text-muted mb-2 mt-2">Surat belum dibuat. Dokumen akan tampil di halaman ini setelah generator surat tersedia.</p>
-                            <button class="btn btn-sm btn-outline-secondary" disabled>Belum tersedia</button>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="border rounded p-3 h-100">
-                            <i class="fas fa-file-signature text-primary me-2"></i><span class="fw-semibold">Surat untuk Tanda Tangan</span>
-                            <p class="small text-muted mb-2 mt-2">Draf surat tanda tangan elektronik belum dibuat.</p>
-                            <a href="{{ route('penandatangan.brida.surat', ['id' => $permohonan->id, 'mode' => 'surat']) }}" class="btn btn-sm btn-primary">Buka Surat <i class="fas fa-arrow-right ms-1"></i></a>
+                            <i class="fas fa-file-alt text-primary me-2"></i><span class="fw-semibold">Draf Surat Rekomendasi</span>
+                            <p class="small text-muted mb-2 mt-2">Draf dokumen telah di-generate secara otomatis dan siap untuk ditinjau sebelum ditandatangani.</p>
+                            <a href="{{ route('preview-surat', $permohonan->suratIzin->id) }}" class="btn btn-primary w-100">
+                                <i class="fas fa-eye me-1"></i> Buka & Tinjau Surat
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    @else
-        <div class="card card-dash border-0"><div class="card-header bg-primary text-white p-4"><h5 class="mb-0 fw-bold"><i class="fas fa-pen-nib me-2"></i>Surat Tanda Tangan Elektronik</h5></div><div class="card-body p-4"><div class="alert alert-info border-0"><i class="fas fa-info-circle me-1"></i> Draf surat dan integrasi tanda tangan elektronik belum tersedia. Halaman serta rute ini sudah disiapkan untuk proses tersebut.</div><div class="border rounded p-4 text-center text-muted"><i class="fas fa-file-signature fa-3x mb-3"></i><h6 class="fw-bold">Pratinjau Surat Belum Tersedia</h6><p class="mb-0 small">Surat untuk {{ $permohonan->pemohon->nama_lengkap ?? 'pemohon' }} akan ditampilkan di sini.</p></div></div></div>
-    @endif
 </div>

@@ -12,7 +12,7 @@
                         <td class="px-4">{{ $item->created_at->format('d M Y') }}</td><td class="fw-semibold">{{ $item->pemohon->nama_lengkap ?? 'Data Tidak Ditemukan' }}</td><td>{{ $item->layanan->nama_layanan ?? '-' }}</td>
                         <td><div class="text-truncate" style="max-width: 200px;" title="{{ $item->nama_instansi }}">{{ $item->nama_instansi }}</div></td>
                         <td class="text-center"><a href="{{ route('penandatangan.kesbangpol.detail', $item->id) }}" class="btn btn-sm btn-outline-primary"><i class="fas fa-file-alt me-1"></i> Detail</a></td>
-                        <td class="text-center"><a href="{{ route('penandatangan.kesbangpol.surat', ['id' => $item->id, 'mode' => 'surat']) }}" class="btn btn-sm btn-primary">Tanda Tangan <i class="fas fa-pen-nib ms-1"></i></a></td>
+                        <td class="text-center"><a href="" class="btn btn-sm btn-primary">Tanda Tangan <i class="fas fa-pen-nib ms-1"></i></a></td>
                     </tr>
                 @empty
                     <tr><td colspan="6" class="text-center py-4 text-muted">Belum ada surat yang menunggu tanda tangan.</td></tr>
