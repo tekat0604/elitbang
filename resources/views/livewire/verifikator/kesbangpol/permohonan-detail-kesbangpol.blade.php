@@ -23,7 +23,7 @@
                             <span class="text-muted small">Status Kesbangpol Saat Ini</span>
                             <div>
                                 <span class="badge bg-{{ $permohonan->status_kesbangpol == 'disetujui' ? 'success' : ($permohonan->status_kesbangpol == 'revisi' ? 'warning' : 'secondary') }}">
-                                    KESBANGPOL: {{ strtoupper($permohonan->status_kesbangpol ?? 'PENDING') }}
+                                    KESBANGPOL: {{ $permohonan->status_kesbangpol ?? 'pending' }}
                                 </span>
                             </div>
                         </div>
@@ -90,8 +90,9 @@
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label fw-semibold">Catatan Revisi Kesbangpol</label>
-                                <textarea wire:model="catatan_kesbangpol" class="form-control @error('catatan_kesbangpol') is-invalid @enderror" rows="4" placeholder="Tulis alasan jika judul atau proposal perlu direvisi..."></textarea>
+                                <label class="form-label fw-semibold">Catatan Kesbangpol</label>
+                                <textarea wire:model="catatan_kesbangpol" class="form-control @error('catatan_kesbangpol') is-invalid @enderror" rows="4" placeholder="Tulis alasan jika revisi atau tolak..."></textarea>
+                                <small class="text-muted d-block mt-1">Wajib diisi jika status Revisi atau Ditolak.</small>
                                 @error('catatan_kesbangpol') <span class="text-danger small fw-bold">{{ $message }}</span> @enderror
                             </div>
 

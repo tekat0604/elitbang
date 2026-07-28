@@ -35,8 +35,6 @@ class Permohonan extends Model
         'catatan_kesbangpol',
         'status_brida',
         'catatan_brida',
-        'file_surat_izin',
-        'qr_code',
     ];
 
     /**
@@ -85,6 +83,11 @@ class Permohonan extends Model
     public function laporanAkhir(): HasOne
     {
         return $this->hasOne(LaporanAkhir::class);
+    }
+
+    public function suratIzin(): HasOne
+    {
+        return $this->hasOne(SuratIzin::class);
     }
 
     public function surveiKepuasan(): HasOne

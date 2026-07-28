@@ -15,14 +15,12 @@ use App\Models\KategoriOpd;
 use App\Models\Opd;
 use App\Models\OpdChild;
 
-
 #[Layout('layouts.sidebar_layout_livewire')]
 #[Title('Form Data Permohonan')]
 class PermohonanController extends Component
 {
     public $currentStep = 1;
 
-    // --- TAMBAHAN UNTUK MODE REVISI ---
     public $permohonan_id = null;
     public $isEditMode = false;
 
@@ -36,12 +34,11 @@ class PermohonanController extends Component
     public $daftar_kategori = [];
     public $daftar_opd = [];
     public $daftar_child = [];
-    public $jenis_pengajuan = 'Personal';
+    public $jenis_pengajuan = '';
     public $pembimbing = [];
     public $anggota = [];
     public $link_pengantar_kampus, $link_proposal;
 
-    // Menangkap parameter
     public function mount($layanan_slug = null, $id = null)
     {
         $pemohon = Auth::user()->pemohon;
@@ -56,9 +53,9 @@ class PermohonanController extends Component
         if ($id) {
             $this->isEditMode = true;
             $permohonan = Permohonan::with(['layanan', 'pembimbing', 'anggota'])->findOrFail($id);
+            $sedangRevisi = ($permohonan->status_brida === 'revisi' || $permohonan->status_kesbangpol === 'revisi');
 
-            // Keamanan tambahan untuk revisi
-            if ($permohonan->pemohon_id !== $pemohon->id || $permohonan->status_permohonan !== 'revisi') {
+            if ($permohonan->pemohon_id !== $pemohon->id || !$sedangRevisi) {
                 session()->flash('error', 'Akses Ilegal! Data tidak dalam masa revisi atau bukan milik Anda.');
                 return redirect()->route('permohonan');
             }
@@ -68,9 +65,8 @@ class PermohonanController extends Component
             $this->nama_layanan_terpilih = $permohonan->layanan->nama_layanan;
             $this->isPenelitian = $permohonan->layanan->slug_layanan === 'izin-penelitian';
 
-            // Suntik data lama ke form
+            // Suntik data lama
             $this->judul = $permohonan->judul;
-            $this->opd_child_id = $permohonan->opd_child_id;
             $this->tgl_mulai = $permohonan->tgl_mulai;
             $this->tgl_selesai = $permohonan->tgl_selesai;
             $this->jenjang_pendidikan = $permohonan->jenjang_pendidikan;
@@ -82,7 +78,18 @@ class PermohonanController extends Component
             $this->link_pengantar_kampus = $permohonan->link_pengantar_kampus;
             $this->link_proposal = $permohonan->link_proposal;
 
-            // Suntik array dinamis
+            // NAPAK TILAS OPD UNTUK MEMUNCULKAN DROPDOWN
+            $this->opd_child_id = $permohonan->id_opd_child;
+            $child = OpdChild::find($permohonan->id_opd_child);
+            if ($child) {
+                $this->kategori_id = $child->id_kategori;
+                $this->opd_id = $child->id_opd;
+
+                // Isi kembali array dropdown agar opsi-opsinya muncul di Blade
+                $this->daftar_opd = Opd::where('id_kategori', $this->kategori_id)->get();
+                $this->daftar_child = OpdChild::where('id_opd', $this->opd_id)->get();
+            }
+
             foreach ($permohonan->pembimbing as $p) {
                 $this->pembimbing[] = ['nama_pembimbing' => $p->nama_pembimbing];
             }
@@ -104,8 +111,6 @@ class PermohonanController extends Component
             $this->layanan_id = $layanan->id;
             $this->nama_layanan_terpilih = $layanan->nama_layanan;
             $this->isPenelitian = $layanan->slug_layanan === 'izin-penelitian';
-
-            // Tambah baris kosong default untuk pembimbing
             $this->addPembimbing();
         }
     }
@@ -132,7 +137,6 @@ class PermohonanController extends Component
     {
         $this->daftar_child = OpdChild::where('id_opd', $value)->get();
         $this->opd_child_id = null;
-
     }
     public function addPembimbing()
     {
@@ -156,7 +160,7 @@ class PermohonanController extends Component
 
     public function updatedJenisPengajuan($value)
     {
-        if ($value === 'Personal') {
+        if ($value === 'personal') {
             $this->anggota = [];
         } else {
             if (empty($this->anggota))
@@ -169,11 +173,8 @@ class PermohonanController extends Component
         return [
             'judul.required' => 'Judul penelitian atau kegiatan wajib diisi.',
             'jenjang_pendidikan.required' => 'Silakan pilih jenjang pendidikan.',
-            'jenjang_pendidikan.in' => 'Jenjang pendidikan tidak valid.',
             'bidang_penelitian.required' => 'Bidang penelitian wajib diisi.',
-            'bidang_penelitian.in' => 'Bidang penelitian tidak valid.',
             'rumpun_penelitian.required' => 'Rumpun penelitian wajib diisi.',
-            'rumpun_penelitian.in' => 'Rumpun penelitian tidak valid.',
             'nama_instansi.required' => 'Nama instansi atau universitas asal wajib diisi.',
             'alamat_instansi.required' => 'Alamat instansi asal wajib diisi.',
 
@@ -181,27 +182,27 @@ class PermohonanController extends Component
             'opd_id.required' => 'Instansi wajib diisi.',
             'opd_child_id.required' => 'Lokasi wajib diisi.',
             'tgl_mulai.required' => 'Tanggal mulai kegiatan wajib diisi.',
-            'tgl_mulai.date' => 'Format tanggal mulai salah.',
-            'tgl_mulai.after' => 'Tanggal mulai tidak boleh hari ini atau lebih awal dari hari ini.',
+            'tgl_mulai.after_or_equal' => 'Tanggal mulai tidak boleh lewat dari hari ini.',
             'tgl_selesai.required' => 'Tanggal selesai kegiatan wajib diisi.',
-            'tgl_selesai.date' => 'Format tanggal selesai salah.',
-            'tgl_selesai.after' => 'Tanggal selesai tidak boleh hari ini atau lebih awal dari hari ini.',
             'tgl_selesai.after_or_equal' => 'Tanggal selesai tidak boleh lebih awal dari tanggal mulai.',
 
             'jenis_pengajuan.required' => 'Jenis pengajuan wajib diisi.',
             'jenis_pengajuan.in' => 'Jenis pengajuan tidak valid.',
 
             'pembimbing.*.nama_pembimbing.required' => 'Nama pembimbing tidak boleh kosong.',
+            'anggota.required' => 'Daftar anggota tidak boleh kosong untuk pengajuan kelompok.',
+            'anggota.min' => 'Minimal harus ada 1 anggota tambahan dalam kelompok.',
             'anggota.*.nama_anggota.required' => 'Nama anggota tidak boleh kosong.',
             'anggota.*.nik.required' => 'NIK anggota tidak boleh kosong.',
             'anggota.*.nik.min' => 'NIK anggota minimal 14 karakter.',
             'anggota.*.nik.max' => 'NIK anggota maksimal 18 karakter.',
             'anggota.*.nik.distinct' => 'Terdapat NIK yang ganda',
+            'anggota.*.nik.not_in' => 'NIK anggota tidak boleh sama dengan NIK pengusul.',
 
-            'link_pengantar_kampus.required' => 'Link Google Drive surat pengantar wajib diisi.',
-            'link_pengantar_kampus.url' => 'Format tidak valid. Pastikan diawali dengan http:// atau https://',
+            'link_pengantar_kampus.required' => 'Link Google Drive wajib diisi.',
+            'link_pengantar_kampus.regex' => 'Link harus berasal dari Google Drive (drive.google.com).',
             'link_proposal.required' => 'Link Google Drive proposal wajib diisi.',
-            'link_proposal.url' => 'Format tidak valid. Pastikan diawali dengan http:// atau https://',
+            'link_proposal.regex' => 'Link harus berasal dari Google Drive (drive.google.com).',
         ];
     }
 
@@ -221,15 +222,19 @@ class PermohonanController extends Component
                 'kategori_id' => 'required',
                 'opd_id' => 'required',
                 'opd_child_id' => 'required',
-                'tgl_mulai' => 'required|date|after:today',
-                'tgl_selesai' => 'required|date|after:today|after_or_equal:tgl_mulai',
-                'jenis_pengajuan' => 'required|in:Personal,Kelompok',
+                'tgl_mulai' => 'required|date|after_or_equal:today',
+                'tgl_selesai' => 'required|date|after_or_equal:tgl_mulai',
+                'jenis_pengajuan' => 'required|in:personal,kelompok',
                 'pembimbing.*.nama_pembimbing' => 'required|string',
             ];
 
-            if ($this->jenis_pengajuan === 'Kelompok') {
+            if ($this->jenis_pengajuan === 'kelompok') {
+                $pemohon = Auth::user()->pemohon;
+                $nikKetua = $pemohon ? $pemohon->nomor_identitas : '';
+
+                $rules['anggota'] = 'required|array|min:1';
                 $rules['anggota.*.nama_anggota'] = 'required|string';
-                $rules['anggota.*.nik'] = 'required|string|min:14|max:18|distinct';
+                $rules['anggota.*.nik'] = 'required|string|min:14|max:18|distinct|not_in:' . $nikKetua;
             }
             $this->validate($rules);
         }
@@ -237,9 +242,11 @@ class PermohonanController extends Component
 
     public function submitForm()
     {
-        $rules = ['link_pengantar_kampus' => 'required|url'];
+        $rules = [
+            'link_pengantar_kampus' => ['required', 'url', 'regex:/drive\.google\.com/']
+        ];
         if ($this->isPenelitian) {
-            $rules['link_proposal'] = 'required|url';
+            $rules['link_proposal'] = ['required', 'url', 'regex:/drive\.google\.com/'];
         }
         $this->validate($rules);
 
@@ -250,42 +257,65 @@ class PermohonanController extends Component
 
         DB::transaction(function () use ($pemohon) {
 
-            $dataPermohonan = [
-                'pemohon_id' => $pemohon->id,
-                'layanan_id' => $this->layanan_id,
-                'judul' => $this->judul,
-                'id_opd_child' => $this->opd_child_id,
-                'tgl_mulai' => $this->tgl_mulai,
-                'tgl_selesai' => $this->tgl_selesai,
-                'jenjang_pendidikan' => $this->jenjang_pendidikan,
-                'bidang_penelitian' => $this->bidang_penelitian,
-                'rumpun_penelitian' => $this->rumpun_penelitian,
-                'jenis_pengajuan' => $this->jenis_pengajuan,
-                'jumlah_anggota' => count($this->anggota) + 1,
-                'nama_instansi' => $this->nama_instansi,
-                'alamat_instansi' => $this->alamat_instansi,
-                'link_pengantar_kampus' => $this->link_pengantar_kampus,
-                'link_proposal' => $this->link_proposal,
-                'status_permohonan' => 'diajukan',
-                'status_kesbangpol' => 'pending',
-                'status_brida' => 'pending',
-            ];
-
             if ($this->isEditMode) {
-                // jika edit lalu update
+                // Ambil data permohonan lama
                 $permohonan = Permohonan::findOrFail($this->permohonan_id);
-                $permohonan->update($dataPermohonan);
 
-                // Hapus data pembimbing dan anggota lama
+                // Hanya reset ke pending jika status sebelumnya adalah revisi
+                $statusBridaBaru = ($permohonan->status_brida === 'revisi') ? 'pending' : $permohonan->status_brida;
+                $statusKesbangpolBaru = ($permohonan->status_kesbangpol === 'revisi') ? 'pending' : $permohonan->status_kesbangpol;
+
+                $dataPermohonan = [
+                    'pemohon_id' => $pemohon->id,
+                    'layanan_id' => $this->layanan_id,
+                    'judul' => $this->judul,
+                    'id_opd_child' => $this->opd_child_id,
+                    'tgl_mulai' => $this->tgl_mulai,
+                    'tgl_selesai' => $this->tgl_selesai,
+                    'jenjang_pendidikan' => $this->jenjang_pendidikan,
+                    'bidang_penelitian' => $this->bidang_penelitian,
+                    'rumpun_penelitian' => $this->rumpun_penelitian,
+                    'jenis_pengajuan' => $this->jenis_pengajuan,
+                    'jumlah_anggota' => count($this->anggota) + 1,
+                    'nama_instansi' => $this->nama_instansi,
+                    'alamat_instansi' => $this->alamat_instansi,
+                    'link_pengantar_kampus' => $this->link_pengantar_kampus,
+                    'link_proposal' => $this->link_proposal,
+                    'status_permohonan' => 'proses_verifikasi',
+                    'status_kesbangpol' => $statusKesbangpolBaru, // Aman jika sudah disetujui sebelumnya
+                    'status_brida' => $statusBridaBaru,         // Aman jika sudah disetujui sebelumnya
+                ];
+
+                $permohonan->update($dataPermohonan);
                 $permohonan->pembimbing()->delete();
                 $permohonan->anggota()->delete();
 
             } else {
-                // jika user baru
+                // Jika pengajuan baru
+                $dataPermohonan = [
+                    'pemohon_id' => $pemohon->id,
+                    'layanan_id' => $this->layanan_id,
+                    'judul' => $this->judul,
+                    'id_opd_child' => $this->opd_child_id,
+                    'tgl_mulai' => $this->tgl_mulai,
+                    'tgl_selesai' => $this->tgl_selesai,
+                    'jenjang_pendidikan' => $this->jenjang_pendidikan,
+                    'bidang_penelitian' => $this->bidang_penelitian,
+                    'rumpun_penelitian' => $this->rumpun_penelitian,
+                    'jenis_pengajuan' => $this->jenis_pengajuan,
+                    'jumlah_anggota' => count($this->anggota) + 1,
+                    'nama_instansi' => $this->nama_instansi,
+                    'alamat_instansi' => $this->alamat_instansi,
+                    'link_pengantar_kampus' => $this->link_pengantar_kampus,
+                    'link_proposal' => $this->link_proposal,
+                    'status_permohonan' => 'diajukan',
+                    'status_kesbangpol' => 'pending',
+                    'status_brida' => 'pending',
+                ];
+
                 $permohonan = Permohonan::create($dataPermohonan);
             }
 
-            // Simpan Pembimbing Baru / Revisi
             foreach ($this->pembimbing as $p) {
                 if (!empty($p['nama_pembimbing'])) {
                     PembimbingPermohonan::create([
@@ -295,8 +325,7 @@ class PermohonanController extends Component
                 }
             }
 
-            // Simpan Anggota Baru / Revisi
-            if ($this->jenis_pengajuan === 'Kelompok') {
+            if ($this->jenis_pengajuan === 'kelompok') {
                 foreach ($this->anggota as $a) {
                     if (!empty($a['nama_anggota'])) {
                         AnggotaPermohonan::create([
