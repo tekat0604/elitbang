@@ -137,6 +137,23 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/permohonan/revisi/{id}', PermohonanController::class)
       ->name('permohonan.revisi')
       ->middleware(CekVerifikasiPemohon::class);
+
+    Route::get('/permohonan/unduh-surat/{id}', function ($id) {
+      $user = auth()->user();
+
+      $surat = SuratIzin::whereHas('permohonan', function ($query) use ($user) {
+        $query->where('pemohon_id', $user->pemohon?->id);
+      })->findOrFail($id);
+
+      $path = $surat->file_surat_final;
+
+      // Tambahkan pengecekan ganda agar tidak error jika file final belum diunggah sistem
+      if (!$path || !Storage::disk('public')->exists($path)) {
+        abort(404, 'Surat rekomendasi final belum tersedia atau tidak ditemukan di server.');
+      }
+
+      return Storage::disk('public')->response($path);
+    })->name('user.unduh-surat');
   });
 
 
