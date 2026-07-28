@@ -24,6 +24,8 @@ use App\Http\Middleware\CekRoleUser;
 use App\Http\Middleware\CekVerifikasiPemohon;
 use App\Http\Middleware\CekVerifikasiPermohonan;
 use App\Http\Middleware\CekRoleTandaTangan;
+use App\Http\Middleware\CekRoleAdmin;
+use App\Livewire\Admin\DataInstansi;
 use App\Livewire\Verifikator\Kesbangpol\PermohonanListKesbangpol;
 use App\Livewire\Verifikator\Kesbangpol\PermohonanDetailKesbangpol;
 use App\Livewire\Verifikator\Brida\PenomoranSurat;
@@ -186,6 +188,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/kesbangpol/permohonan', TandaTanganListKesbangpol::class)->name('kesbangpol.list');
     Route::get('/kesbangpol/permohonan/{id}', TandaTanganDetailKesbangpol::class)->name('kesbangpol.detail');
+  });
+
+  Route::middleware([CekRoleAdmin::class])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/data-instansi', DataInstansi::class)->name('data-instansi');
   });
 
 

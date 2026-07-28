@@ -13,10 +13,12 @@
         $role = $user->role ?: 'user'; // Default ke 'user' jika kosong
         $instansi = $user->instansi;
 
-        // 1. Buat "kunci identitas" unik. Contoh: 'verifikator_brida' atau 'user'
-        $userType = $role === 'user' ? 'user' : $role . '_' . $instansi;
+        if ($role === 'user' || $role === 'admin') {
+            $userType = $role;
+        } else {
+            $userType = $role . '_' . $instansi;
+        }
 
-        // 2. Petakan menu berdasarkan kunci identitas tersebut
         $menus = [
             'user' => [
                 ['label' => 'Data Diri', 'route' => 'identitas', 'active' => 'identitas*'],
@@ -36,6 +38,9 @@
             ],
             'tanda_tangan_kesbangpol' => [
                 ['label' => 'Pengajuan Perizinan', 'route' => 'penandatangan.kesbangpol.list', 'active' => 'penandatangan.kesbangpol*'],
+            ],
+            'admin' => [
+                ['label' => 'Data Instansi', 'route' => 'admin.data-instansi', 'active' => 'admin.data-instansi*'],
             ],
         ];
 

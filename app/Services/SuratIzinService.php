@@ -5,6 +5,7 @@ namespace App\Services;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Permohonan;
 use App\Models\SuratIzin;
+use App\Models\PejabatInstansi;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
@@ -16,10 +17,15 @@ class SuratIzinService
     $surat = SuratIzin::where('permohonan_id', $permohonan->id)->first();
 
     if ($surat) {
+      $pejabatKesbangpol = PejabatInstansi::where('instansi', 'kesbangpol')->first();
+      $pejabatBrida = PejabatInstansi::where('instansi', 'brida')->first();
+
       $pdf = Pdf::loadView('pdf.surat-izin', [
         'permohonan' => $permohonan,
         'nomor_surat' => $nomorSurat,
-        'tanggal_cetak' => Carbon::now()->locale('id')->isoFormat('D MMMM Y')
+        'tanggal_cetak' => Carbon::now()->locale('id')->isoFormat('D MMMM Y'),
+        'pejabat_kesbangpol' => $pejabatKesbangpol,
+        'pejabat_brida' => $pejabatBrida,
       ])->setPaper('a4', 'portrait');
 
       $filename = 'draft_surat_izin_' . $permohonan->id . '_' . time() . '.pdf';

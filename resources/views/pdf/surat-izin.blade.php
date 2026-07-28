@@ -145,7 +145,7 @@
                 a.n. Kepala Badan Kesatuan Bangsa dan Politik<br>Kota Surakarta<br>
                 plh. Kepala Bidang Politik Dalam Negeri dan<br>Organisasi Kemasyarakatan</p>
                 <br><br><br>
-                <p><b><u>Rosy Edi Harsiwi, S.H.</u></b><br>NIP: 19840430 201101 2 010</p>
+                <p><b><u>{{ $pejabat_kesbangpol->nama_kepala_instansi ?? 'Nama Pejabat Belum Diatur' }}</u></b><br>NIP : {{ $pejabat_kesbangpol->nip ?? '-' }}</p>
             </div>
             
             <div class="sign-right">
@@ -153,7 +153,7 @@
                 a.n Kepala Badan Riset dan Inovasi Daerah<br>Kota Surakarta<br>
                 Kepala Bidang Riset</p>
                 <br><br><br><br>
-                <p><b><u>Mohamad Rudiyanto, S.Sos., M.Si.</u></b><br>NIP: 19760506 199703 1 004</p>
+                <p><b><u>{{ $pejabat_brida->nama_kepala_instansi ?? 'Nama Pejabat Belum Diatur' }}</u></b><br>NIP : {{ $pejabat_brida->nip ?? '-' }}</p>
             </div>
             <div class="clear"></div>
         </div>
