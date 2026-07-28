@@ -35,13 +35,11 @@ return new class extends Migration {
 
             // status
             $table->enum('status_permohonan', [
-                'draft',
                 'diajukan',
                 'proses_verifikasi',
-                'revisi',
                 'disetujui',
                 'ditolak'
-            ])->default('draft');
+            ])->default('diajukan');
 
             // verif
             // Kesbangpol

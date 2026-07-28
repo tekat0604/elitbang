@@ -16,10 +16,8 @@ class CekVerifikasiPermohonan
 
         if ($pemohon) {
             $adaIzinAktif = $pemohon->permohonan()->whereIn('status_permohonan', [
-                'draft',
                 'diajukan',
                 'proses_verifikasi',
-                'revisi',
                 'disetujui',
 
             ])->exists();

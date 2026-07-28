@@ -17,7 +17,7 @@
             </div>
             <div class="text-center position-relative" style="z-index: 2;">
                 <div class="rounded-circle d-flex align-items-center justify-content-center text-white {{ $currentStep >= 3 ? 'bg-primary' : 'bg-secondary' }}" style="width: 35px; height: 35px; margin: 0 auto;">3</div>
-                <small class="mt-2 d-block fw-semibold">Dokumen (G-Drive)</small>
+                <small class="mt-2 d-block fw-semibold">Dokumen</small>
             </div>
         </div>
     </div>
@@ -30,13 +30,13 @@
                 <div class="col-12"><h6 class="fw-bold text-primary border-bottom pb-2">Informasi Kegiatan</h6></div>
                 
                 <div class="col-12">
-                    <label class="form-label">Judul Penelitian/Kegiatan</label>
+                    <label class="form-label">Judul Penelitian/Kegiatan<span class="text-danger">*</span></label>
                     <textarea wire:model="judul" class="form-control" rows="2" placeholder="Masukkan judul lengkap"></textarea>
                     @error('judul') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
                 
                 <div class="col-md-6">
-                    <label class="form-label">Jenjang Pendidikan</label>
+                    <label class="form-label">Jenjang Pendidikan<span class="text-danger">*</span></label>
                     <select wire:model="jenjang_pendidikan" class="form-select">
                         <option value="">Pilih Jenjang...</option>
                         <option value="SMA">SMA/Sederajat</option>
@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label class="form-label">Bidang Penelitian/Kegiatan</label>
+                    <label class="form-label">Bidang Penelitian/Kegiatan<span class="text-danger">*</span></label>
                     
                     <select wire:model.live="bidang_penelitian" class="form-select">
                         <option value="">Pilih Bidang...</option>
@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label class="form-label">Rumpun Penelitian/Kegiatan</label>
+                    <label class="form-label">Rumpun Penelitian/Kegiatan<span class="text-danger">*</span></label>
                     <select wire:model.live="rumpun_penelitian" class="form-select">
                         <option value="">Pilih Rumpun...</option>
                         <option value="Ekonomi">Ekonomi</option>
@@ -92,13 +92,13 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label class="form-label">Instansi/Universitas Asal</label>
+                    <label class="form-label">Instansi/Universitas Asal<span class="text-danger">*</span></label>
                     <input type="text" wire:model="nama_instansi" class="form-control" placeholder="Nama Universitas / Instansi">
                     @error('nama_instansi') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
                 
                 <div class="col-12">
-                    <label class="form-label">Alamat Instansi Asal</label>
+                    <label class="form-label">Alamat Instansi Asal<span class="text-danger">*</span></label>
                     <textarea wire:model="alamat_instansi" class="form-control" rows="2"></textarea>
                     @error('alamat_instansi') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
@@ -110,22 +110,22 @@
                 <div class="col-12"><h6 class="fw-bold text-primary border-bottom pb-2">Detail Pelaksanaan</h6></div>
                 
                 <div class="col-md-6">
-                    <label class="form-label">Tanggal Mulai</label>
+                    <label class="form-label">Tanggal Mulai<span class="text-danger">*</span></label>
                     <input type="date" wire:model="tgl_mulai" class="form-control">
                     @error('tgl_mulai') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label">Tanggal Selesai</label>
+                    <label class="form-label">Tanggal Selesai<span class="text-danger">*</span></label>
                     <input type="date" wire:model="tgl_selesai" class="form-control">
                     @error('tgl_selesai') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
                 
-                <div class="col-12 mt-4"><h6 class="fw-bold text-primary border-bottom pb-2">Tujuan Lokasi Penelitian</h6></div>
+                <div class="col-12 mt-4"><h6 class="fw-bold text-primary border-bottom pb-2">Tujuan Lokasi Penelitian<span class="text-danger">*</span></h6></div>
                 
                 <div class="col-md-4">
-                    <label class="form-label">Kategori Lokasi</label>
+                    <label class="form-label">Kategori Lokasi<span class="text-danger">*</span></label>
                     <select wire:model.live="kategori_id" class="form-select border-primary">
-                        <option value="">-- Pilih Kategori --</option>
+                        <option value="">Pilih Kategori...</option>
                         @foreach($daftar_kategori as $kategori)
                             <option value="{{ $kategori->id }}">{{ $kategori->kategori }}</option>
                         @endforeach
@@ -134,9 +134,9 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label class="form-label">Instansi Induk (Tembusan)</label>
+                    <label class="form-label">Instansi Induk<span class="text-danger">*</span></label>
                     <select wire:model.live="opd_id" class="form-select border-primary" {{ empty($daftar_opd) ? 'disabled' : '' }}>
-                        <option value="">-- Pilih Instansi Induk --</option>
+                        <option value="">Pilih Instansi Induk...</option>
                         @foreach($daftar_opd as $opd)
                             <option value="{{ $opd->id }}">{{ $opd->nama_opd }}</option>
                         @endforeach
@@ -145,9 +145,9 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label class="form-label">Lokasi Penelitian Asli</label>
+                    <label class="form-label">Lokasi Penelitian/Kegiatan<span class="text-danger">*</span></label>
                     <select wire:model="opd_child_id" class="form-select border-primary" {{ empty($daftar_child) ? 'disabled' : '' }}>
-                        <option value="">-- Pilih Lokasi Asli --</option>
+                        <option value="">Pilih Lokasi...</option>
                         @foreach($daftar_child as $child)
                             <option value="{{ $child->id }}">{{ $child->nama }}</option>
                         @endforeach
@@ -157,7 +157,7 @@
 
                 <div class="col-12 mt-4">
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                        <label class="form-label mb-0">Nama Pembimbing</label>
+                        <label class="form-label mb-0">Nama Pembimbing<span class="text-danger">*</span></label>
                         <button type="button" wire:click="addPembimbing" class="btn btn-sm btn-outline-primary"><i class="fas fa-plus me-1"></i> Tambah Pembimbing</button>
                     </div>
                     @foreach($pembimbing as $index => $p)
@@ -173,21 +173,28 @@
 
                 <div class="col-12 mt-4"><h6 class="fw-bold text-primary border-bottom pb-2">Kategori Pengajuan</h6></div>
                 <div class="col-md-6">
-                    <label class="form-label">Jenis Pengajuan</label>
+                    <label class="form-label">Jenis Pengajuan<span class="text-danger">*</span></label>
                     <select wire:model.live="jenis_pengajuan" class="form-select border-primary">
-                        <option value="">-- Pilih Jenis Pengajuan --</option>
-                        <option value="Personal">Personal (Individu)</option>
-                        <option value="Kelompok">Kelompok (Memiliki Anggota)</option>
+                        <option value="">Pilih Jenis Pengajuan...</option>
+                        <option value="personal">Personal (Individu)</option>
+                        <option value="kelompok">Kelompok (Memiliki Anggota)</option>
                     </select>
                     @error('jenis_pengajuan') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
 
-                @if($jenis_pengajuan === 'Kelompok')
+                @if($jenis_pengajuan === 'kelompok')
                 <div class="col-12 bg-light p-3 rounded border mt-3">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="fw-semibold">Daftar Anggota Kelompok (Selain Anda)</span>
+                        <span class="fw-semibold">Daftar Anggota Kelompok (Selain Anda)<span class="text-danger">*</span></span>
                         <button type="button" wire:click="addAnggota" class="btn btn-sm btn-primary"><i class="fas fa-plus me-1"></i> Tambah Anggota</button>
                     </div>
+                    
+                    <!-- TAMBAHAN: Pesan error muncul jika pengguna nekat menghapus semua baris -->
+                    @error('anggota') 
+                        <div class="alert alert-danger py-2 small mb-3">
+                            <i class="fas fa-exclamation-circle me-1"></i> {{ $message }}
+                        </div> 
+                    @enderror
                     
                     @foreach($anggota as $index => $a)
                         <div class="row g-2 mb-2 align-items-center" wire:key="anggota-{{ $index }}">
@@ -212,21 +219,21 @@
             @if($currentStep == 3)
             <div class="row gy-4" wire:key="step-3">
                 <div class="col-12">
-                    <h6 class="fw-bold text-primary border-bottom pb-2">Dokumen Persyaratan (Google Drive)</h6>
+                    <h6 class="fw-bold text-primary border-bottom pb-2">Dokumen Persyaratan (Google Drive)<span class="text-danger">*</span></h6>
                     <div class="alert alert-info py-2 small">
                         <i class="fas fa-info-circle me-1"></i> Pastikan link Google Drive diset menjadi <b>"Anyone with the link can view"</b>.
                     </div>
                 </div>
                 
                 <div class="col-12">
-                    <label class="form-label">Link Pengantar Kampus / Instansi</label>
+                    <label class="form-label">Link Pengantar Kampus / Instansi<span class="text-danger">*</span></label>
                     <input type="url" wire:model="link_pengantar_kampus" class="form-control" placeholder="https://drive.google.com/...">
                     @error('link_pengantar_kampus') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
                 
                 @if($isPenelitian)
                 <div class="col-12">
-                    <label class="form-label">Link Proposal Penelitian</label>
+                    <label class="form-label">Link Proposal Penelitian<span class="text-danger">*</span></label>
                     <input type="url" wire:model="link_proposal" class="form-control" placeholder="https://drive.google.com/...">
                     @error('link_proposal') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>

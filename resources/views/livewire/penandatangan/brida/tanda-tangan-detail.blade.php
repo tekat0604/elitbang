@@ -22,7 +22,22 @@
                     @if(strtolower($permohonan->jenis_pengajuan) === 'kelompok')<div class="col-12"><span class="text-muted small d-block mb-1">Anggota Kelompok</span><ul class="list-group list-group-flush border rounded">@foreach($permohonan->anggota as $anggota)<li class="list-group-item py-2">{{ $anggota->nama_anggota }} <span class="text-muted">— {{ $anggota->nik }}</span></li>@endforeach</ul></div>@endif
                 </div>
                 <h6 class="fw-bold text-primary border-bottom pb-2">Dokumen Surat</h6>
-                <div class="row g-3"><div class="col-md-6"><div class="border rounded p-3 h-100"><i class="fas fa-file-alt text-primary me-2"></i><span class="fw-semibold">Surat Rekomendasi</span><p class="small text-muted mb-2 mt-2">Surat belum dibuat. Dokumen akan tampil di halaman ini setelah generator surat tersedia.</p><button class="btn btn-sm btn-outline-secondary" disabled>Belum tersedia</button></div></div><div class="col-md-6"><div class="border rounded p-3 h-100"><i class="fas fa-file-signature text-primary me-2"></i><span class="fw-semibold">Surat untuk Tanda Tangan</span><p class="small text-muted mb-2 mt-2">Draf surat tanda tangan elektronik belum dibuat.</p><a href="{{ route('penandatangan.brida.surat', ['id' => $permohonan->id, 'mode' => 'surat']) }}" class="btn btn-sm btn-primary">Buka Surat <i class="fas fa-arrow-right ms-1"></i></a></div></div></div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="border rounded p-3 h-100">
+                            <i class="fas fa-file-alt text-primary me-2"></i><span class="fw-semibold">Surat Rekomendasi</span>
+                            <p class="small text-muted mb-2 mt-2">Surat belum dibuat. Dokumen akan tampil di halaman ini setelah generator surat tersedia.</p>
+                            <button class="btn btn-sm btn-outline-secondary" disabled>Belum tersedia</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="border rounded p-3 h-100">
+                            <i class="fas fa-file-signature text-primary me-2"></i><span class="fw-semibold">Surat untuk Tanda Tangan</span>
+                            <p class="small text-muted mb-2 mt-2">Draf surat tanda tangan elektronik belum dibuat.</p>
+                            <a href="{{ route('penandatangan.brida.surat', ['id' => $permohonan->id, 'mode' => 'surat']) }}" class="btn btn-sm btn-primary">Buka Surat <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     @else

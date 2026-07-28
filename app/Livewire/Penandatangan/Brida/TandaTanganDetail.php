@@ -28,6 +28,9 @@ class TandaTanganDetail extends Component
 
         $this->permohonan = Permohonan::with(['pemohon', 'layanan', 'pembimbing', 'anggota', 'opdChild.opd', 'opdChild.kategori'])
             ->where('status_permohonan', 'disetujui')
+            ->whereHas('suratIzin', function ($query) {
+                $query->whereNotNull('file_surat_draft');
+            })
             ->findOrFail($id);
     }
 

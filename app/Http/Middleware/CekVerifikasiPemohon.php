@@ -16,7 +16,7 @@ class CekVerifikasiPemohon
     // Cek apakah user punya data pemohon dan statusnya 'terverifikasi'
     if (!$user->pemohon || $user->pemohon->status_verifikasi !== 'terverifikasi') {
 
-      // Opsional: Cek spesifik jika masih ditolak/revisi
+      // Cek spesifik jika masih ditolak/revisi
       if ($user->pemohon && $user->pemohon->status_verifikasi === 'revisi') {
         return redirect()->route('identitas')->with('error', 'Harap perbaiki data identitas Anda terlebih dahulu.');
       }

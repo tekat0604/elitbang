@@ -13,16 +13,20 @@
         $role = $user->role ?: 'user'; // Default ke 'user' jika kosong
         $instansi = $user->instansi;
 
+        // 1. Buat "kunci identitas" unik. Contoh: 'verifikator_brida' atau 'user'
         $userType = $role === 'user' ? 'user' : $role . '_' . $instansi;
 
+        // 2. Petakan menu berdasarkan kunci identitas tersebut
         $menus = [
             'user' => [
                 ['label' => 'Data Diri', 'route' => 'identitas', 'active' => 'identitas*'],
                 ['label' => 'Permohonan', 'route' => 'permohonan', 'active' => 'permohonan*'],
+                ['label' => 'Survei Kepuasan', 'route' => 'survei-kepuasan', 'active' => 'survei-kepuasan*'],
             ],
             'verifikator_brida' => [
                 ['label' => 'Verifikasi Pemohon', 'route' => 'verifikator.pemohon.list', 'active' => 'verifikator.pemohon*'],
                 ['label' => 'Pengajuan Perizinan', 'route' => 'verifikator.brida.permohonan.list', 'active' => 'verifikator.brida.permohonan*'],
+                ['label' => 'Terbitkan Surat', 'route' => 'verifikator.brida.penomoran', 'active' => 'verifikator.brida.penomoran*']
             ],
             'verifikator_kesbangpol' => [
                 ['label' => 'Pengajuan Perizinan', 'route' => 'verifikator.kesbangpol.permohonan.list', 'active' => 'verifikator.kesbangpol.permohonan*'],
@@ -35,14 +39,17 @@
             ],
         ];
 
+        // 3. Ambil menu yang sesuai, jika tidak ada fallback ke array kosong
         $activeMenus = $menus[$userType] ?? [];
     @endphp
 
     <nav class="nav flex-column">
+      <!-- Menu Dashboard (Selalu Muncul untuk Semua) -->
       <a class="nav-link py-2 mb-1 {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
         Dashboard
       </a>
 
+      <!-- Menu Dinamis (Muncul Berdasarkan Role & Instansi) -->
       @foreach($activeMenus as $menu)
         <a class="nav-link py-2 mb-1 {{ request()->routeIs($menu['active']) ? 'active' : '' }}" href="{{ route($menu['route']) }}">
           {{ $menu['label'] }}

@@ -2,7 +2,10 @@
     <div class="mb-3"><a href="{{ route('penandatangan.kesbangpol.list') }}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-arrow-left me-1"></i> Kembali ke Daftar</a></div>
     @if ($mode === 'detail')
         <div class="card card-dash border-0">
-            <div class="card-header bg-white border-bottom p-4"><h5 class="mb-1 fw-bold">Detail Surat Rekomendasi</h5><small class="text-muted">Tinjau kelengkapan surat sebelum proses tanda tangan elektronik.</small></div>
+            <div class="card-header bg-white border-bottom p-4">
+                <h5 class="mb-1 fw-bold">Detail Surat Rekomendasi</h5>
+                <small class="text-muted">Tinjau kelengkapan surat sebelum proses tanda tangan elektronik.</small>
+            </div>
             <div class="card-body p-4">
                 <div class="row g-4 mb-4"><div class="col-md-6"><span class="text-muted small">Nama Pemohon</span><div class="fw-semibold">{{ $permohonan->pemohon->nama_lengkap ?? '-' }}</div></div><div class="col-md-6"><span class="text-muted small">Jenis Izin</span><div class="fw-semibold">{{ $permohonan->layanan->nama_layanan ?? '-' }}</div></div><div class="col-md-6"><span class="text-muted small">Instansi Asal</span><div class="fw-semibold">{{ $permohonan->nama_instansi ?? '-' }}</div></div><div class="col-md-6"><span class="text-muted small">Judul Penelitian</span><div class="fw-semibold">{{ $permohonan->judul ?? '-' }}</div></div></div>
                 <h6 class="fw-bold text-primary border-bottom pb-2">Detail Pelaksanaan</h6>
@@ -22,7 +25,22 @@
                     @if(strtolower($permohonan->jenis_pengajuan) === 'kelompok')<div class="col-12"><span class="text-muted small d-block mb-1">Anggota Kelompok</span><ul class="list-group list-group-flush border rounded">@foreach($permohonan->anggota as $anggota)<li class="list-group-item py-2">{{ $anggota->nama_anggota }} <span class="text-muted">— {{ $anggota->nik }}</span></li>@endforeach</ul></div>@endif
                 </div>
                 <h6 class="fw-bold text-primary border-bottom pb-2">Dokumen Surat</h6>
-                <div class="row g-3"><div class="col-md-6"><div class="border rounded p-3 h-100"><i class="fas fa-file-alt text-primary me-2"></i><span class="fw-semibold">Surat Rekomendasi</span><p class="small text-muted mb-2 mt-2">Surat belum dibuat. Dokumen akan tampil di halaman ini setelah generator surat tersedia.</p><button class="btn btn-sm btn-outline-secondary" disabled>Belum tersedia</button></div></div><div class="col-md-6"><div class="border rounded p-3 h-100"><i class="fas fa-file-signature text-primary me-2"></i><span class="fw-semibold">Surat untuk Tanda Tangan</span><p class="small text-muted mb-2 mt-2">Draf surat tanda tangan elektronik belum dibuat.</p><a href="{{ route('penandatangan.kesbangpol.surat', ['id' => $permohonan->id, 'mode' => 'surat']) }}" class="btn btn-sm btn-primary">Buka Surat <i class="fas fa-arrow-right ms-1"></i></a></div></div></div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="border rounded p-3 h-100">
+                            <i class="fas fa-file-alt text-primary me-2"></i><span class="fw-semibold">Surat Rekomendasi</span>
+                            <p class="small text-muted mb-2 mt-2">Surat belum dibuat. Dokumen akan tampil di halaman ini setelah generator surat tersedia.</p>
+                            <button class="btn btn-sm btn-outline-secondary" disabled>Belum tersedia</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="border rounded p-3 h-100">
+                            <i class="fas fa-file-signature text-primary me-2"></i><span class="fw-semibold">Surat untuk Tanda Tangan</span>
+                            <p class="small text-muted mb-2 mt-2">Draf surat tanda tangan elektronik belum dibuat.</p>
+                            <a href="{{ route('penandatangan.kesbangpol.surat', ['id' => $permohonan->id, 'mode' => 'surat']) }}" class="btn btn-sm btn-primary">Buka Surat <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     @else

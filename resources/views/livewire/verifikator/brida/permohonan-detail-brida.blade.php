@@ -23,7 +23,7 @@
                             <span class="text-muted small">Status BRIDA Saat Ini</span>
                             <div>
                                 <span class="badge bg-{{ $permohonan->status_brida == 'disetujui' ? 'success' : ($permohonan->status_brida == 'revisi' ? 'warning' : 'secondary') }}">
-                                    {{ strtoupper($permohonan->status_brida) }}
+                                    {{ $permohonan->status_brida }}
                                 </span>
                             </div>
                         </div>
@@ -107,18 +107,20 @@
                         </div>
                         <div class="col-12 mb-3">
                             <span class="text-muted small">Lokasi Penelitian (OPD)</span>
-                            <div class="fw-semibold">{{ $permohonan->opdChild->nama ?? 'Lokasi tidak ditemukan' }}</div>
+                            <div class="fw-semibold">{{ $permohonan->opdChild->nama ?? '-' }}</div>
                         </div>
                         <div class="col-12 mt-2">
                             <a href="{{ $permohonan->link_pengantar_kampus }}" target="_blank" class="btn btn-outline-primary btn-sm">
-                                <i class="fas fa-external-link-alt me-1"></i> Buka Surat Pengantar (G-Drive)
+                                <i class="fas fa-external-link-alt me-1"></i> Buka Surat Pengantar
                             </a>
                         </div>
+                        @if ($permohonan->layanan->slug_layanan === 'izin-penelitian')
                         <div class="col-12 mt-2">
                             <a href="{{ $permohonan->link_proposal }}" target="_blank" class="btn btn-outline-primary btn-sm">
                                 <i class="fas fa-external-link-alt me-1"></i> Buka Proposal
                             </a>
                         </div>
+                        @endif
                     </div>
 
                 </div>
@@ -169,8 +171,9 @@
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label fw-semibold">Catatan Revisi BRIDA</label>
-                                <textarea wire:model="catatan_brida" class="form-control @error('catatan_brida') is-invalid @enderror" rows="4" placeholder="Tulis catatan jika data teknis salah..."></textarea>
+                                <label class="form-label fw-semibold">Catatan BRIDA</label>
+                                <textarea wire:model="catatan_brida" class="form-control @error('catatan_brida') is-invalid @enderror" rows="4" placeholder="Tulis catatan jika revisi atau tolak..."></textarea>
+                                <small class="text-muted">Wajib diisi jika status Revisi atau Ditolak.</small>
                                 @error('catatan_brida') <span class="text-danger small fw-bold">{{ $message }}</span> @enderror
                             </div>
 

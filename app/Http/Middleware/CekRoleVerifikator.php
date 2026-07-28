@@ -16,7 +16,7 @@ class CekRoleVerifikator
         // Pastikan hurufnya disamakan menjadi kecil semua dan tanpa spasi
         $role = strtolower(trim($user->role ?? ''));
 
-        // Jika rolenya BUKAN verifikator, blokir aksesnya
+        // Jika rolenya bukan verifikator, blokir aksesnya
         if ($role !== 'verifikator') {
             // Arahkan kembali ke dashboard dengan pesan error
             return redirect()->route('dashboard')->with('error', 'Akses Ditolak! Halaman ini khusus untuk Verifikator Kesbangpol/BRIDA.');

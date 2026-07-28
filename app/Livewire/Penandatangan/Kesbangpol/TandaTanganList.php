@@ -31,6 +31,9 @@ class TandaTanganList extends Component
         return view('livewire.penandatangan.kesbangpol.tanda-tangan-list', [
             'permohonanList' => Permohonan::with(['pemohon', 'layanan'])
                 ->where('status_permohonan', 'disetujui')
+                ->whereHas('suratIzin', function ($query) {
+                    $query->whereNotNull('file_surat_draft');
+                })
                 ->latest()
                 ->paginate(10),
         ]);

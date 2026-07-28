@@ -33,7 +33,7 @@
                 <td class="text-center"><a href="{{ route('penandatangan.brida.detail', $item->id) }}"
                     class="btn btn-sm btn-outline-primary"><i class="fas fa-file-alt me-1"></i> Detail</a></td>
                 <td class="text-center"><a
-                    href="{{ route('penandatangan.brida.surat', ['id' => $item->id, 'mode' => 'surat']) }}"
+                    href=""
                     class="btn btn-sm btn-primary">Tanda Tangan <i class="fas fa-pen-nib ms-1"></i></a></td>
               </tr>
             @empty
