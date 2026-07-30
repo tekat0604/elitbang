@@ -129,11 +129,14 @@
                     <td>
                       @if ($item->status_permohonan === 'disetujui' && $item->suratIzin && $item->suratIzin->file_surat_final)
                         @if ($item->surveiKepuasan)
-                          <a href="{{ route('user.unduh-surat', $item->suratIzin->id) }}" target="_blank" class="btn btn-sm btn-success shadow-sm">
+                          <a href="{{ route('user.unduh-surat', $item->suratIzin->id) }}" target="_blank"
+                            class="btn btn-sm btn-success shadow-sm">
                             <i class="fas fa-download me-1"></i> Unduh Surat
                           </a>
                         @else
-                          <a href="#" onclick="alert('Silakan mengisi survei kepuasan masyarakat terlebih dahulu untuk dapat mengunduh surat rekomendasi.'); window.location.href='{{ route('survei-kepuasan') }}'; return false;" class="btn btn-sm btn-warning shadow-sm">
+                          <a href="#"
+                            onclick="alert('Silakan mengisi survei kepuasan masyarakat terlebih dahulu untuk dapat mengunduh surat rekomendasi.'); window.location.href='{{ route('survei-kepuasan') }}'; return false;"
+                            class="btn btn-sm btn-warning shadow-sm">
                             <i class="fas fa-download me-1"></i> Unduh Surat
                           </a>
                         @endif

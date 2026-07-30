@@ -11,6 +11,7 @@ use App\Livewire\Auth\ResetPassword;
 use App\Livewire\Upload\PemohonController;
 use App\Livewire\Upload\PermohonanController;
 use App\Livewire\SurveiKepuasanForm;
+use App\Livewire\LaporanAkhirForm;
 use App\Livewire\Admin\DataInstansi;
 
 // Verifikator Components
@@ -80,6 +81,7 @@ Route::middleware(['auth'])->group(function () {
     // Logic-based Routes
     Route::get('/identitas-diri/form', PemohonController::class)->name('identitas-form');
     Route::get('/survei-kepuasan-masyarakat', SurveiKepuasanForm::class)->name('survei-kepuasan');
+    Route::get('/laporan-akhir', LaporanAkhirForm::class)->name('laporan-akhir');
 
     Route::get('/permohonan/form/{layanan_slug}', PermohonanController::class)
       ->name('permohonan.form')
