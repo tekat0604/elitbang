@@ -12,13 +12,13 @@ class PejabatInstansiSeeder extends Seeder
         PejabatInstansi::create([
             'instansi' => 'kesbangpol',
             'nama_kepala_instansi' => 'Nama Kepala Kesbangpol',
-            'nip' => '198001012005011001',
+            'nip' => '000000000000000000',
         ]);
 
         PejabatInstansi::create([
             'instansi' => 'brida',
             'nama_kepala_instansi' => 'Nama Kepala Brida',
-            'nip' => '198102022006021002',
+            'nip' => '111111111111111111',
         ]);
     }
 }

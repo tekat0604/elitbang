@@ -16,7 +16,7 @@
       </div>
 
       <div class="col--md-6 form-control-validation">
-        <label class="form-label">Nomor Identitas<span class="text-danger">*</span></label>
+        <label class="form-label">Nomor Identitas (NIK, NIM, No.Paspor, No.SIM)<span class="text-danger">*</span></label>
         <input type="text" wire:model="nomor_identitas" class="form-control"
           placeholder="Masukkan nomor identitas" />
         @error('nomor_identitas')

@@ -24,6 +24,7 @@ return new class extends Migration {
                 'admin',
                 'verifikator',
                 'tanda_tangan',
+                'super_admin',
             ])->default('user');
             $table->enum('instansi', [
                 'brida',

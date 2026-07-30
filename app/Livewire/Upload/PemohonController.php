@@ -226,7 +226,7 @@ class PemohonController extends Component
             'alamat' => ['required', 'string', 'max:255'],
             'path_identitas' => [
                 $this->existing_path_identitas ? 'nullable' : 'required',
-                'file',
+                'image',
                 'mimes:jpg,jpeg',
                 'mimetypes:image/jpeg',
                 'max:1024'

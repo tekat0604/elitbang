@@ -124,7 +124,7 @@
                 
                 <div class="col-md-4">
                     <label class="form-label">Kategori Lokasi<span class="text-danger">*</span></label>
-                    <select wire:model.live="kategori_id" class="form-select border-primary">
+                    <select wire:model.live="kategori_id" class="form-select">
                         <option value="">Pilih Kategori...</option>
                         @foreach($daftar_kategori as $kategori)
                             <option value="{{ $kategori->id }}">{{ $kategori->kategori }}</option>
@@ -135,7 +135,7 @@
 
                 <div class="col-md-4">
                     <label class="form-label">Instansi Induk<span class="text-danger">*</span></label>
-                    <select wire:model.live="opd_id" class="form-select border-primary" {{ empty($daftar_opd) ? 'disabled' : '' }}>
+                    <select wire:model.live="opd_id" class="form-select" {{ empty($daftar_opd) ? 'disabled' : '' }}>
                         <option value="">Pilih Instansi Induk...</option>
                         @foreach($daftar_opd as $opd)
                             <option value="{{ $opd->id }}">{{ $opd->nama_opd }}</option>
@@ -146,7 +146,7 @@
 
                 <div class="col-md-4">
                     <label class="form-label">Lokasi Penelitian/Kegiatan<span class="text-danger">*</span></label>
-                    <select wire:model="opd_child_id" class="form-select border-primary" {{ empty($daftar_child) ? 'disabled' : '' }}>
+                    <select wire:model="opd_child_id" class="form-select" {{ empty($daftar_child) ? 'disabled' : '' }}>
                         <option value="">Pilih Lokasi...</option>
                         @foreach($daftar_child as $child)
                             <option value="{{ $child->id }}">{{ $child->nama }}</option>
@@ -174,7 +174,7 @@
                 <div class="col-12 mt-4"><h6 class="fw-bold text-primary border-bottom pb-2">Kategori Pengajuan</h6></div>
                 <div class="col-md-6">
                     <label class="form-label">Jenis Pengajuan<span class="text-danger">*</span></label>
-                    <select wire:model.live="jenis_pengajuan" class="form-select border-primary">
+                    <select wire:model.live="jenis_pengajuan" class="form-select">
                         <option value="">Pilih Jenis Pengajuan...</option>
                         <option value="personal">Personal (Individu)</option>
                         <option value="kelompok">Kelompok (Memiliki Anggota)</option>
