@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Admin;
+namespace App\Livewire\SuperAdmin;
 
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -24,8 +24,8 @@ class DataInstansi extends Component
     {
         $user = Auth::user();
 
-        if ($user->role !== 'admin') {
-            abort(403, 'Akses ditolak! Halaman ini khusus untuk admin.');
+        if ($user->role !== 'super_admin') {
+            abort(403, 'Akses ditolak! Halaman ini khusus untuk super admin.');
         }
     }
 
@@ -34,7 +34,7 @@ class DataInstansi extends Component
         // Hanya memanggil Kesbangpol dan Brida
         $dataInstansi = PejabatInstansi::whereIn('instansi', ['kesbangpol', 'brida'])->get();
 
-        return view('livewire.admin.data-instansi', compact('dataInstansi'));
+        return view('livewire.super-admin.data-instansi', compact('dataInstansi'));
     }
 
     public function edit($id)
@@ -54,7 +54,7 @@ class DataInstansi extends Component
         // Validasi input
         $this->validate([
             'nama_kepala_instansi' => 'required|string|max:255',
-            'nip' => 'required|string|max:50',
+            'nip' => 'required|string|min:18',
         ]);
 
         if ($this->pejabat_id) {

@@ -80,9 +80,7 @@
                 <td style="vertical-align: top; text-align: center; padding-top: 10px;">:</td>
                 <td style="padding-top: 10px;">
                     
-                    <!-- TABEL ANAK (BERSARANG) -->
                     <table class="table-data" style="width: 100%; border-collapse: collapse;">
-                        <!-- Beri ukuran langsung di baris pertama tabel anak -->
                         <tr>
                             <td style="width: 25%;">Nama</td>
                             <td style="width: 4%; text-align: center;">:</td>
@@ -138,25 +136,55 @@
             </tr>
         </table>
 
-        <div class="sign-container">
-            <div class="sign-left">
-                <br>
-                <p>Telah Diverifikasi Oleh :<br>
-                a.n. Kepala Badan Kesatuan Bangsa dan Politik<br>Kota Surakarta<br>
-                plh. Kepala Bidang Politik Dalam Negeri dan<br>Organisasi Kemasyarakatan</p>
-                <br><br><br>
-                <p><b><u>{{ $pejabat_kesbangpol->nama_kepala_instansi ?? 'Nama Pejabat Belum Diatur' }}</u></b><br>NIP : {{ $pejabat_kesbangpol->nip ?? '-' }}</p>
-            </div>
+        <table style="width: 100%; margin-top: 30px; text-align: center; border-collapse: collapse;">
+            <tr>
+                <td style="width: 50%; vertical-align: top;">
+                    <br>
+                    Telah Diverifikasi Oleh :<br>
+                    a.n. Kepala Badan Kesatuan Bangsa dan Politik<br>
+                    Kota Surakarta<br>
+                    plh. Kepala Bidang Politik Dalam Negeri dan<br>
+                    Organisasi Kemasyarakatan
+                </td>
+                <td style="width: 50%; vertical-align: top;">
+                    Surakarta, {{ $tanggal_cetak }}<br><br>
+                    a.n Kepala Badan Riset dan Inovasi Daerah<br>
+                    Kota Surakarta<br>
+                    Kepala Bidang Riset
+                </td>
+            </tr>
             
-            <div class="sign-right">
-                <p>Surakarta, {{ $tanggal_cetak }}<br><br>
-                a.n Kepala Badan Riset dan Inovasi Daerah<br>Kota Surakarta<br>
-                Kepala Bidang Riset</p>
-                <br><br><br><br>
-                <p><b><u>{{ $pejabat_brida->nama_kepala_instansi ?? 'Nama Pejabat Belum Diatur' }}</u></b><br>NIP : {{ $pejabat_brida->nip ?? '-' }}</p>
-            </div>
-            <div class="clear"></div>
+            <tr>
+                <td style="height: 100px; vertical-align: bottom; padding-bottom: 10px;">
+                    @if(isset($surat) && $surat->status_tte_kesbangpol === 'selesai')
+                        <img src="{{ storage_path('app/ttd/ttd_kesbangpol.jpeg') }}" height="70">
+                    @endif
+                </td>
+                <td style="height: 100px; vertical-align: bottom; padding-bottom: 10px;">
+                    @if(isset($surat) && $surat->status_tte_brida === 'selesai')
+                        <img src="{{ storage_path('app/ttd/ttd_brida.jpeg') }}" height="70">
+                    @endif
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align: top;">
+                    <b><u>{{ $pejabat_kesbangpol->nama_kepala_instansi ?? 'Nama Pejabat Belum Diatur' }}</u></b><br>
+                    NIP : {{ $pejabat_kesbangpol->nip ?? '-' }}
+                </td>
+                <td style="vertical-align: top;">
+                    <b><u>{{ $pejabat_brida->nama_kepala_instansi ?? 'Nama Pejabat Belum Diatur' }}</u></b><br>
+                    NIP : {{ $pejabat_brida->nip ?? '-' }}
+                </td>
+            </tr>
+        </table>
+        @if(isset($qr_code))
+        <div style="text-align: left; margin-top: 25px; margin-left: 30px;">
+            <!-- Menggunakan metode base64 agar DomPDF tidak perlu mengunduh gambar dari internet -->
+            <img src="data:image/svg+xml;base64,{{ $qr_code }}" alt="QR Code Verifikasi">
+            <p style="font-size: 8pt; color: #555; margin-top: 5px;"><i>Dokumen ini telah ditandatangani secara elektronik. Scan QR Code untuk memverifikasi keaslian dokumen.</i></p>
         </div>
+        @endif
     </div>
 </body>
 </html>

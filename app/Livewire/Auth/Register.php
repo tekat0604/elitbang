@@ -20,7 +20,7 @@ class Register extends Component
     return [
       'email' => ['required', 'email', 'max:255', 'unique:users,email', 'regex:/^[^<>&]*$/'],
       'username' => ['required', 'string', 'min:6', 'max:255', 'unique:users,username', 'regex:/^[^<>&]*$/'],
-      'password' => ['required', 'string', 'min:6'],
+      'password' => ['required', 'min:8', 'regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/'],
     ];
   }
 
@@ -31,14 +31,15 @@ class Register extends Component
       'email.email' => 'Email tidak valid.',
       'email.unique' => 'Email sudah terdaftar.',
       'email.max' => 'Email maksimal 255 karakter.',
+      'email.regex' => 'Email tidak boleh mengandung karakter khusus.',
       'username.required' => 'Username wajib diisi.',
       'username.string' => 'Username harus berupa teks.',
       'username.min' => 'Username minimal 6 karakter.',
       'username.max' => 'Username maksimal 255 karakter.',
       'username.unique' => 'Username sudah digunakan.',
       'password.required' => 'Password wajib diisi.',
-      'password.string' => 'Password harus berupa teks.',
       'password.min' => 'Password minimal 6 karakter.',
+      'password.regex' => 'Password harus mengandung minimal huruf besar, angka, dan karakter khusus.',
     ];
   }
 

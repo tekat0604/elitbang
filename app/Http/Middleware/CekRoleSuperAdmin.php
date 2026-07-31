@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 
-class CekRoleAdmin
+class CekRoleSuperAdmin
 {
     /**
      * Handle an incoming request.
@@ -21,10 +21,10 @@ class CekRoleAdmin
 
         $role = strtolower(trim($user->role ?? ''));
 
-        // Jika rolenya bukan admin, blokir aksesnya
-        if ($role !== 'admin') {
+        // Jika rolenya bukan super admin, blokir aksesnya
+        if ($role !== 'super_admin') {
             // Arahkan kembali ke dashboard dengan pesan error
-            return redirect()->route('dashboard')->with('error', 'Akses Ditolak! Halaman ini khusus untuk admin.');
+            return redirect()->route('dashboard')->with('error', 'Akses Ditolak! Halaman ini khusus untuk super admin.');
         }
 
         return $next($request);

@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('nama_kepala_instansi');
             $table->string('nip');
             $table->timestamps();
+            $table->string('file_ttd')->nullable();
         });
     }
 

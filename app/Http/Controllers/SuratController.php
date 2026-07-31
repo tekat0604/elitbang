@@ -43,4 +43,20 @@ class SuratController extends Controller
 
         return Storage::disk('public')->response($path);
     }
+
+    public function verifikasi($token)
+    {
+        // Cari surat berdasarkan token QR acak yang ada di kolom link_qr
+        $surat = SuratIzin::with(['permohonan.pemohon', 'permohonan.layanan'])
+            ->where('link_qr', $token)
+            ->first();
+
+        // Jika token tidak cocok atau dokumen dipalsukan
+        if (!$surat) {
+            abort(404, 'Dokumen tidak valid, dipalsukan, atau tidak ditemukan di sistem kami.');
+        }
+
+        // Jika dokumen asli, arahkan ke halaman detail verifikasi
+        return view('publik.verifikasi-dokumen', compact('surat'));
+    }
 }
