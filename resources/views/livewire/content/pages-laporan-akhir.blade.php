@@ -61,7 +61,6 @@
                 <th>Link Laporan</th>
                 <th>Status BRIDA</th>
                 <th>Catatan BRIDA</th>
-                <th>Status Utama</th>
                 <th>Surat Keterangan Selesai Penelitian</th>
               </tr>
             </thead>
@@ -75,7 +74,6 @@
                   <td><a href="{{ $linkDokumen }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary"><i class="fas fa-external-link-alt me-1"></i>Lihat Dokumen</a></td>
                   <td><span class="badge text-bg-warning">Menunggu Verifikasi</span></td>
                   <td>-</td>
-                  <td><span class="badge text-bg-warning">Dikirim</span></td>
                   <td><span class="text-body-secondary">Belum tersedia</span></td>
                 </tr>
               @endif
