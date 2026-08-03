@@ -19,9 +19,9 @@ class SuratIzinService
 
     if ($surat) {
 
-      // Token ini akan dipakai untuk URL QR Code DAN nama file PDF
-      if (empty($surat->link_qr)) {
-        $surat->link_qr = Str::random(32);
+      // Token ini akan dipakai untuk URL QR Code dan nama file PDF
+      if (empty($surat->qr_code_link)) {
+        $surat->qr_code_link = Str::random(32);
         $surat->save();
       }
 
@@ -33,11 +33,12 @@ class SuratIzinService
       $pejabatKesbangpol = PejabatInstansi::where('instansi', 'kesbangpol')->first();
       $pejabatBrida = PejabatInstansi::where('instansi', 'brida')->first();
 
-      $qrCodeBase64 = null;
-      // 2. cek apakah 
+      $qrCode = null;
+      // cek apakah brida dan kesbangpol selesai tanda tangan
       if ($surat->status_tte_brida === 'selesai' && $surat->status_tte_kesbangpol === 'selesai') {
-        $urlVerifikasi = url('/verifikasi/' . $surat->link_qr);
-        $qrCodeBase64 = base64_encode(QrCode::format('png')->margin(0)->size(80)->generate($urlVerifikasi));
+        $urlVerifikasi = url('/verifikasi/' . $surat->qr_code_link);
+        $svg = QrCode::margin(0)->size(80)->generate($urlVerifikasi);
+        $qrCode = base64_encode($svg);
       }
 
       // Render PDF-nya
@@ -48,14 +49,13 @@ class SuratIzinService
         'tanggal_cetak' => Carbon::now()->locale('id')->isoFormat('D MMMM Y'),
         'pejabat_kesbangpol' => $pejabatKesbangpol,
         'pejabat_brida' => $pejabatBrida,
-        'qr_code' => $qrCodeBase64,
+        'qr_code' => $qrCode,
       ])->setPaper('a4', 'portrait');
 
-      // 3. GUNAKAN TOKEN UNTUK NAMA FILE (Bukan ID lagi)
       if ($surat->status_tte_brida === 'selesai' && $surat->status_tte_kesbangpol === 'selesai') {
 
         // Simpan ke folder FINAL menggunakan token acak
-        $filename = 'surat_izin_final_' . $surat->link_qr . '_' . time() . '.pdf';
+        $filename = 'surat_izin_final_' . $surat->qr_code_link . '_' . time() . '.pdf';
         $path = 'surat_izin/final/' . $filename;
         Storage::disk('public')->put($path, $pdf->output());
 
@@ -67,7 +67,7 @@ class SuratIzinService
       } else {
 
         // Simpan ke folder DRAFT menggunakan token acak
-        $filename = 'draft_surat_izin_' . $surat->link_qr . '_' . time() . '.pdf';
+        $filename = 'draft_surat_izin_' . $surat->qr_code_link . '_' . time() . '.pdf';
         $path = 'surat_izin/draft/' . $filename;
         Storage::disk('public')->put($path, $pdf->output());
 

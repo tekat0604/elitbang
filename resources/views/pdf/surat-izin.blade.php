@@ -180,8 +180,7 @@
         </table>
         @if(isset($qr_code))
         <div style="text-align: left; margin-top: 25px; margin-left: 30px;">
-            <!-- Menggunakan metode base64 agar DomPDF tidak perlu mengunduh gambar dari internet -->
-            <img src="data:image/svg+xml;base64,{{ $qr_code }}" alt="QR Code Verifikasi">
+            <img src="data:image/svg+xml;base64,{{ $qr_code }}" width="80" height="80" alt="QR Code Verifikasi">           
             <p style="font-size: 8pt; color: #555; margin-top: 5px;"><i>Dokumen ini telah ditandatangani secara elektronik. Scan QR Code untuk memverifikasi keaslian dokumen.</i></p>
         </div>
         @endif

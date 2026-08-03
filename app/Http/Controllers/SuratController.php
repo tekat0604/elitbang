@@ -46,9 +46,9 @@ class SuratController extends Controller
 
     public function verifikasi($token)
     {
-        // Cari surat berdasarkan token QR acak yang ada di kolom link_qr
+        // Cari surat berdasarkan token QR acak yang ada di kolom qr_code_link
         $surat = SuratIzin::with(['permohonan.pemohon', 'permohonan.layanan'])
-            ->where('link_qr', $token)
+            ->where('qr_code_link', $token)
             ->first();
 
         // Jika token tidak cocok atau dokumen dipalsukan

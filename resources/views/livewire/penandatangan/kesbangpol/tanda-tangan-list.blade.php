@@ -13,7 +13,7 @@
             <span class="badge bg-primary text-white fs-6 px-3 py-2"><i class="fas fa-pen-nib me-1"></i> PANEL KESBANGPOL</span>
         </div>
         <div class="card-body p-0"><div class="table-responsive"><table class="table table-hover align-middle mb-0">
-            <thead class="table-light"><tr><th class="px-4">Tgl Pengajuan</th><th>Nama Pemohon</th><th>Jenis Izin</th><th>Instansi Tujuan / Asal</th><th class="text-center">Detail</th><th class="text-center">Tanda Tangan</th></tr></thead>
+            <thead class="table-light"><tr><th class="px-4">Tgl Pengajuan</th><th>Nama Pemohon</th><th>Jenis Izin</th><th>Instansi Asal</th><th class="text-center">Detail</th><th class="text-center">Tanda Tangan</th></tr></thead>
             <tbody>
                 @forelse ($permohonanList as $item)
                     <tr>
