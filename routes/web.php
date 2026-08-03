@@ -20,6 +20,8 @@ use App\Livewire\Verifikator\PemohonDetail;
 use App\Livewire\Verifikator\Brida\PermohonanListBrida;
 use App\Livewire\Verifikator\Brida\PermohonanDetailBrida;
 use App\Livewire\Verifikator\Brida\PenomoranSurat;
+use App\Livewire\Verifikator\Brida\LaporanAkhirListBrida;
+use App\Livewire\Verifikator\Brida\LaporanAkhirDetailBrida;
 use App\Livewire\Verifikator\Kesbangpol\PermohonanListKesbangpol;
 use App\Livewire\Verifikator\Kesbangpol\PermohonanDetailKesbangpol;
 
@@ -105,6 +107,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/brida/permohonan', PermohonanListBrida::class)->name('brida.permohonan.list');
     Route::get('/brida/permohonan/{id}', PermohonanDetailBrida::class)->name('brida.permohonan.detail');
     Route::get('/brida/penomoran-surat', PenomoranSurat::class)->name('brida.penomoran');
+    Route::get('/brida/laporan-akhir', LaporanAkhirListBrida::class)->name('brida.laporan-akhir.list');
+    Route::get('/brida/laporan-akhir/{id}', LaporanAkhirDetailBrida::class)->name('brida.laporan-akhir.detail');
 
     // Kesbangpol
     Route::get('/kesbangpol/permohonan', PermohonanListKesbangpol::class)->name('kesbangpol.permohonan.list');

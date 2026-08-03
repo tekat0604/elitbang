@@ -29,6 +29,7 @@
             'verifikator_brida' => [
                 ['label' => 'Verifikasi Pemohon', 'route' => 'verifikator.pemohon.list', 'active' => 'verifikator.pemohon*'],
                 ['label' => 'Pengajuan Perizinan', 'route' => 'verifikator.brida.permohonan.list', 'active' => 'verifikator.brida.permohonan*'],
+                ['label' => 'Pengajuan Laporan Akhir', 'route' => 'verifikator.brida.laporan-akhir.list', 'active' => 'verifikator.brida.laporan-akhir*'],
                 ['label' => 'Terbitkan Surat', 'route' => 'verifikator.brida.penomoran', 'active' => 'verifikator.brida.penomoran*']
             ],
             'verifikator_kesbangpol' => [
