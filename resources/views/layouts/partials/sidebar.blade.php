@@ -13,7 +13,7 @@
         $role = $user->role ?: 'user'; // Default ke 'user' jika kosong
         $instansi = $user->instansi;
 
-        if ($role === 'user' || $role === 'admin') {
+        if ($role === 'user' || $role === 'super_admin') {
             $userType = $role;
         } else {
             $userType = $role . '_' . $instansi;
@@ -40,8 +40,9 @@
             'tanda_tangan_kesbangpol' => [
                 ['label' => 'Pengajuan Perizinan', 'route' => 'penandatangan.kesbangpol.list', 'active' => 'penandatangan.kesbangpol*'],
             ],
-            'admin' => [
-                ['label' => 'Data Instansi', 'route' => 'admin.data-instansi', 'active' => 'admin.data-instansi*'],
+            'super_admin' => [
+                ['label' => 'Data Pengguna', 'route' => 'super-admin.akun-manual', 'active' => 'super-admin.akun-manual*'],
+                ['label' => 'Data Instansi', 'route' => 'super-admin.data-instansi', 'active' => 'super-admin.data-instansi*'],
             ],
         ];
 
@@ -50,7 +51,7 @@
     @endphp
 
     <nav class="nav flex-column">
-      <!-- Menu Dashboard (Selalu Muncul untuk Semua) -->
+      <!-- Menu Dashboard -->
       <a class="nav-link py-2 mb-1 {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
         Dashboard
       </a>

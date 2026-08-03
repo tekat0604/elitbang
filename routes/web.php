@@ -12,7 +12,7 @@ use App\Livewire\Upload\PemohonController;
 use App\Livewire\Upload\PermohonanController;
 use App\Livewire\SurveiKepuasanForm;
 use App\Livewire\LaporanAkhirForm;
-use App\Livewire\Admin\DataInstansi;
+use App\Livewire\SuperAdmin\DataInstansi;
 
 // Verifikator Components
 use App\Livewire\Verifikator\PemohonList;
@@ -41,7 +41,8 @@ use App\Http\Middleware\CekRoleUser;
 use App\Http\Middleware\CekVerifikasiPemohon;
 use App\Http\Middleware\CekVerifikasiPermohonan;
 use App\Http\Middleware\CekRoleTandaTangan;
-use App\Http\Middleware\CekRoleAdmin;
+use App\Http\Middleware\CekRoleSuperAdmin;
+use App\Livewire\SuperAdmin\AkunManual;
 
 // Public & Guest Routes
 Route::get('/', Landing::class)->name('landing');
@@ -49,6 +50,8 @@ Route::get('/login', Login::class)->name('login');
 Route::get('/register', Register::class)->name('register');
 Route::get('/auth/forgot-password-basic', ForgotPassword::class)->name('password.request');
 Route::get('/reset-password/{token}', ResetPassword::class)->name('password.reset');
+
+Route::get('/verifikasi/{token}', [SuratController::class, 'verifikasi'])->name('verifikasi.dokumen');
 
 // Google SSO Routes
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
@@ -117,8 +120,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/kesbangpol/permohonan/{id}', TandaTanganDetailKesbangpol::class)->name('kesbangpol.detail');
   });
 
-  // Role: Admin
-  Route::middleware([CekRoleAdmin::class])->prefix('admin')->name('admin.')->group(function () {
+  // Role: Super Admin
+  Route::middleware([CekRoleSuperAdmin::class])->prefix('super-admin')->name('super-admin.')->group(function () {
     Route::get('/data-instansi', DataInstansi::class)->name('data-instansi');
+    Route::get('/data-pengguna', AkunManual::class)->name('akun-manual');
   });
 });
