@@ -60,11 +60,12 @@ class LaporanAkhirForm extends Component
             $permohonan = Permohonan::whereKey($this->permohonanId)
                 ->where('pemohon_id', $pemohonId)
                 ->where('status_permohonan', 'disetujui')
+                ->has('surveiKepuasan')
                 ->doesntHave('laporanAkhir')
                 ->first();
 
             if (!$permohonan) {
-                $this->addError('permohonanId', 'Permohonan tidak valid atau laporan akhir sudah pernah dikirim.');
+                $this->addError('permohonanId', 'Permohonan tidak valid, survei kepuasan belum diisi, atau laporan akhir sudah pernah dikirim.');
                 return;
             }
 
@@ -112,15 +113,22 @@ class LaporanAkhirForm extends Component
         $permohonanList = auth()->user()->pemohon?->permohonan()
             ->with('layanan')
             ->where('status_permohonan', 'disetujui')
+            ->has('surveiKepuasan')
             ->doesntHave('laporanAkhir')
             ->latest()
             ->get() ?? collect();
+
+        $perluSurvei = auth()->user()->pemohon?->permohonan()
+            ->where('status_permohonan', 'disetujui')
+            ->doesntHave('surveiKepuasan')
+            ->doesntHave('laporanAkhir')
+            ->exists() ?? false;
 
         $laporanList = LaporanAkhir::with(['permohonan.layanan'])
             ->whereHas('permohonan', fn ($query) => $query->where('pemohon_id', $pemohonId))
             ->latest('tanggal_upload')
             ->get();
 
-        return view('livewire.content.pages-laporan-akhir', compact('permohonanList', 'laporanList'));
+        return view('livewire.content.pages-laporan-akhir', compact('permohonanList', 'laporanList', 'perluSurvei'));
     }
 }

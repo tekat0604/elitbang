@@ -50,6 +50,15 @@
             </div>
           </div>
         </form>
+      @elseif ($perluSurvei)
+        <div class="alert alert-warning d-flex align-items-center mb-0" role="alert">
+          <i class="fas fa-clipboard-check fa-lg me-3"></i>
+          <div>
+            <div class="fw-semibold">Survei kepuasan perlu diisi terlebih dahulu.</div>
+            <div class="small">Silakan isi survei kepuasan untuk permohonan penelitian Anda sebelum mengunggah laporan akhir.</div>
+          </div>
+          <a href="{{ route('survei-kepuasan') }}" class="btn btn-warning ms-auto text-nowrap">Isi Survei</a>
+        </div>
       @else
         <div class="text-body-secondary">Belum ada permohonan selesai yang dapat dikirim sebagai laporan akhir.</div>
       @endif
