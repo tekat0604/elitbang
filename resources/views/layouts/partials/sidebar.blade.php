@@ -10,13 +10,20 @@
 
     @php
         $user = auth()->user();
-        $role = $user->role ?: 'user'; // Default ke 'user' jika kosong
-        $instansi = $user->instansi;
+        $role = strtolower(trim($user->role ?? 'user'));
+        $instansi = strtolower(trim($user->instansi ?? ''));
 
-        if ($role === 'user' || $role === 'super_admin') {
+        if (in_array($role, ['user', 'super_admin', 'opd', 'uptd'])) {
             $userType = $role;
         } else {
             $userType = $role . '_' . $instansi;
+        }
+
+        $jumlahBelumDibaca = 0;
+        if (in_array($role, ['opd', 'uptd'])) {
+            $jumlahBelumDibaca = \App\Models\TembusanOpd::where('user_id', $user->id)
+                ->where('is_read', false)
+                ->count();
         }
 
         $menus = [
@@ -45,6 +52,12 @@
                 ['label' => 'Data Pengguna', 'route' => 'super-admin.akun-manual', 'active' => 'super-admin.akun-manual*'],
                 ['label' => 'Data Instansi', 'route' => 'super-admin.data-instansi', 'active' => 'super-admin.data-instansi*'],
             ],
+            'opd' => [
+                ['label' => 'Surat Masuk', 'route' => 'instansi.surat-masuk.list', 'active' => 'instansi.surat-masuk*'],
+            ],
+            'uptd' => [
+                ['label' => 'Surat Masuk', 'route' => 'instansi.surat-masuk.list', 'active' => 'instansi.surat-masuk*'],
+            ],
         ];
 
         // 3. Ambil menu yang sesuai, jika tidak ada fallback ke array kosong
@@ -59,8 +72,13 @@
 
       <!-- Menu Dinamis (Muncul Berdasarkan Role & Instansi) -->
       @foreach($activeMenus as $menu)
-        <a class="nav-link py-2 mb-1 {{ request()->routeIs($menu['active']) ? 'active' : '' }}" href="{{ route($menu['route']) }}">
-          {{ $menu['label'] }}
+        <a class="nav-link py-2 mb-1 d-flex justify-content-between align-items-center {{ request()->routeIs($menu['active']) ? 'active' : '' }}" href="{{ route($menu['route']) }}">
+          <span>{{ $menu['label'] }}</span>
+          
+          <!-- Tampilkan Badge jika menu adalah Surat Masuk dan ada yang belum dibaca -->
+          @if($menu['route'] === 'instansi.surat-masuk.list' && $jumlahBelumDibaca > 0)
+              <span class="badge bg-secondary rounded-pill">  {{ $jumlahBelumDibaca }}</span>
+          @endif
         </a>
       @endforeach
     </nav>

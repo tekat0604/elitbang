@@ -1,5 +1,4 @@
 <div>
-    <!-- Header & Tombol Tambah -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="mb-0">Data Pengguna</h4>
         <button wire:click="openModal" class="btn btn-primary">
@@ -7,7 +6,6 @@
         </button>
     </div>
 
-    <!-- Alert Notifikasi -->
     @if (session()->has('message'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('message') }}
@@ -23,7 +21,7 @@
                     <th class="text-white">Nama</th>
                     <th class="text-white">Email</th>
                     <th class="text-white">Role</th>
-                    <th class="text-white">Instansi</th>
+                    <th class="text-white">Penugasan / Instansi</th>
                     <th class="text-white text-center">Aksi</th>
                 </tr>
                 <!-- Header Form Filter -->
@@ -41,15 +39,13 @@
                             <option value="admin">Admin</option>
                             <option value="verifikator">Verifikator</option>
                             <option value="tanda_tangan">Tanda Tangan</option>
+                            <option value="opd">Admin OPD (Induk)</option>
+                            <option value="uptd">Admin UPTD (Anak)</option>
                             <option value="user">User</option>
                         </select>
                     </th>
                     <th>
-                        <select wire:model.live="searchInstansi" class="form-select form-select-sm bg-white">
-                            <option value="">Semua Instansi</option>
-                            <option value="brida">Brida</option>
-                            <option value="kesbangpol">Kesbangpol</option>
-                        </select>
+                        <!-- Kolom filter instansi dasar (Opsional) -->
                     </th>
                     <th>
                         <!-- Kosong untuk kolom aksi -->
@@ -64,7 +60,18 @@
                     <td>
                         <span class="badge bg-dark">{{ strtoupper($user->role) }}</span>
                     </td>
-                    <td>{{ $user->instansi ? strtoupper($user->instansi) : '-' }}</td>
+                    <td>
+                        <!-- Logika penayangan instansi berdasarkan role user -->
+                        @if(in_array($user->role, ['verifikator', 'tanda_tangan']) && $user->instansi)
+                            {{ strtoupper($user->instansi) }}
+                        @elseif($user->role === 'opd' && $user->opd)
+                            {{ $user->opd->nama_opd }}
+                        @elseif($user->role === 'uptd' && $user->opdChild)
+                            {{ $user->opdChild->nama }}
+                        @else
+                            <span class="text-muted">-</span>
+                        @endif
+                    </td>
                     <td class="text-center">
                         <button wire:click="edit({{ $user->id }})" class="btn btn-sm btn-primary">Edit</button>
                         <button wire:click="delete({{ $user->id }})" wire:confirm="Apakah anda yakin ingin menghapus data pengguna ini?" class="btn btn-sm btn-danger">Hapus</button>
@@ -93,7 +100,7 @@
                     <h5 class="modal-title">{{ $isEditMode ? 'Edit Pengguna' : 'Tambah Pengguna' }}</h5>
                     <button type="button" class="btn-close" wire:click="closeModal" aria-label="Close"></button>
                 </div>
-                <!-- Menentukan fungsi yang dipanggil saat submit (update atau store) -->
+                
                 <form wire:submit.prevent="{{ $isEditMode ? 'update' : 'store' }}">
                     <div class="modal-body">
                         
@@ -109,28 +116,62 @@
                             @error('email') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
 
+                        <!-- Gunakan wire:model.live agar field di bawahnya bisa berganti otomatis saat diklik -->
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Role</label>
-                            <select wire:model="role" class="form-select @error('role') is-invalid @enderror">
+                            <select wire:model.live="role" class="form-select @error('role') is-invalid @enderror">
                                 <option value="">Pilih Role</option>
                                 <option value="super_admin">Super Admin</option>
                                 <option value="admin">Admin</option>
                                 <option value="verifikator">Verifikator</option>
                                 <option value="tanda_tangan">Tanda Tangan</option>
-                                <option value="user">User</option>
+                                <option value="opd">Admin OPD (Dinas Induk)</option>
+                                <option value="uptd">Admin UPTD (Cabang/Anak)</option>
+                                <option value="user">User Pemohon</option>
                             </select>
                             @error('role') <span class="invalid-feedback">{{ $message }}</span> @enderror
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Instansi <small class="text-muted">(Opsional)</small></label>
-                            <select wire:model="instansi" class="form-select @error('instansi') is-invalid @enderror">
-                                <option value="">Tanpa Instansi / Pilih Instansi</option>
-                                <option value="brida">Brida</option>
-                                <option value="kesbangpol">Kesbangpol</option>
-                            </select>
-                            @error('instansi') <span class="invalid-feedback">{{ $message }}</span> @enderror
-                        </div>
+                        <!-- FIELD DINAMIS UNTUK VERIFIKATOR / PENANDATANGAN -->
+                        @if(in_array($role, ['verifikator', 'tanda_tangan']))
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Instansi</label>
+                                <select wire:model="instansi" class="form-select @error('instansi') is-invalid @enderror">
+                                    <option value="">Pilih Instansi</option>
+                                    <option value="brida">Brida</option>
+                                    <option value="kesbangpol">Kesbangpol</option>
+                                </select>
+                                @error('instansi') <span class="invalid-feedback">{{ $message }}</span> @enderror
+                            </div>
+                        @endif
+
+                        <!-- FIELD DINAMIS UNTUK OPD -->
+                        @if($role === 'opd')
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Pilih OPD Induk</label>
+                                <select wire:model="id_opd" class="form-select @error('id_opd') is-invalid @enderror">
+                                    <option value="">-- Pilih Dinas/Badan Induk --</option>
+                                    @foreach($opds as $opdData)
+                                        <option value="{{ $opdData->id }}">{{ $opdData->nama_opd }}</option>
+                                    @endforeach
+                                </select>
+                                @error('id_opd') <span class="invalid-feedback">{{ $message }}</span> @enderror
+                            </div>
+                        @endif
+
+                        <!-- FIELD DINAMIS UNTUK UPTD -->
+                        @if($role === 'uptd')
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Pilih UPTD Anak</label>
+                                <select wire:model="id_opd_child" class="form-select @error('id_opd_child') is-invalid @enderror">
+                                    <option value="">-- Pilih Cabang / Instansi Tujuan --</option>
+                                    @foreach($opdChildren as $child)
+                                        <option value="{{ $child->id }}">{{ $child->nama }}</option>
+                                    @endforeach
+                                </select>
+                                @error('id_opd_child') <span class="invalid-feedback">{{ $message }}</span> @enderror
+                            </div>
+                        @endif
 
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Password</label>

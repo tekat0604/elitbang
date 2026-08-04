@@ -3,6 +3,8 @@
 namespace App\Livewire\SuperAdmin;
 
 use App\Models\User;
+use App\Models\Opd;
+use App\Models\OpdChild;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +19,7 @@ class AkunManual extends Component
     use WithPagination;
 
     // Variabel Form Modal
-    public $user_id, $name, $email, $role, $instansi, $password;
+    public $user_id, $name, $email, $role, $instansi, $password, $id_opd, $id_opd_child;
     public $isModalOpen = false;
     public $isEditMode = false;
 
@@ -37,9 +39,7 @@ class AkunManual extends Component
         'email.unique' => 'Email sudah terdaftar.',
         'email.regex' => 'Email tidak boleh mengandung karakter khusus.',
         'role.required' => 'Role wajib diisi.',
-        'role.string' => 'Role harus berupa string.',
-        'role.enum' => 'Role tidak valid.',
-        'instansi.string' => 'Instansi harus berupa string.',
+        'role.in' => 'Role tidak valid.',
         'password.required' => 'Password wajib diisi.',
         'password.min' => 'Password minimal 8 karakter.',
         'password.regex' => 'Password harus mengandung huruf besar, angka, dan karakter khusus.',
@@ -49,22 +49,29 @@ class AkunManual extends Component
     {
         $user = Auth::user();
 
-        // Pengecekan role super_admin tetap dipertahankan
         if ($user->role !== 'super_admin') {
             abort(403, 'Akses ditolak! Halaman ini khusus untuk super admin.');
         }
     }
+
     public function updated($property)
     {
         if (in_array($property, ['searchNama', 'searchEmail', 'searchRole', 'searchInstansi'])) {
             $this->resetPage();
         }
+
+        // Reset pilihan instansi/OPD jika role diubah di form
+        if ($property === 'role') {
+            $this->instansi = null;
+            $this->id_opd = null;
+            $this->id_opd_child = null;
+        }
     }
 
     public function render()
     {
-        // Membangun query dengan kondisi filter
-        $query = User::query();
+        // Membangun query dengan kondisi filter dan memuat relasi
+        $query = User::with(['opd', 'opdChild']);
 
         if (!empty($this->searchNama)) {
             $query->where('name', 'like', '%' . $this->searchNama . '%');
@@ -84,12 +91,16 @@ class AkunManual extends Component
 
         $users = $query->latest()->paginate(10);
 
-        return view('livewire.super-admin.akun-manual', compact('users'));
+        // Mengambil data master OPD dan UPTD untuk dropdown di modal form
+        $opds = Opd::orderBy('nama_opd', 'asc')->get();
+        $opdChildren = OpdChild::orderBy('nama', 'asc')->get();
+
+        return view('livewire.super-admin.akun-manual', compact('users', 'opds', 'opdChildren'));
     }
 
     public function resetFields()
     {
-        $this->reset(['user_id', 'name', 'email', 'role', 'instansi', 'password']);
+        $this->reset(['user_id', 'name', 'email', 'role', 'instansi', 'id_opd', 'id_opd_child', 'password']);
         $this->isEditMode = false;
     }
 
@@ -110,8 +121,10 @@ class AkunManual extends Component
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email|regex:/^[^<>&]*$/',
-            'role' => 'required|string|enum:user,admin,verifikator,tanda_tangan,super_admin',
+            'role' => 'required|string|in:user,admin,verifikator,tanda_tangan,super_admin,opd,uptd',
             'instansi' => 'nullable|string',
+            'id_opd' => 'nullable|exists:opd,id',
+            'id_opd_child' => 'nullable|exists:opd_child,id',
             'password' => ['required', 'min:8', 'regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/'],
         ];
 
@@ -121,7 +134,10 @@ class AkunManual extends Component
             'name' => $this->name,
             'email' => $this->email,
             'role' => $this->role,
-            'instansi' => $this->instansi,
+            // Simpan data instansi secara selektif sesuai role yang dipilih
+            'instansi' => in_array($this->role, ['verifikator', 'tanda_tangan']) ? $this->instansi : null,
+            'id_opd' => $this->role === 'opd' ? $this->id_opd : null,
+            'id_opd_child' => $this->role === 'uptd' ? $this->id_opd_child : null,
             'password' => Hash::make($this->password),
         ]);
 
@@ -138,6 +154,8 @@ class AkunManual extends Component
         $this->email = $user->email;
         $this->role = $user->role;
         $this->instansi = $user->instansi;
+        $this->id_opd = $user->id_opd;
+        $this->id_opd_child = $user->id_opd_child;
 
         $this->isEditMode = true;
         $this->isModalOpen = true;
@@ -148,8 +166,10 @@ class AkunManual extends Component
         $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $this->user_id,
-            'role' => 'required|string',
+            'role' => 'required|string|in:user,admin,verifikator,tanda_tangan,super_admin,opd,uptd',
             'instansi' => 'nullable|string',
+            'id_opd' => 'nullable|exists:opd,id',
+            'id_opd_child' => 'nullable|exists:opd_child,id',
         ];
 
         if (!empty($this->password)) {
@@ -164,10 +184,11 @@ class AkunManual extends Component
             'name' => $this->name,
             'email' => $this->email,
             'role' => $this->role,
-            'instansi' => $this->instansi,
+            'instansi' => in_array($this->role, ['verifikator', 'tanda_tangan']) ? $this->instansi : null,
+            'id_opd' => $this->role === 'opd' ? $this->id_opd : null,
+            'id_opd_child' => $this->role === 'uptd' ? $this->id_opd_child : null,
         ]);
 
-        // Update password hanya jika kolom password diisi
         if ($this->password) {
             $user->update(['password' => Hash::make($this->password)]);
         }

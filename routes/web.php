@@ -36,7 +36,7 @@ use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SuratController;
-
+use App\Http\Middleware\CekRoleInstansi;
 // Middlewares
 use App\Http\Middleware\CekRoleVerifikator;
 use App\Http\Middleware\CekRoleUser;
@@ -45,6 +45,10 @@ use App\Http\Middleware\CekVerifikasiPermohonan;
 use App\Http\Middleware\CekRoleTandaTangan;
 use App\Http\Middleware\CekRoleSuperAdmin;
 use App\Livewire\SuperAdmin\AkunManual;
+
+// OPD Components
+use App\Livewire\Instansi\SuratMasukList;
+use App\Livewire\Instansi\SuratMasukDetail;
 
 // Public & Guest Routes
 Route::get('/', Landing::class)->name('landing');
@@ -129,4 +133,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/data-instansi', DataInstansi::class)->name('data-instansi');
     Route::get('/data-pengguna', AkunManual::class)->name('akun-manual');
   });
+
+  // Role: Instansi
+  Route::middleware([CekRoleInstansi::class])->prefix('instansi')->name('instansi.')->group(function () {
+    Route::get('/surat-masuk', SuratMasukList::class)->name('surat-masuk.list');
+    Route::get('/surat-masuk/{id}', SuratMasukDetail::class)->name('surat-masuk.detail');
+  });
+
+
 });

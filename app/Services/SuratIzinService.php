@@ -6,6 +6,8 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Permohonan;
 use App\Models\SuratIzin;
 use App\Models\PejabatInstansi;
+use App\Models\User;
+use App\Models\TembusanOpd;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -64,6 +66,21 @@ class SuratIzinService
           'file_surat_final' => $path,
         ]);
 
+        $targetOpdId = $permohonan->opdChild->id_opd;
+
+        // Cari admin yang bertugas di OPD tersebut
+        $adminOpdList = User::where('role', 'opd')->where('id_opd', $targetOpdId)->get();
+
+        foreach ($adminOpdList as $adminOpd) {
+          // Kirim notifikasi pertama kali ke OPD
+          TembusanOpd::firstOrCreate([
+            'permohonan_id' => $permohonan->id,
+            'user_id' => $adminOpd->id,
+          ], [
+            'level_distribusi' => 'opd',
+            'is_read' => false
+          ]);
+        }
       } else {
 
         // Simpan ke folder DRAFT menggunakan token acak
