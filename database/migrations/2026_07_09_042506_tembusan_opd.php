@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('permohonan_id')->constrained('permohonan')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->enum('level_distribusi', ['opd', 'uptd']);
             $table->boolean('is_read')->default(false);
             $table->timestamps();
         });

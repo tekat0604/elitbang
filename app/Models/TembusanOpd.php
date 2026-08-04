@@ -15,6 +15,7 @@ class TembusanOpd extends Model
     protected $fillable = [
         'permohonan_id',
         'user_id',
+        'level_distribusi',
         'is_read',
     ];
 

@@ -24,12 +24,17 @@ return new class extends Migration {
                 'admin',
                 'verifikator',
                 'tanda_tangan',
-                'super_admin'
+                'super_admin',
+                'opd',
+                'uptd',
             ])->default('user');
             $table->enum('instansi', [
                 'brida',
                 'kesbangpol',
             ])->nullable();
+
+            $table->foreignId('id_opd')->nullable()->constrained('opd')->onDelete('cascade');
+            $table->foreignId('id_opd_child')->nullable()->constrained('opd_child')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

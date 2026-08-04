@@ -26,6 +26,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'avatar',
         'role',
         'instansi',
+        'id_opd',
+        'id_opd_child',
     ];
 
     /**
@@ -58,5 +60,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function pemohon(): HasOne
     {
         return $this->hasOne(Pemohon::class);
+    }
+    public function opd()
+    {
+        return $this->belongsTo(Opd::class, 'id_opd');
+    }
+
+    public function opdChild()
+    {
+        return $this->belongsTo(OpdChild::class, 'id_opd_child');
     }
 }
