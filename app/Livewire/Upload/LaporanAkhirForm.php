@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Upload;
 
 use App\Models\LaporanAkhir;
 use App\Models\Permohonan;
@@ -38,34 +38,38 @@ class LaporanAkhirForm extends Component
         $this->validate();
         $pemohonId = auth()->user()->pemohon?->id;
 
-        if (!$pemohonId) {
-            abort(403, 'Data pemohon tidak ditemukan.');
-        }
+        abort_if(!$pemohonId, 403, 'Data pemohon tidak ditemukan.');
 
         if ($this->laporanId) {
+            // Logika Revisi
             $laporan = LaporanAkhir::whereKey($this->laporanId)
                 ->where('status_laporan', 'revisi')
-                ->whereHas('permohonan', fn ($query) => $query->where('pemohon_id', $pemohonId))
+                ->whereHas('permohonan', fn($query) => $query->where('pemohon_id', $pemohonId))
                 ->firstOrFail();
 
             $laporan->update([
                 'file_laporan' => $this->linkDokumen,
                 'tanggal_upload' => now(),
-                'status_laporan' => 'dikirim',
+                'status_laporan' => 'pending',
                 'catatan_revisi' => null,
             ]);
 
             session()->flash('success', 'Laporan akhir berhasil diunggah ulang dan dikirim kembali ke BRIDA.');
         } else {
+            // Logika Buat Baru (Harus Disetujui, Surat Final, dan Sudah Survei)
             $permohonan = Permohonan::whereKey($this->permohonanId)
                 ->where('pemohon_id', $pemohonId)
                 ->where('status_permohonan', 'disetujui')
+                ->whereHas('suratIzin', function ($query) {
+                    $query->where('status_tte_kesbangpol', 'selesai')
+                        ->where('status_tte_brida', 'selesai');
+                })
                 ->has('surveiKepuasan')
                 ->doesntHave('laporanAkhir')
                 ->first();
 
             if (!$permohonan) {
-                $this->addError('permohonanId', 'Permohonan tidak valid, survei kepuasan belum diisi, atau laporan akhir sudah pernah dikirim.');
+                $this->addError('permohonanId', 'Permohonan tidak valid. Pastikan surat telah terbit dan survei telah diisi.');
                 return;
             }
 
@@ -73,26 +77,29 @@ class LaporanAkhirForm extends Component
                 'permohonan_id' => $permohonan->id,
                 'file_laporan' => $this->linkDokumen,
                 'tanggal_upload' => now(),
-                'status_laporan' => 'dikirim',
+                'status_laporan' => 'pending',
             ]);
 
             session()->flash('success', 'Laporan akhir berhasil dikirim dan menunggu verifikasi BRIDA.');
         }
 
         $this->resetForm();
+        $this->dispatch('close-modal-laporan');
     }
 
     public function revisi(int $laporanId): void
     {
         $laporan = LaporanAkhir::whereKey($laporanId)
             ->where('status_laporan', 'revisi')
-            ->whereHas('permohonan', fn ($query) => $query->where('pemohon_id', auth()->user()->pemohon?->id))
+            ->whereHas('permohonan', fn($query) => $query->where('pemohon_id', auth()->user()->pemohon?->id))
             ->firstOrFail();
 
         $this->laporanId = $laporan->id;
         $this->permohonanId = $laporan->permohonan_id;
-        $this->linkDokumen = '';
+        $this->linkDokumen = $laporan->file_laporan;
         $this->resetValidation();
+
+        $this->dispatch('open-modal-laporan');
     }
 
     public function batalRevisi(): void
@@ -109,26 +116,41 @@ class LaporanAkhirForm extends Component
     public function render()
     {
         $pemohonId = auth()->user()->pemohon?->id;
+        $baseQuery = Permohonan::where('pemohon_id', $pemohonId)->where('status_permohonan', 'disetujui');
 
-        $permohonanList = auth()->user()->pemohon?->permohonan()
-            ->with('layanan')
-            ->where('status_permohonan', 'disetujui')
+        // 1. Cek: Disetujui tapi TTE Surat belum selesai (Menunggu Pejabat)
+        $menungguSurat = (clone $baseQuery)->whereDoesntHave('suratIzin', function ($query) {
+            $query->where('status_tte_kesbangpol', 'selesai')
+                ->where('status_tte_brida', 'selesai');
+        })->exists();
+
+        // 2. Cek: Surat Final sudah terbit, tapi belum isi Survei
+        $perluSurvei = (clone $baseQuery)->whereHas('suratIzin', function ($query) {
+            $query->where('status_tte_kesbangpol', 'selesai')
+                ->where('status_tte_brida', 'selesai');
+        })->doesntHave('surveiKepuasan')->exists();
+
+        // 3. Cek: Lulus semua syarat, siap untuk dibuatkan Laporan
+        $permohonanList = (clone $baseQuery)->with('layanan')
+            ->whereHas('suratIzin', function ($query) {
+                $query->where('status_tte_kesbangpol', 'selesai')
+                    ->where('status_tte_brida', 'selesai');
+            })
             ->has('surveiKepuasan')
             ->doesntHave('laporanAkhir')
             ->latest()
-            ->get() ?? collect();
-
-        $perluSurvei = auth()->user()->pemohon?->permohonan()
-            ->where('status_permohonan', 'disetujui')
-            ->doesntHave('surveiKepuasan')
-            ->doesntHave('laporanAkhir')
-            ->exists() ?? false;
+            ->get();
 
         $laporanList = LaporanAkhir::with(['permohonan.layanan'])
-            ->whereHas('permohonan', fn ($query) => $query->where('pemohon_id', $pemohonId))
+            ->whereHas('permohonan', fn($query) => $query->where('pemohon_id', $pemohonId))
             ->latest('tanggal_upload')
             ->get();
 
-        return view('livewire.content.pages-laporan-akhir', compact('permohonanList', 'laporanList', 'perluSurvei'));
+        return view('livewire.content.pages-laporan-akhir', compact(
+            'permohonanList',
+            'laporanList',
+            'perluSurvei',
+            'menungguSurat'
+        ));
     }
 }

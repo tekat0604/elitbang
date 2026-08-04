@@ -40,9 +40,9 @@
         <div class="col-md-7 mb-4">
             <div class="card border-0 shadow-sm rounded-4 h-100">
                 <div class="card-body p-4 d-flex flex-column">
-                    <h6 class="fw-bold text-primary mb-4 border-bottom pb-2">Dokumen Surat Izin Final</h6>
+                    <h6 class="fw-bold text-primary mb-4 border-bottom pb-2">Dokumen Surat Izin</h6>
                     
-                    @if($surat && $surat->file_surat_final)
+                    @if($surat && $surat->file_path)
                         <div class="alert alert-info border-0 bg-info bg-opacity-10 text-info-emphasis d-flex align-items-center">
                             <i class="fas fa-info-circle me-3 fs-4"></i>
                             <div>
@@ -52,11 +52,11 @@
                         
                         <!-- Menampilkan file PDF -->
                         <div class="flex-grow-1 border rounded bg-light d-flex align-items-center justify-content-center" style="min-height: 400px;">
-                            <iframe src="{{ asset('storage/' . $surat->file_surat_final) }}" width="100%" height="100%" style="border: none; min-height: 400px;"></iframe>
+                            <iframe src="{{ asset('storage/' . $surat->file_path) }}" width="100%" height="100%" style="border: none; min-height: 400px;"></iframe>
                         </div>
                         
                         <div class="mt-3 text-end">
-                            <a href="{{ asset('storage/' . $surat->file_surat_final) }}" target="_blank" class="btn btn-primary rounded-pill px-4">
+                            <a href="{{ asset('storage/' . $surat->file_path) }}" target="_blank" class="btn btn-primary rounded-pill px-4">
                                 <i class="fas fa-external-link-alt me-1"></i> Buka Layar Penuh
                             </a>
                         </div>

@@ -8,34 +8,44 @@ use App\Models\SuratIzin;
 
 class SuratController extends Controller
 {
-    public function preview($id)
+    // Ubah parameter menjadi $token
+    public function preview($token)
     {
         $user = Auth::user();
-        $roleDiizinkan = ['verifikator', 'tanda_tangan'];
 
-        if (!in_array($user->role, $roleDiizinkan)) {
-            abort(403, 'Akses Ditolak: Hanya Verifikator dan Pejabat Instansi yang diizinkan melihat draf dokumen ini.');
+        $isPenandatangan = ($user->role === 'tanda_tangan');
+
+        $isVerifikatorBrida = ($user->role === 'verifikator' && $user->instansi === 'brida');
+
+        if (!$isPenandatangan && !$isVerifikatorBrida) {
+            abort(403, 'Akses Ditolak: Hanya Verifikator BRIDA dan Pejabat Penandatangan yang diizinkan melihat dokumen ini.');
         }
 
-        $surat = SuratIzin::findOrFail($id);
-        $path = $surat->file_surat_draft;
+        // Cari berdasarkan qr_code_link
+        $surat = SuratIzin::where('qr_code_link', $token)->firstOrFail();
 
-        if (!Storage::disk('public')->exists($path)) {
+        // Gunakan kolom file_path yang baru
+        $path = $surat->file_path;
+
+        if (!$path || !Storage::disk('public')->exists($path)) {
             abort(404, 'File PDF tidak ditemukan di server.');
         }
 
         return Storage::disk('public')->response($path);
     }
 
-    public function unduh($id)
+    // Ubah parameter menjadi $token
+    public function unduh($token)
     {
         $user = Auth::user();
 
+        // Cari berdasarkan qr_code_link
         $surat = SuratIzin::whereHas('permohonan', function ($query) use ($user) {
             $query->where('pemohon_id', $user->pemohon?->id);
-        })->findOrFail($id);
+        })->where('qr_code_link', $token)->firstOrFail();
 
-        $path = $surat->file_surat_final;
+        // Gunakan kolom file_path yang baru
+        $path = $surat->file_path;
 
         if (!$path || !Storage::disk('public')->exists($path)) {
             abort(404, 'Surat rekomendasi final belum tersedia atau tidak ditemukan di server.');
@@ -46,17 +56,15 @@ class SuratController extends Controller
 
     public function verifikasi($token)
     {
-        // Cari surat berdasarkan token QR acak yang ada di kolom qr_code_link
+        // Bagian ini sudah menggunakan qr_code_link, jadi dibiarkan saja
         $surat = SuratIzin::with(['permohonan.pemohon', 'permohonan.layanan'])
             ->where('qr_code_link', $token)
             ->first();
 
-        // Jika token tidak cocok atau dokumen dipalsukan
         if (!$surat) {
             abort(404, 'Dokumen tidak valid, dipalsukan, atau tidak ditemukan di sistem kami.');
         }
 
-        // Jika dokumen asli, arahkan ke halaman detail verifikasi
         return view('publik.verifikasi-dokumen', compact('surat'));
     }
 }

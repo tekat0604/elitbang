@@ -45,8 +45,7 @@
                                     @else
                                         <span class="fw-bold text-primary">{{ $item->suratIzin->nomor_surat }}</span>
                                         
-                                        <!-- Tombol Edit Nomor (Hilang jika PDF sudah terbit) -->
-                                        @if(!$item->suratIzin->file_surat_draft)
+                                        @if(empty($item->suratIzin->file_path))
                                             <button type="button" wire:click="pilihPermohonan({{ $item->id }})" class="btn btn-sm btn-link text-warning p-0 ms-2" data-bs-toggle="modal" data-bs-target="#modalPenomoran" title="Edit Nomor">
                                                 <i class="fas fa-pencil-alt"></i>
                                             </button>
@@ -56,7 +55,7 @@
 
                                 <!-- KOLOM TANGGAL TERBIT -->
                                 <td>
-                                    @if($item->suratIzin && $item->suratIzin->file_surat_draft)
+                                    @if(!empty($item->suratIzin->file_path))
                                         {{ $item->suratIzin->updated_at->format('d M Y') }}
                                     @else
                                         <span class="text-muted">-</span>
@@ -69,8 +68,7 @@
                                         <button class="btn btn-sm btn-secondary fw-bold" disabled>
                                             <i class="fas fa-ban me-1"></i> Terbitkan
                                         </button>
-                                    @elseif($item->suratIzin && !$item->suratIzin->file_surat_draft)
-                                        <!-- Tombol Terbitkan dengan Confirm Alert -->
+                                    @elseif(empty($item->suratIzin->file_path))
                                         <button type="button" 
                                             wire:click="terbitkanSurat({{ $item->id }})" 
                                             wire:confirm="Apakah anda telah yakin?\n\nSetelah PDF diterbitkan, nomor surat '{{ $item->suratIzin->nomor_surat }}' akan dikunci permanen dan tidak bisa diubah lagi!" 
@@ -79,7 +77,7 @@
                                             <i class="fas fa-paper-plane me-1"></i> Terbitkan
                                         </button>
                                     @else
-                                        <a href="{{ route('preview-surat', $item->suratIzin->id) }}" target="_blank" class="btn btn-sm btn-outline-danger fw-bold">
+                                        <a href="{{ route('preview-surat', $item->suratIzin->qr_code_link) }}" target="_blank" class="btn btn-sm btn-outline-danger fw-bold">
                                             <i class="fas fa-file-pdf me-1"></i> Buka PDF
                                         </a>
                                     @endif

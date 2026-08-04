@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Upload;
 
 use App\Models\Permohonan;
 use App\Models\SurveiKepuasan;
@@ -59,7 +59,7 @@ class SurveiKepuasanForm extends Component
             ->with('layanan')
             ->where('status_permohonan', 'disetujui')
             ->whereHas('suratIzin', function ($query) {
-                $query->whereNotNull('file_surat_final');
+                $query->whereNotNull('file_path');
             })
             ->doesntHave('surveiKepuasan') // Belum mengisi survei
             ->latest()

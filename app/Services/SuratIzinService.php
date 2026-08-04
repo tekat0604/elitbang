@@ -21,29 +21,26 @@ class SuratIzinService
 
     if ($surat) {
 
-      // Token ini akan dipakai untuk URL QR Code dan nama file PDF
       if (empty($surat->qr_code_link)) {
         $surat->qr_code_link = Str::random(32);
         $surat->save();
       }
 
-      // Hapus file draft yang lama (jika ada)
-      if ($surat->file_surat_draft && Storage::disk('public')->exists($surat->file_surat_draft)) {
-        Storage::disk('public')->delete($surat->file_surat_draft);
+      // Hapus file lama 
+      if ($surat->file_path && Storage::disk('public')->exists($surat->file_path)) {
+        Storage::disk('public')->delete($surat->file_path);
       }
 
       $pejabatKesbangpol = PejabatInstansi::where('instansi', 'kesbangpol')->first();
       $pejabatBrida = PejabatInstansi::where('instansi', 'brida')->first();
 
       $qrCode = null;
-      // cek apakah brida dan kesbangpol selesai tanda tangan
       if ($surat->status_tte_brida === 'selesai' && $surat->status_tte_kesbangpol === 'selesai') {
         $urlVerifikasi = url('/verifikasi/' . $surat->qr_code_link);
         $svg = QrCode::margin(0)->size(80)->generate($urlVerifikasi);
         $qrCode = base64_encode($svg);
       }
 
-      // Render PDF-nya
       $pdf = Pdf::loadView('pdf.surat-izin', [
         'permohonan' => $permohonan,
         'surat' => $surat,
@@ -56,23 +53,19 @@ class SuratIzinService
 
       if ($surat->status_tte_brida === 'selesai' && $surat->status_tte_kesbangpol === 'selesai') {
 
-        // Simpan ke folder FINAL menggunakan token acak
         $filename = 'surat_izin_final_' . $surat->qr_code_link . '_' . time() . '.pdf';
         $path = 'surat_izin/final/' . $filename;
         Storage::disk('public')->put($path, $pdf->output());
 
+        // Update cukup 1 kolom: file_path
         $surat->update([
-          'file_surat_draft' => null,
-          'file_surat_final' => $path,
+          'file_path' => $path,
         ]);
 
         $targetOpdId = $permohonan->opdChild->id_opd;
-
-        // Cari admin yang bertugas di OPD tersebut
         $adminOpdList = User::where('role', 'opd')->where('id_opd', $targetOpdId)->get();
 
         foreach ($adminOpdList as $adminOpd) {
-          // Kirim notifikasi pertama kali ke OPD
           TembusanOpd::firstOrCreate([
             'permohonan_id' => $permohonan->id,
             'user_id' => $adminOpd->id,
@@ -83,15 +76,14 @@ class SuratIzinService
         }
       } else {
 
-        // Simpan ke folder DRAFT menggunakan token acak
         $filename = 'draft_surat_izin_' . $surat->qr_code_link . '_' . time() . '.pdf';
         $path = 'surat_izin/draft/' . $filename;
         Storage::disk('public')->put($path, $pdf->output());
 
+        // Update cukup 1 kolom: file_path
         $surat->update([
-          'file_surat_draft' => $path,
+          'file_path' => $path,
         ]);
-
       }
     }
   }

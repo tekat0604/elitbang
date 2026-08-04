@@ -10,8 +10,8 @@ use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\ResetPassword;
 use App\Livewire\Upload\PemohonController;
 use App\Livewire\Upload\PermohonanController;
-use App\Livewire\SurveiKepuasanForm;
-use App\Livewire\LaporanAkhirForm;
+use App\Livewire\Upload\SurveiKepuasanForm;
+use App\Livewire\Upload\LaporanAkhirForm;
 use App\Livewire\SuperAdmin\DataInstansi;
 
 // Verifikator Components
@@ -20,10 +20,10 @@ use App\Livewire\Verifikator\PemohonDetail;
 use App\Livewire\Verifikator\Brida\PermohonanListBrida;
 use App\Livewire\Verifikator\Brida\PermohonanDetailBrida;
 use App\Livewire\Verifikator\Brida\PenomoranSurat;
-use App\Livewire\Verifikator\Brida\LaporanAkhirListBrida;
-use App\Livewire\Verifikator\Brida\LaporanAkhirDetailBrida;
 use App\Livewire\Verifikator\Kesbangpol\PermohonanListKesbangpol;
 use App\Livewire\Verifikator\Kesbangpol\PermohonanDetailKesbangpol;
+use App\Livewire\Verifikator\Brida\LaporanAkhirListBrida;
+use App\Livewire\Verifikator\Brida\LaporanAkhirDetailBrida;
 
 // Penandatangan Components
 use App\Livewire\Penandatangan\Brida\TandaTanganList as TandaTanganListBrida;
@@ -74,7 +74,7 @@ Route::middleware(['auth'])->group(function () {
   // Auth & Dashboard
   Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
   Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-  Route::get('/preview-surat/{id}', [SuratController::class, 'preview'])->name('preview-surat');
+  Route::get('/preview-surat/{token}', [SuratController::class, 'preview'])->name('preview-surat');
 
   // Role: User (Pemohon)
   Route::middleware([CekRoleUser::class])->group(function () {
@@ -100,7 +100,7 @@ Route::middleware(['auth'])->group(function () {
       ->name('permohonan.revisi')
       ->middleware([CekVerifikasiPemohon::class]);
 
-    Route::get('/permohonan/unduh-surat/{id}', [SuratController::class, 'unduh'])->name('user.unduh-surat');
+    Route::get('/permohonan/unduh-surat/{token}', [SuratController::class, 'unduh'])->name('user.unduh-surat');
   });
 
   // Role: Verifikator
@@ -111,6 +111,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/brida/permohonan', PermohonanListBrida::class)->name('brida.permohonan.list');
     Route::get('/brida/permohonan/{id}', PermohonanDetailBrida::class)->name('brida.permohonan.detail');
     Route::get('/brida/penomoran-surat', PenomoranSurat::class)->name('brida.penomoran');
+
     Route::get('/brida/laporan-akhir', LaporanAkhirListBrida::class)->name('brida.laporan-akhir.list');
     Route::get('/brida/laporan-akhir/{id}', LaporanAkhirDetailBrida::class)->name('brida.laporan-akhir.detail');
 
@@ -126,6 +127,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/kesbangpol/permohonan', TandaTanganListKesbangpol::class)->name('kesbangpol.list');
     Route::get('/kesbangpol/permohonan/{id}', TandaTanganDetailKesbangpol::class)->name('kesbangpol.detail');
+
+    Route::get('/preview-surat/{token}', [SuratController::class, 'preview'])->name('preview-surat');
   });
 
   // Role: Super Admin

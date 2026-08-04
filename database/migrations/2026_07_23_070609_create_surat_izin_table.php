@@ -13,8 +13,7 @@ return new class extends Migration {
 
             $table->string('nomor_surat')->unique()->nullable();
 
-            $table->string('file_surat_draft')->nullable(); // PDF awal (sebelum di-TTE)
-            $table->string('file_surat_final')->nullable(); // PDF akhir (setelah di-TTE BSrE)
+            $table->string('file_path')->nullable();
 
             $table->enum('status_tte_kesbangpol', ['pending', 'proses', 'selesai', 'gagal'])->default('pending');
             $table->enum('status_tte_brida', ['pending', 'proses', 'selesai', 'gagal'])->default('pending');

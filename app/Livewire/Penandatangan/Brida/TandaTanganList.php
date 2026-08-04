@@ -62,7 +62,7 @@ class TandaTanganList extends Component
             'permohonanList' => Permohonan::with(['pemohon', 'layanan'])
                 ->where('status_permohonan', 'disetujui')
                 ->whereHas('suratIzin', function ($query) {
-                    $query->whereNotNull('file_surat_draft')->where('status_tte_brida', '!=', 'selesai');
+                    $query->whereNotNull('file_path')->where('status_tte_brida', '!=', 'selesai');
                 })
                 ->latest()
                 ->paginate(10),

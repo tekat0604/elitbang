@@ -15,8 +15,7 @@ class SuratIzin extends Model
     protected $fillable = [
         'permohonan_id',
         'nomor_surat',
-        'file_surat_draft',
-        'file_surat_final',
+        'file_path',
         'status_tte_kesbangpol',
         'status_tte_brida',
         'qr_code_link',

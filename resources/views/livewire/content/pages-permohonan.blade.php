@@ -127,9 +127,9 @@
 
                     <!-- Surat Rekomendasi -->
                     <td>
-                      @if ($item->status_permohonan === 'disetujui' && $item->suratIzin && $item->suratIzin->file_surat_final)
+                      @if ($item->status_permohonan === 'disetujui' && $item->suratIzin?->status_tte_kesbangpol === 'selesai' && $item->suratIzin?->status_tte_brida === 'selesai')
                         @if ($item->surveiKepuasan)
-                          <a href="{{ route('user.unduh-surat', $item->suratIzin->id) }}" target="_blank"
+                          <a href="{{ route('user.unduh-surat', $item->suratIzin->qr_code_link) }}" target="_blank"
                             class="btn btn-sm btn-success shadow-sm">
                             <i class="fas fa-download me-1"></i> Unduh Surat
                           </a>

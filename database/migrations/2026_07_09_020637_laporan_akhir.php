@@ -18,10 +18,10 @@ return new class extends Migration {
 
             // Status verifikasi laporan oleh BRIDA
             $table->enum('status_laporan', [
-                'dikirim',
-                'diterima',
-                'revisi'
-            ])->default('dikirim');
+                'pending',
+                'revisi',
+                'disetujui'
+            ])->default('pending');
 
             $table->text('catatan_revisi')->nullable();
             $table->string('file_surat_selesai')->nullable();
