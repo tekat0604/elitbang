@@ -36,7 +36,7 @@
                                 <td>{{ $laporan->tanggal_upload?->locale('id')->isoFormat('D MMMM Y') }}</td>
                                 <td><a href="{{ $laporan->file_laporan }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary"><i class="fas fa-external-link-alt me-1"></i>Lihat Dokumen</a></td>
                                 <td>
-                                    <span class="badge {{ $laporan->status_laporan === 'diterima' ? 'bg-success' : ($laporan->status_laporan === 'revisi' ? 'bg-danger' : 'bg-warning text-dark') }}">
+                                    <span class="badge {{ $laporan->status_laporan === 'disetujui' ? 'bg-success' : ($laporan->status_laporan === 'revisi' ? 'bg-danger' : 'bg-warning text-dark') }}">
                                         {{ str($laporan->status_laporan)->replace('_', ' ')->title() }}
                                     </span>
                                 </td>

@@ -22,12 +22,14 @@ class LaporanAkhirDetailBrida extends Component
     {
         $user = Auth::user();
 
+        // Pengecekan otorisasi BRIDA
         if ($user->role !== 'verifikator' || $user->instansi !== 'brida') {
             abort(403, 'Akses Ditolak! Halaman ini khusus untuk Verifikator BRIDA.');
         }
 
-        $this->laporan = LaporanAkhir::with(['permohonan.pemohon', 'permohonan.layanan', 'permohonan.opdChild'])
+        $this->laporan = LaporanAkhir::with(['permohonan.pemohon.user', 'permohonan.layanan', 'permohonan.opdChild'])
             ->findOrFail($id);
+
         $this->statusLaporan = $this->laporan->status_laporan;
         $this->catatanRevisi = $this->laporan->catatan_revisi;
     }
@@ -35,7 +37,7 @@ class LaporanAkhirDetailBrida extends Component
     public function simpanVerifikasi()
     {
         $this->validate([
-            'statusLaporan' => ['required', 'in:dikirim,diterima,revisi'],
+            'statusLaporan' => ['required', 'in:pending,disetujui,revisi'],
             'catatanRevisi' => ['required_if:statusLaporan,revisi', 'nullable', 'string'],
         ], [
             'statusLaporan.required' => 'Keputusan verifikasi wajib dipilih.',
@@ -43,8 +45,8 @@ class LaporanAkhirDetailBrida extends Component
             'catatanRevisi.required_if' => 'Catatan wajib diisi jika laporan perlu direvisi.',
         ]);
 
-        if ($this->laporan->status_laporan !== 'dikirim') {
-            session()->flash('error', 'Laporan ini telah diproses dan tidak dapat diubah kembali.');
+        if ($this->laporan->status_laporan !== 'pending') {
+            session()->flash('error', 'Laporan ini telah Anda proses sebelumnya (Revisi/Disetujui). Harap tunggu pemohon mengunggah ulang laporannya.');
             return redirect()->route('verifikator.brida.laporan-akhir.list');
         }
 
@@ -53,9 +55,9 @@ class LaporanAkhirDetailBrida extends Component
             'catatan_revisi' => $this->statusLaporan === 'revisi' ? $this->catatanRevisi : null,
         ]);
 
-        if ($this->statusLaporan === 'revisi' && $this->laporan->permohonan->pemohon?->email) {
+        if ($this->statusLaporan === 'revisi' && $this->laporan->permohonan->pemohon?->user?->email) {
             try {
-                Mail::to($this->laporan->permohonan->pemohon->email)
+                Mail::to($this->laporan->permohonan->pemohon->user->email)
                     ->send(new NotifikasiRevisi('Laporan Akhir Penelitian', 'BRIDA', $this->catatanRevisi));
             } catch (\Exception $e) {
                 session()->flash('error', 'Keputusan tersimpan, tetapi email notifikasi revisi gagal dikirim.');

@@ -20,7 +20,7 @@ class LaporanAkhirForm extends Component
     {
         return [
             'permohonanId' => ['required', 'integer'],
-            'linkDokumen' => ['required', 'url', 'max:2048'],
+            'linkDokumen' => ['required', 'url', 'regex:/drive\.google\.com/', 'max:2048'],
         ];
     }
 
@@ -30,6 +30,7 @@ class LaporanAkhirForm extends Component
             'permohonanId.required' => 'Silakan pilih permohonan penelitian.',
             'linkDokumen.required' => 'Link dokumen laporan wajib diisi.',
             'linkDokumen.url' => 'Masukkan link dokumen yang valid.',
+            'linkDokumen.regex' => 'Link harus berasal dari Google Drive (drive.google.com).',
         ];
     }
 

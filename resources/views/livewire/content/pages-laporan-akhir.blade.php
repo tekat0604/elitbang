@@ -57,7 +57,8 @@
                             <th>Judul Pengajuan</th>
                             <th>Tanggal Upload</th>
                             <th>Link Laporan</th>
-                            <th>Status BRIDA</th>
+                            <th>Status</th>
+                            <th>Catatan</th>
                             <th>Surat Ket. Selesai</th>
                             <th class="text-center px-4">Aksi</th>
                         </tr>
@@ -82,8 +83,12 @@
                                     <span class="badge {{ $laporan->status_laporan === 'disetujui' ? 'bg-success' : ($laporan->status_laporan === 'revisi' ? 'bg-danger' : 'bg-warning text-dark') }} px-2 py-1">
                                       {{ str($laporan->status_laporan)->title() }}
                                     </span>
-                                    @if($laporan->catatan_revisi)
-                                        <div class="small text-danger mt-1 fst-italic">"{{ $laporan->catatan_revisi }}"</div>
+                                </td>
+                                <td>
+                                    @if(!empty($laporan->catatan_revisi))
+                                        <div class="text-body mt-1">{{ $laporan->catatan_revisi }}</div>
+                                    @else
+                                        <span class="text-body-secondary">-</span>
                                     @endif
                                 </td>
                                 <td>

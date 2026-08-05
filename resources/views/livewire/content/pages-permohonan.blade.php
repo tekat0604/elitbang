@@ -6,9 +6,23 @@
     $permohonan = auth()->user()->pemohon?->permohonan()->with('layanan')->latest()->get() ?? collect();
     $pemohon = auth()->user()->pemohon;
 
-    $adaIzinAktif = $permohonan
-        ->whereIn('status_permohonan', ['draft', 'diajukan', 'proses_verifikasi', 'revisi', 'disetujui'])
-        ->isNotEmpty();
+    $adaIzinAktif = $permohonan->contains(function ($p) {
+        // Jika statusnya belum disetujui/ditolak, berarti masih aktif
+        if (in_array($p->status_permohonan, ['diajukan', 'proses_verifikasi'])) {
+            return true;
+        }
+
+        // Jika statusnya 'disetujui', cek apakah Laporan Akhirnya belum disetujui
+        if ($p->status_permohonan === 'disetujui') {
+            // Jika belum buat laporan akhir, atau ada laporan akhir tapi statusnya bukan 'disetujui'
+            if (!$p->laporanAkhir || $p->laporanAkhir->status_laporan !== 'disetujui') {
+                return true; 
+            }
+        }
+
+        // Jika sudah ditolak maka tidak aktif lagi
+        return false;
+    });
 
     $statusClass = [
         'draft' => 'text-bg-primary',
