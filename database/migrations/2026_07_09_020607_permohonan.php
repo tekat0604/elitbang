@@ -21,6 +21,11 @@ return new class extends Migration {
             $table->date('tgl_mulai');
             $table->date('tgl_selesai');
             $table->string('jenjang_pendidikan');
+
+            $table->string('fakultas')->nullable();
+            $table->string('program_studi')->nullable();
+            $table->string('nim')->nullable();
+
             $table->string('bidang_penelitian');
             $table->string('rumpun_penelitian');
 
@@ -49,10 +54,6 @@ return new class extends Migration {
             // BRIDA
             $table->enum('status_brida', ['pending', 'revisi', 'disetujui', 'ditolak'])->default('pending');
             $table->text('catatan_brida')->nullable();
-
-            // output
-            $table->string('file_surat_izin')->nullable();
-            $table->text('qr_code')->nullable();
 
             $table->timestamps();
         });

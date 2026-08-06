@@ -29,29 +29,16 @@
             <div class="row gy-4" wire:key="step-1">
                 <div class="col-12"><h6 class="fw-bold text-primary border-bottom pb-2">Informasi Kegiatan</h6></div>
                 
+                <!-- 1. Judul (Full Width) -->
                 <div class="col-12">
                     <label class="form-label">Judul Penelitian/Kegiatan<span class="text-danger">*</span></label>
                     <textarea wire:model="judul" class="form-control" rows="2" placeholder="Masukkan judul lengkap"></textarea>
                     @error('judul') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
                 
-                <div class="col-md-6">
-                    <label class="form-label">Jenjang Pendidikan<span class="text-danger">*</span></label>
-                    <select wire:model="jenjang_pendidikan" class="form-select">
-                        <option value="">Pilih Jenjang...</option>
-                        <option value="SMA">SMA/Sederajat</option>
-                        <option value="D3">D3</option>
-                        <option value="D4">D4</option>
-                        <option value="S1">S1</option>
-                        <option value="S2">S2</option>
-                        <option value="S3">S3</option>
-                    </select>
-                    @error('jenjang_pendidikan') <span class="text-danger small">{{ $message }}</span> @enderror
-                </div>
-
+                <!-- 2 & 3. Bidang & Rumpun (2 Kolom Sejajar) -->
                 <div class="col-md-6">
                     <label class="form-label">Bidang Penelitian/Kegiatan<span class="text-danger">*</span></label>
-                    
                     <select wire:model.live="bidang_penelitian" class="form-select">
                         <option value="">Pilih Bidang...</option>
                         <option value="Ekonomi">Ekonomi</option>
@@ -65,7 +52,6 @@
                         <option value="Politik">Politik</option>
                     </select>
                     @error('bidang_penelitian') <span class="text-danger small">{{ $message }}</span> @enderror
-                    
                 </div>
 
                 <div class="col-md-6">
@@ -91,17 +77,52 @@
                     @error('rumpun_penelitian') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
 
-                <div class="col-md-6">
+                
+                <div class="col-12">
                     <label class="form-label">Instansi/Universitas Asal<span class="text-danger">*</span></label>
                     <input type="text" wire:model="nama_instansi" class="form-control" placeholder="Nama Universitas / Instansi">
                     @error('nama_instansi') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
                 
                 <div class="col-12">
-                    <label class="form-label">Alamat Instansi Asal<span class="text-danger">*</span></label>
-                    <textarea wire:model="alamat_instansi" class="form-control" rows="2"></textarea>
+                    <label class="form-label">Alamat Instansi/Universitas Asal<span class="text-danger">*</span></label>
+                    <textarea wire:model="alamat_instansi" class="form-control" rows="2" placeholder="Masukkan alamat lengkap instansi asal"></textarea>
                     @error('alamat_instansi') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Jenjang Pendidikan<span class="text-danger">*</span></label>
+                    <select wire:model.live="jenjang_pendidikan" class="form-select">
+                        <option value="">Pilih Jenjang...</option>
+                        <option value="SMP">SMP/Sederajat</option>
+                        <option value="SMA">SMA/Sederajat</option>
+                        <option value="D3">D3</option>
+                        <option value="D4">D4</option>
+                        <option value="S1">S1</option>
+                        <option value="S2">S2</option>
+                        <option value="S3">S3</option>
+                    </select>
+                    @error('jenjang_pendidikan') <span class="text-danger small">{{ $message }}</span> @enderror
+                </div>
+
+                @if(in_array($jenjang_pendidikan, ['D3', 'D4', 'S1', 'S2', 'S3']))
+                    <div class="col-md-12">
+                        <label class="form-label">Nomor Induk Mahasiswa (NIM)<span class="text-danger">*</span></label>
+                        <input type="text" wire:model="nim" class="form-control" placeholder="Masukkan NIM Anda">
+                        @error('nim') <span class="text-danger small">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div class="col-md-12">
+                        <label class="form-label">Fakultas<span class="text-danger">*</span></label>
+                        <input type="text" wire:model="fakultas" class="form-control" placeholder="Nama Fakultas">
+                        @error('fakultas') <span class="text-danger small">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label">Program Studi<span class="text-danger">*</span></label>
+                        <input type="text" wire:model="program_studi" class="form-control" placeholder="Nama Program Studi">
+                        @error('program_studi') <span class="text-danger small">{{ $message }}</span> @enderror
+                    </div>
+                @endif
             </div>
             @endif
 
@@ -203,7 +224,7 @@
                                 @error('anggota.'.$index.'.nama_anggota') <span class="text-danger small">{{ $message }}</span> @enderror
                             </div>
                             <div class="col-md-5">
-                                <input type="text" wire:model="anggota.{{ $index }}.nik" class="form-control form-control-sm" placeholder="NIK">
+                                <input type="text" wire:model="anggota.{{ $index }}.nik" class="form-control form-control-sm" placeholder="NIK" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                                 @error('anggota.'.$index.'.nik') <span class="text-danger small">{{ $message }}</span> @enderror
                             </div>
                             <div class="col-md-2 text-end">

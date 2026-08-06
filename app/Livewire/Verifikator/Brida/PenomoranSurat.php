@@ -4,7 +4,10 @@ namespace App\Livewire\Verifikator\Brida;
 
 use App\Models\Permohonan;
 use App\Models\SuratIzin;
+use App\Models\LaporanAkhir;
+use App\Models\SuratSelesai;
 use App\Services\SuratIzinService;
+use App\Services\SuratSelesaiService;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -14,65 +17,136 @@ use Livewire\Attributes\Title;
 class PenomoranSurat extends Component
 {
     public $nomor_surat;
-    public $permohonan_id_terpilih;
+    public $target_id_terpilih;
+    public $tipe_surat_terpilih;
 
-    // untuk buat baru atau edit yang telah ada
-    public function pilihPermohonan($id)
+    public function pilihTarget($id, $tipe)
     {
-        $this->permohonan_id_terpilih = $id;
+        $this->target_id_terpilih = $id;
+        $this->tipe_surat_terpilih = $tipe;
 
-        // Cek apakah sudah pernah input nomor
-        $surat = SuratIzin::where('permohonan_id', $id)->first();
-
-        if ($surat) {
-            $this->nomor_surat = $surat->nomor_surat; // Munculkan nomor lama untuk diedit
+        if ($tipe === 'rekomendasi') {
+            // Cek langsung ke tabel SuratIzin
+            $surat = SuratIzin::where('permohonan_id', $id)->first();
+            $this->nomor_surat = $surat ? $surat->nomor_surat : '';
         } else {
-            $this->nomor_surat = '000.9.2/' . $id . '.PM/VI/' . date('Y'); // Format default
+            // Cek langsung ke tabel SuratSelesai
+            $suratSelesai = SuratSelesai::where('laporan_akhir_id', $id)->first();
+            $this->nomor_surat = $suratSelesai ? $suratSelesai->nomor_surat : '';
         }
     }
 
-    // Simpan nomor surat
     public function simpanNomor()
     {
-        // Cari ID surat saat ini agar validasi unique tidak error saat proses edit
-        $suratId = SuratIzin::where('permohonan_id', $this->permohonan_id_terpilih)->value('id');
+        // 1. Validasi Unik yang Mengarah ke Tabel yang Benar
+        if ($this->tipe_surat_terpilih === 'rekomendasi') {
+            $suratId = SuratIzin::where('permohonan_id', $this->target_id_terpilih)->value('id');
+            $ruleUnique = 'unique:surat_izin,nomor_surat,' . $suratId;
+        } else {
+            $suratSelesaiId = SuratSelesai::where('laporan_akhir_id', $this->target_id_terpilih)->value('id');
+            $ruleUnique = 'unique:surat_selesai,nomor_surat,' . $suratSelesaiId;
+        }
 
         $this->validate([
-            'nomor_surat' => 'required|string|unique:surat_izin,nomor_surat,' . $suratId
+            'nomor_surat' => 'required|string|' . $ruleUnique
         ], [
             'nomor_surat.required' => 'Nomor surat wajib diisi!',
             'nomor_surat.unique' => 'Nomor surat ini sudah pernah digunakan!'
         ]);
 
-        // Gunakan updateOrCreate agar fleksibel (Bikin baru jika belum ada, Update jika sudah ada)
-        SuratIzin::updateOrCreate(
-            ['permohonan_id' => $this->permohonan_id_terpilih],
-            ['nomor_surat' => $this->nomor_surat]
-        );
+        // 2. Simpan Data & Kunci Edit Jika Sudah Diterbitkan
+        if ($this->tipe_surat_terpilih === 'rekomendasi') {
 
-        $this->reset(['nomor_surat', 'permohonan_id_terpilih']);
+            $surat = SuratIzin::where('permohonan_id', $this->target_id_terpilih)->first();
+            if ($surat && !empty($surat->file_path)) {
+                session()->flash('error', 'Akses ditolak! Surat izin sudah diterbitkan dan tidak bisa diedit.');
+                $this->dispatch('close-modal');
+                return;
+            }
+
+            SuratIzin::updateOrCreate(
+                ['permohonan_id' => $this->target_id_terpilih],
+                ['nomor_surat' => $this->nomor_surat]
+            );
+
+        } else {
+
+            $suratSelesai = SuratSelesai::where('laporan_akhir_id', $this->target_id_terpilih)->first();
+            if ($suratSelesai && !empty($suratSelesai->file_path)) {
+                session()->flash('error', 'Akses ditolak! Surat keterangan selesai sudah diterbitkan dan tidak bisa diedit.');
+                $this->dispatch('close-modal');
+                return;
+            }
+
+            SuratSelesai::updateOrCreate(
+                ['laporan_akhir_id' => $this->target_id_terpilih],
+                ['nomor_surat' => $this->nomor_surat]
+            );
+
+        }
+
+        $this->reset(['nomor_surat', 'target_id_terpilih', 'tipe_surat_terpilih']);
+        session()->flash('success', 'Nomor surat berhasil disimpan!');
         $this->dispatch('close-modal');
     }
 
-    //  ubah ke pdf
-    public function terbitkanSurat($permohonan_id)
+    public function terbitkanSurat($id, $tipe)
     {
-        $permohonan = Permohonan::with(['pemohon', 'pembimbing', 'opdChild'])->find($permohonan_id);
-        $surat = SuratIzin::where('permohonan_id', $permohonan_id)->first();
+        if ($tipe === 'rekomendasi') {
+            $permohonan = Permohonan::with(['pemohon', 'pembimbing', 'opdChild'])->find($id);
+            $surat = SuratIzin::where('permohonan_id', $id)->first();
 
-        if ($permohonan && $surat) {
-            SuratIzinService::generateAndSave($permohonan, $surat->nomor_surat);
-            session()->flash('success', 'Surat Izin berhasil diterbitkan dan masuk antrean Pejabat!');
+            if ($permohonan && $surat) {
+                SuratIzinService::generateAndSave($permohonan, $surat->nomor_surat);
+                session()->flash('success', 'Surat Rekomendasi berhasil diterbitkan!');
+            }
+        } else {
+            $laporan = LaporanAkhir::with(['permohonan.pemohon', 'suratSelesai'])->find($id);
+
+            if ($laporan && $laporan->suratSelesai && $laporan->suratSelesai->nomor_surat) {
+                SuratSelesaiService::generateAndSave($laporan, $laporan->suratSelesai->nomor_surat);
+                session()->flash('success', 'Surat Keterangan Selesai berhasil diterbitkan!');
+            }
         }
     }
 
     public function render()
     {
-        $antrean = Permohonan::with(['pemohon', 'suratIzin'])
+        $antreanRekomendasi = Permohonan::with(['pemohon', 'suratIzin'])
             ->where('status_permohonan', 'disetujui')
-            ->orderByRaw('(SELECT count(*) FROM surat_izin WHERE surat_izin.permohonan_id = permohonan.id) ASC')
-            ->orderBy('updated_at', 'desc')
-            ->get();
+            ->get()
+            ->map(function ($item) {
+                return (object) [
+                    'id' => $item->id,
+                    'tipe' => 'rekomendasi',
+                    'tgl_acc' => $item->updated_at,
+                    'nama_pemohon' => $item->pemohon->nama_lengkap ?? '-',
+                    'judul' => $item->judul,
+                    'nomor_surat' => $item->suratIzin->nomor_surat ?? null,
+                    'file_path' => $item->suratIzin->file_path ?? null,
+                    'qr_code_link' => $item->suratIzin->qr_code_link ?? null,
+                    'tgl_terbit' => $item->suratIzin && !empty($item->suratIzin->file_path) ? $item->suratIzin->updated_at : null,
+                ];
+            });
+
+        $antreanSelesai = LaporanAkhir::with(['permohonan.pemohon', 'suratSelesai'])
+            ->where('status_laporan', 'disetujui')
+            ->get()
+            ->map(function ($item) {
+                return (object) [
+                    'id' => $item->id,
+                    'tipe' => 'selesai',
+                    'tgl_acc' => $item->updated_at,
+                    'nama_pemohon' => $item->permohonan->pemohon->nama_lengkap ?? '-',
+                    'judul' => $item->permohonan->judul,
+                    'nomor_surat' => $item->suratSelesai->nomor_surat ?? null,
+                    'file_path' => $item->suratSelesai->file_path ?? null,
+                    'qr_code_link' => $item->suratSelesai->qr_code_link ?? null,
+                    'tgl_terbit' => $item->suratSelesai && !empty($item->suratSelesai->file_path) ? $item->suratSelesai->updated_at : null,
+                ];
+            });
+
+        $antrean = $antreanRekomendasi->concat($antreanSelesai)->sortByDesc('tgl_acc');
 
         return view('livewire.verifikator.brida.penomoran-surat', compact('antrean'));
     }

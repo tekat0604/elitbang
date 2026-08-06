@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SuratIzin;
+use App\Models\SuratSelesai;
 
 class SuratController extends Controller
 {
@@ -25,6 +26,30 @@ class SuratController extends Controller
         $surat = SuratIzin::where('qr_code_link', $token)->firstOrFail();
 
         // Gunakan kolom file_path yang baru
+        $path = $surat->file_path;
+
+        if (!$path || !Storage::disk('public')->exists($path)) {
+            abort(404, 'File PDF tidak ditemukan di server.');
+        }
+
+        return Storage::disk('public')->response($path);
+    }
+
+    // untuk surat selesai
+    public function previewSelesai($token)
+    {
+        $user = Auth::user();
+
+        $isPenandatangan = ($user->role === 'tanda_tangan');
+        $isVerifikatorBrida = ($user->role === 'verifikator' && $user->instansi === 'brida');
+
+        if (!$isPenandatangan && (!$isVerifikatorBrida && $user->role !== 'verifikator')) {
+            abort(403, 'Akses Ditolak: Anda tidak memiliki izin untuk melihat dokumen ini.');
+        }
+
+        // Cari berdasarkan qr_code_link di tabel surat_selesai
+        $surat = SuratSelesai::where('qr_code_link', $token)->firstOrFail();
+
         $path = $surat->file_path;
 
         if (!$path || !Storage::disk('public')->exists($path)) {

@@ -15,6 +15,8 @@
                     
                     <h6 class="fw-bold text-primary border-bottom pb-2">Informasi Umum</h6>
                     <div class="row mb-4">
+                        
+                        <!-- Informasi Utama -->
                         <div class="col-md-6 mb-3">
                             <span class="text-muted small">Jenis Izin</span>
                             <div class="fw-semibold">{{ $permohonan->layanan->nama_layanan }}</div>
@@ -23,10 +25,47 @@
                             <span class="text-muted small">Status BRIDA Saat Ini</span>
                             <div>
                                 <span class="badge bg-{{ $permohonan->status_brida == 'disetujui' ? 'success' : ($permohonan->status_brida == 'revisi' ? 'warning' : 'secondary') }}">
-                                    {{ $permohonan->status_brida }}
+                                    {{ str($permohonan->status_brida)->title() }}
                                 </span>
                             </div>
                         </div>
+
+                        {{-- Identitas Pemohon --}}
+                        <div class="col-12 mb-3 mt-2">
+                            <span class="text-muted small">Nama Pemohon</span>
+                            <div class="fw-semibold">{{ $permohonan->pemohon->nama_lengkap ?? '-' }}</div>
+                        </div>
+                        <div class="col-12 mb-3 mt-2">
+                            <span class="text-muted small">Instansi / Universitas Asal</span>
+                            <div class="fw-semibold">{{ $permohonan->nama_instansi ?? '-' }}</div>
+                        </div>
+
+                        @if($permohonan->nim || $permohonan->fakultas || $permohonan->program_studi)
+                            <div class="col-12 mt-2">
+                                
+                                @if($permohonan->fakultas)
+                                    <div class="mb-3">
+                                        <span class="text-muted small">Fakultas</span>
+                                        <div class="fw-semibold">{{ $permohonan->fakultas }}</div>
+                                    </div>
+                                @endif
+
+                                @if($permohonan->program_studi)
+                                    <div class="mb-3">
+                                        <span class="text-muted small">Program Studi</span>
+                                        <div class="fw-semibold">{{ $permohonan->program_studi }}</div>
+                                    </div>
+                                @endif
+
+                                @if($permohonan->nim)
+                                    <div class="mb-3">
+                                        <span class="text-muted small">Nomor Induk Mahasiswa (NIM)</span>
+                                        <div class="fw-semibold">{{ $permohonan->nim }}</div>
+                                    </div>
+                                @endif
+                                
+                            </div>
+                        @endif
                     </div>
 
                     <!-- ======== data Akademik & kepesertaan ======== -->
@@ -97,11 +136,7 @@
 
                     <h6 class="fw-bold text-primary border-bottom pb-2">Data Teknis & Pelaksanaan <span class="badge bg-primary ms-2 text-wrap">Wewenang BRIDA</span></h6>
                     <div class="row mb-4">
-                        <div class="col-md-6 mb-3">
-                            <span class="text-muted small">Instansi / Universitas Asal</span>
-                            <div class="fw-semibold">{{ $permohonan->nama_instansi }}</div>
-                        </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-12 mb-3">
                             <span class="text-muted small">Tanggal Pelaksanaan</span>
                             <div class="fw-semibold">{{ \Carbon\Carbon::parse($permohonan->tgl_mulai)->format('d M Y') }} - {{ \Carbon\Carbon::parse($permohonan->tgl_selesai)->format('d M Y') }}</div>
                         </div>
@@ -131,7 +166,7 @@
         <div class="col-lg-4">
             <div class="card card-dash border-0 sticky-top" style="top: 2rem;">
                 <div class="card-header bg-primary text-white border-bottom p-4">
-                    <h5 class="mb-0 fw-bold"><i class="fas fa-check-double me-2"></i>Verifikasi BRIDA</h5>
+                    <h5 class="mb-0 fw-bold text-white"><i class="fas fa-check-double me-2"></i>Verifikasi BRIDA</h5>
                 </div>
                 <div class="card-body p-4">
                     
@@ -163,17 +198,16 @@
                                 <label class="form-label fw-semibold">Keputusan Teknis</label>
                                 <select wire:model.live="status_brida" class="form-select border-2 @error('status_brida') is-invalid @enderror">
                                     <option value="pending">Menunggu (Pending)</option>
-                                    <option value="disetujui" class="text-success fw-bold">Setujui Data Teknis</option>
-                                    <option value="revisi" class="text-warning fw-bold">Kembalikan (Revisi)</option>
-                                    <option value="ditolak" class="text-danger fw-bold">Tolak Permanen</option>
+                                    <option value="disetujui" class="text-success fw-bold">Setujui</option>
+                                    <option value="revisi" class="text-warning fw-bold">Revisi</option>
+                                    <option value="ditolak" class="text-danger fw-bold">Tolak</option>
                                 </select>
                                 @error('status_brida') <span class="text-danger small">{{ $message }}</span> @enderror
                             </div>
 
                             <div class="mb-4">
                                 <label class="form-label fw-semibold">Catatan BRIDA</label>
-                                <textarea wire:model="catatan_brida" class="form-control @error('catatan_brida') is-invalid @enderror" rows="4" placeholder="Tulis catatan jika revisi atau tolak..."></textarea>
-                                <small class="text-muted">Wajib diisi jika status Revisi atau Ditolak.</small>
+                                <textarea wire:model="catatan_brida" class="form-control @error('catatan_brida') is-invalid @enderror" rows="4" placeholder="Wajib diisi jika status Revisi atau Ditolak..."></textarea>
                                 @error('catatan_brida') <span class="text-danger small fw-bold">{{ $message }}</span> @enderror
                             </div>
 

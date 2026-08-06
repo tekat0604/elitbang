@@ -28,6 +28,7 @@ class PermohonanController extends Component
     public $nama_layanan_terpilih;
     public $isPenelitian = false;
     public $judul, $jenjang_pendidikan, $bidang_penelitian, $rumpun_penelitian;
+    public $fakultas, $program_studi, $nim;
     public $nama_instansi, $alamat_instansi;
     public $tgl_mulai, $tgl_selesai;
     public $kategori_id, $opd_id, $opd_child_id;
@@ -70,6 +71,9 @@ class PermohonanController extends Component
             $this->tgl_mulai = $permohonan->tgl_mulai;
             $this->tgl_selesai = $permohonan->tgl_selesai;
             $this->jenjang_pendidikan = $permohonan->jenjang_pendidikan;
+            $this->fakultas = $permohonan->fakultas;
+            $this->program_studi = $permohonan->program_studi;
+            $this->nim = $permohonan->nim;
             $this->bidang_penelitian = $permohonan->bidang_penelitian;
             $this->rumpun_penelitian = $permohonan->rumpun_penelitian;
             $this->jenis_pengajuan = $permohonan->jenis_pengajuan;
@@ -173,6 +177,9 @@ class PermohonanController extends Component
         return [
             'judul.required' => 'Judul penelitian atau kegiatan wajib diisi.',
             'jenjang_pendidikan.required' => 'Silakan pilih jenjang pendidikan.',
+            'fakultas.required' => 'Fakultas wajib diisi untuk jenjang perguruan tinggi.',
+            'program_studi.required' => 'Program studi wajib diisi untuk jenjang perguruan tinggi.',
+            'nim.required' => 'NIM wajib diisi untuk mahasiswa.',
             'bidang_penelitian.required' => 'Bidang penelitian wajib diisi.',
             'rumpun_penelitian.required' => 'Rumpun penelitian wajib diisi.',
             'nama_instansi.required' => 'Nama instansi atau universitas asal wajib diisi.',
@@ -194,8 +201,8 @@ class PermohonanController extends Component
             'anggota.min' => 'Minimal harus ada 1 anggota tambahan dalam kelompok.',
             'anggota.*.nama_anggota.required' => 'Nama anggota tidak boleh kosong.',
             'anggota.*.nik.required' => 'NIK anggota tidak boleh kosong.',
-            'anggota.*.nik.min' => 'NIK anggota minimal 14 karakter.',
-            'anggota.*.nik.max' => 'NIK anggota maksimal 18 karakter.',
+            'anggota.*.nik.min' => 'NIK anggota minimal 16 karakter.',
+            'anggota.*.nik.regex' => 'NIK anggota hanya boleh berisi angka.',
             'anggota.*.nik.distinct' => 'Terdapat NIK yang ganda',
             'anggota.*.nik.not_in' => 'NIK anggota tidak boleh sama dengan NIK pengusul.',
 
@@ -209,14 +216,22 @@ class PermohonanController extends Component
     public function validateStep()
     {
         if ($this->currentStep == 1) {
-            $this->validate([
+            $rules = [
                 'judul' => 'required|string|max:255',
-                'jenjang_pendidikan' => 'required|string|in:SMA,D3,D4,S1,S2,S3',
+                'jenjang_pendidikan' => 'required|string|in:SMP,SMA,D3,D4,S1,S2,S3',
                 'bidang_penelitian' => 'required|string|in:Ekonomi,Sosial,Pemerintahan,Kependudukan,Pembangunan,Kesehatan,Lingkungan Hidup,Budaya,Politik',
                 'rumpun_penelitian' => 'required|string|in:Ekonomi,Sosial,Budaya,Hukum,Kesehatan,Pemerintah dan Politik,Pendidikan,Lingkungan Hidup,Teknik dan Pembangunan,Agama,Kependudukan,Ketenagakerjaan,Digital dan Teknologi,Transportasi dan Perhubungan,Lainnya',
                 'nama_instansi' => 'required|string',
                 'alamat_instansi' => 'required|string',
-            ]);
+            ];
+
+            if (in_array($this->jenjang_pendidikan, ['D3', 'D4', 'S1', 'S2', 'S3'])) {
+                $rules['fakultas'] = 'required|string';
+                $rules['program_studi'] = 'required|string';
+                $rules['nim'] = 'required|string';
+            }
+
+            $this->validate($rules);
         } elseif ($this->currentStep == 2) {
             $rules = [
                 'kategori_id' => 'required',
@@ -234,7 +249,7 @@ class PermohonanController extends Component
 
                 $rules['anggota'] = 'required|array|min:1';
                 $rules['anggota.*.nama_anggota'] = 'required|string';
-                $rules['anggota.*.nik'] = 'required|string|min:14|max:18|distinct|not_in:' . $nikKetua;
+                $rules['anggota.*.nik'] = 'required|string|regex:/^[0-9]+$/|min:16|distinct|not_in:' . $nikKetua;
             }
             $this->validate($rules);
         }
@@ -273,6 +288,9 @@ class PermohonanController extends Component
                     'tgl_mulai' => $this->tgl_mulai,
                     'tgl_selesai' => $this->tgl_selesai,
                     'jenjang_pendidikan' => $this->jenjang_pendidikan,
+                    'fakultas' => $this->fakultas,
+                    'program_studi' => $this->program_studi,
+                    'nim' => $this->nim,
                     'bidang_penelitian' => $this->bidang_penelitian,
                     'rumpun_penelitian' => $this->rumpun_penelitian,
                     'jenis_pengajuan' => $this->jenis_pengajuan,
@@ -300,6 +318,9 @@ class PermohonanController extends Component
                     'tgl_mulai' => $this->tgl_mulai,
                     'tgl_selesai' => $this->tgl_selesai,
                     'jenjang_pendidikan' => $this->jenjang_pendidikan,
+                    'fakultas' => $this->fakultas,
+                    'program_studi' => $this->program_studi,
+                    'nim' => $this->nim,
                     'bidang_penelitian' => $this->bidang_penelitian,
                     'rumpun_penelitian' => $this->rumpun_penelitian,
                     'jenis_pengajuan' => $this->jenis_pengajuan,

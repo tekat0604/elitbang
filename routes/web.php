@@ -58,6 +58,7 @@ Route::get('/auth/forgot-password-basic', ForgotPassword::class)->name('password
 Route::get('/reset-password/{token}', ResetPassword::class)->name('password.reset');
 
 Route::get('/verifikasi/{token}', [SuratController::class, 'verifikasi'])->name('verifikasi.dokumen');
+Route::get('/verifikasi/selesai/{token}', [SuratController::class, 'verifikasiSelesai'])->name('verifikasi-selesai');
 
 // Google SSO Routes
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
@@ -75,6 +76,7 @@ Route::middleware(['auth'])->group(function () {
   Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
   Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
   Route::get('/preview-surat/{token}', [SuratController::class, 'preview'])->name('preview-surat');
+  Route::get('/preview-selesai/{token}', [SuratController::class, 'previewSelesai'])->name('preview-selesai');
 
   // Role: User (Pemohon)
   Route::middleware([CekRoleUser::class])->group(function () {
@@ -101,6 +103,7 @@ Route::middleware(['auth'])->group(function () {
       ->middleware([CekVerifikasiPemohon::class]);
 
     Route::get('/permohonan/unduh-surat/{token}', [SuratController::class, 'unduh'])->name('user.unduh-surat');
+    Route::get('/permohonan/unduh-selesai/{token}', [SuratController::class, 'unduhSelesai'])->name('user.unduh-selesai');
   });
 
   // Role: Verifikator

@@ -84,58 +84,6 @@ class UserSeeder extends Seeder
             'updated_at' => $now,
         ]);
 
-        $userTerverifikasi = User::create([
-            'name' => 'Faadhilah Hana Gustie Fatimah',
-            'email' => 'faadhilah@student.uns.ac.id',
-            'password' => $password,
-            'role' => 'user',
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
-        $pemohonTerverifikasi = Pemohon::create([
-            'user_id' => $userTerverifikasi->id,
-            'nama_lengkap' => 'Faadhilah Hana Gustie Fatimah',
-            'jenis_identitas' => 'ktm',
-            'nomor_identitas' => 'L0124012',
-            'no_hp' => '081234567890',
-            'email' => 'faadhilah@student.uns.ac.id',
-            'kewarganegaraan' => 'WNI',
-            'tanggal_lahir' => '2004-01-01',
-            'provinsi' => 'Jawa Tengah',
-            'kota_kabupaten' => 'Surakarta',
-            'kecamatan' => 'Jebres',
-            'kelurahan_desa' => 'Jebres',
-            'alamat' => 'Kampus UNS Kentingan, Surakarta',
-            'path_identitas' => 'identitas/dummy_ktm.jpg',
-            'status_verifikasi' => 'terverifikasi',
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
-        $permohonanVerif = Permohonan::create([
-            'pemohon_id' => $pemohonTerverifikasi->id,
-            'layanan_id' => 1,
-            'judul' => 'Implementasi IoT dan AI dalam Efisiensi Energi Bangunan Puskesmas (Green Neuro City 2045)',
-            'id_opd_child' => 1,
-            'tgl_mulai' => $now->copy()->addDays(7)->format('Y-m-d'),
-            'tgl_selesai' => $now->copy()->addMonths(3)->format('Y-m-d'),
-            'jenjang_pendidikan' => 'S1',
-            'bidang_penelitian' => 'Informatika',
-            'rumpun_penelitian' => 'Sains dan Teknologi',
-            'jenis_pengajuan' => 'personal',
-            'jumlah_anggota' => 1,
-            'nama_instansi' => 'Universitas Sebelas Maret',
-            'alamat_instansi' => 'Jl. Ir. Sutami No.36A, Jebres, Surakarta',
-            'status_permohonan' => 'disetujui',
-            'status_kesbangpol' => 'disetujui',
-            'catatan_kesbangpol' => 'Berkas persyaratan lengkap dan valid. Disetujui.',
-            'status_brida' => 'disetujui',
-            'catatan_brida' => 'Tema riset sangat relevan dengan inovasi teknologi. Disetujui.',
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
-
         // 3. GENERATOR OTOMATIS AKUN OPD & UPTD
 
         // Ambil semua data master OPD

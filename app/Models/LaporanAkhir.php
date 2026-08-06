@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class LaporanAkhir extends Model
 {
@@ -19,6 +20,7 @@ class LaporanAkhir extends Model
         'status_laporan',
         'catatan_revisi',
         'file_surat_selesai',
+        'nomor_surat',
     ];
 
     protected function casts(): array
@@ -34,5 +36,10 @@ class LaporanAkhir extends Model
     public function permohonan(): BelongsTo
     {
         return $this->belongsTo(Permohonan::class);
+    }
+
+    public function suratSelesai(): HasOne
+    {
+        return $this->hasOne(SuratSelesai::class);
     }
 }

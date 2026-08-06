@@ -16,9 +16,6 @@
             <i class="fas fa-check-circle fa-4x text-success mb-3"></i>
             <h4 class="fw-bold text-success">Terima Kasih Atas Masukan Anda!</h4>
             <p class="mb-4 text-dark">Survei kepuasan masyarakat berhasil dikirim. Penilaian dan ulasan Anda sangat berarti bagi peningkatan kualitas layanan kami ke depannya.</p>
-            <a href="{{ route('permohonan') }}" class="btn btn-success px-4 py-2 fw-semibold shadow-sm">
-              <i class="fas fa-file-alt me-2"></i> Buka Daftar Permohonan & Unduh Surat
-            </a>
           </div>
 
         @elseif ($permohonanList->isEmpty())

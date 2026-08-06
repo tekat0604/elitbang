@@ -26,6 +26,19 @@
                 ->count();
         }
 
+        $jumlahPerluNomorSurat = 0;
+        if ($userType === 'verifikator_brida') {
+            $jmlRekomendasi = \App\Models\Permohonan::where('status_permohonan', 'disetujui')
+                ->whereDoesntHave('suratIzin', function($query) {
+                    $query->whereNotNull('nomor_surat');
+                })->count();
+                
+            $jmlSelesai = \App\Models\LaporanAkhir::where('status_laporan', 'disetujui')
+                ->whereNull('nomor_surat')->count();
+                
+            $jumlahPerluNomorSurat = $jmlRekomendasi + $jmlSelesai;
+        }
+
         $menus = [
             'user' => [
                 ['label' => 'Data Diri', 'route' => 'identitas', 'active' => 'identitas*'],
@@ -79,6 +92,10 @@
           <!-- Tampilkan Badge jika menu adalah Surat Masuk dan ada yang belum dibaca -->
           @if($menu['route'] === 'instansi.surat-masuk.list' && $jumlahBelumDibaca > 0)
               <span class="badge bg-secondary rounded-pill">  {{ $jumlahBelumDibaca }}</span>
+          @endif
+
+          @if($menu['route'] === 'verifikator.brida.penomoran' && $jumlahPerluNomorSurat > 0)
+              <span class="badge bg-secondary rounded-pill">{{ $jumlahPerluNomorSurat }}</span>
           @endif
         </a>
       @endforeach
