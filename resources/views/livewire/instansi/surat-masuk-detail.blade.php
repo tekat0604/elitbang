@@ -24,8 +24,13 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="text-muted small d-block mb-1">Judul Penelitian</label>
+                        <label class="text-muted small d-block mb-1">Judul Penelitian/Kegiatan</label>
                         <span class="fw-semibold">{{ $permohonan->judul ?? '-' }}</span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="text-muted small d-block mb-1">Tujuan Penelitian/Kegiatan</label>
+                        <span class="fw-semibold">{{ $permohonan->tujuan ?? '-' }}</span>
                     </div>
 
                     <div class="mb-3">

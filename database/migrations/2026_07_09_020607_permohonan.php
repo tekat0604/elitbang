@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->foreignId('layanan_id')->constrained('layanan')->onDelete('cascade');
 
             $table->string('judul');
+            $table->text('tujuan');
             $table->foreignId('id_opd_child')->constrained('opd_child')->onDelete('cascade');
             $table->date('tgl_mulai');
             $table->date('tgl_selesai');

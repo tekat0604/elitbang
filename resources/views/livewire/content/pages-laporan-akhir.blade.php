@@ -1,6 +1,41 @@
 <div>
-    @if ($perluSurvei)
-        <!-- TAMPILAN BLOKIR: WAJIB SURVEI -->
+    @php
+        $pemohon = auth()->user()->pemohon;
+    @endphp
+
+    @if (!$pemohon || $pemohon->status_verifikasi !== 'terverifikasi')
+        <div class="card card-dash border-0 p-5 text-center shadow-sm">
+            @if (!$pemohon)
+                <div class="mb-4">
+                    <i class="fas fa-lock fa-4x text-warning"></i>
+                </div>
+                <h4 class="mb-3 text-warning fw-bold">Akses Terkunci</h4>
+                <p class="mb-4 text-body-secondary">Silakan mengisi data identitas diri Anda terlebih dahulu sebelum dapat mengakses halaman ini.</p>
+                <div>
+                    <a href="{{ route('identitas-form') }}" class="btn btn-primary fw-bold shadow-sm px-4">
+                        <i class="fas fa-user-edit me-1"></i> Isi Identitas Diri
+                    </a>
+                </div>
+            @elseif ($pemohon->status_verifikasi === 'pending')
+                <div class="mb-4">
+                    <i class="fas fa-clock fa-4x text-warning"></i>
+                </div>
+                <h4 class="mb-3 text-warning fw-bold">Menunggu Verifikasi Identitas</h4>
+                <p class="mb-0 text-body-secondary">Silakan menunggu profil identitas Anda diverifikasi oleh BRIDA sebelum dapat mengakses Laporan Akhir.</p>
+            @elseif ($pemohon->status_verifikasi === 'revisi')
+                <div class="mb-4">
+                    <i class="fas fa-user-times fa-4x text-danger"></i>
+                </div>
+                <h4 class="mb-3 text-danger fw-bold">Profil Perlu Revisi</h4>
+                <p class="mb-4 text-body-secondary">Data identitas Anda dikembalikan dengan catatan. Harap perbaiki sebelum dapat mengakses halaman ini.</p>
+                <div>
+                    <a href="{{ route('identitas') }}" class="btn btn-danger fw-bold shadow-sm px-4">
+                        <i class="fas fa-exclamation-triangle me-1"></i> Lihat Catatan BRIDA
+                    </a>
+                </div>
+            @endif
+        </div>
+    @elseif ($perluSurvei)
         <div class="card card-dash border-0 p-5 text-center shadow-sm">
             <div class="mb-4">
                 <i class="fas fa-clipboard-list fa-4x text-warning"></i>
@@ -25,9 +60,7 @@
         </div>
 
     @else
-        <!-- TAMPILAN UTAMA: TABEL DAN FORM (Terbuka jika syarat terpenuhi) -->
         
-        <!-- Header & Action Button -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <h4 class="fw-bold mb-0">Laporan Akhir Penelitian</h4>

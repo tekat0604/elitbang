@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Surat Izin Penelitian</title>
     <style>
-        body { font-family: 'Times New Roman', Times, serif; font-size: 12pt; line-height: 1.3; }
+        body { font-family: 'Times New Roman', Times, serif; font-size: 11pt; line-height: 1.3; }
         .header { text-align: center; border-bottom: 3px solid #000; padding-bottom: 5px; margin-bottom: 15px; }
         .header h3, .header h2, .header p { margin: 2px 0; }
         .header h2 { font-size: 14pt; font-weight: bold; }
@@ -36,7 +36,7 @@
             <td class="header-text">
                 <h3><b>PEMERINTAH KOTA SURAKARTA</b></h3>
                 <h2><b>BADAN RISET DAN INOVASI DAERAH</b></h2>
-                <p style="font-size: 10pt;">
+                <p style="font-size: 9pt;">
                     Jalan Jenderal Sudirman No.2 Kampung Baru, Pasar Kliwon, Telp: (0271) 636426<br>
                     Website http://brida.surakarta.go.id dan E-mail:<br>brida@surakarta.go.id; bridasurakarta@gmail.com<br>
                     <b>SURAKARTA</b><br><b>57111</b>

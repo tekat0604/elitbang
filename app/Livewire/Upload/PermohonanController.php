@@ -27,7 +27,7 @@ class PermohonanController extends Component
     public $layanan_id;
     public $nama_layanan_terpilih;
     public $isPenelitian = false;
-    public $judul, $jenjang_pendidikan, $bidang_penelitian, $rumpun_penelitian;
+    public $judul, $tujuan, $jenjang_pendidikan, $bidang_penelitian, $rumpun_penelitian;
     public $fakultas, $program_studi, $nim;
     public $nama_instansi, $alamat_instansi;
     public $tgl_mulai, $tgl_selesai;
@@ -68,6 +68,7 @@ class PermohonanController extends Component
 
             // Suntik data lama
             $this->judul = $permohonan->judul;
+            $this->tujuan = $permohonan->tujuan;
             $this->tgl_mulai = $permohonan->tgl_mulai;
             $this->tgl_selesai = $permohonan->tgl_selesai;
             $this->jenjang_pendidikan = $permohonan->jenjang_pendidikan;
@@ -115,6 +116,7 @@ class PermohonanController extends Component
             $this->layanan_id = $layanan->id;
             $this->nama_layanan_terpilih = $layanan->nama_layanan;
             $this->isPenelitian = $layanan->slug_layanan === 'izin-penelitian';
+            $this->tujuan = 'untuk ';
             $this->addPembimbing();
         }
     }
@@ -176,6 +178,9 @@ class PermohonanController extends Component
     {
         return [
             'judul.required' => 'Judul penelitian atau kegiatan wajib diisi.',
+            'judul.max' => 'Judul tidak boleh melebihi 255 karakter.',
+            'tujuan.required' => 'Tujuan penelitian atau kegiatan wajib diisi.',
+            'tujuan.max' => 'Tujuan tidak boleh melebihi 255 karakter.',
             'jenjang_pendidikan.required' => 'Silakan pilih jenjang pendidikan.',
             'fakultas.required' => 'Fakultas wajib diisi untuk jenjang perguruan tinggi.',
             'program_studi.required' => 'Program studi wajib diisi untuk jenjang perguruan tinggi.',
@@ -218,6 +223,7 @@ class PermohonanController extends Component
         if ($this->currentStep == 1) {
             $rules = [
                 'judul' => 'required|string|max:255',
+                'tujuan' => 'required|string|max:255',
                 'jenjang_pendidikan' => 'required|string|in:SMP,SMA,D3,D4,S1,S2,S3',
                 'bidang_penelitian' => 'required|string|in:Ekonomi,Sosial,Pemerintahan,Kependudukan,Pembangunan,Kesehatan,Lingkungan Hidup,Budaya,Politik',
                 'rumpun_penelitian' => 'required|string|in:Ekonomi,Sosial,Budaya,Hukum,Kesehatan,Pemerintah dan Politik,Pendidikan,Lingkungan Hidup,Teknik dan Pembangunan,Agama,Kependudukan,Ketenagakerjaan,Digital dan Teknologi,Transportasi dan Perhubungan,Lainnya',
@@ -284,6 +290,7 @@ class PermohonanController extends Component
                     'pemohon_id' => $pemohon->id,
                     'layanan_id' => $this->layanan_id,
                     'judul' => $this->judul,
+                    'tujuan' => $this->tujuan,
                     'id_opd_child' => $this->opd_child_id,
                     'tgl_mulai' => $this->tgl_mulai,
                     'tgl_selesai' => $this->tgl_selesai,
@@ -314,6 +321,7 @@ class PermohonanController extends Component
                     'pemohon_id' => $pemohon->id,
                     'layanan_id' => $this->layanan_id,
                     'judul' => $this->judul,
+                    'tujuan' => $this->tujuan,
                     'id_opd_child' => $this->opd_child_id,
                     'tgl_mulai' => $this->tgl_mulai,
                     'tgl_selesai' => $this->tgl_selesai,

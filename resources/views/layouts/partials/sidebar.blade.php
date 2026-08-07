@@ -66,7 +66,7 @@
             ],
             'super_admin' => [
                 ['label' => 'Data Pengguna', 'route' => 'super-admin.akun-manual', 'active' => 'super-admin.akun-manual*'],
-                ['label' => 'Data Instansi', 'route' => 'super-admin.data-instansi', 'active' => 'super-admin.data-instansi*'],
+                ['label' => 'Data Penandatangan', 'route' => 'super-admin.data-instansi', 'active' => 'super-admin.data-instansi*'],
             ],
             'opd' => [
                 ['label' => 'Surat Masuk', 'route' => 'instansi.surat-masuk.list', 'active' => 'instansi.surat-masuk*'],

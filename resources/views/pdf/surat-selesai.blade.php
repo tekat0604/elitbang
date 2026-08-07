@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Surat Keterangan Selesai Penelitian</title>
     <style>
-        body { font-family: 'Times New Roman', Times, serif; font-size: 12pt; line-height: 1.3; }
+        body { font-family: 'Times New Roman', Times, serif; font-size: 11pt; line-height: 1.3; }
         .header { text-align: center; border-bottom: 3px solid #000; padding-bottom: 5px; margin-bottom: 15px; }
         .header h3, .header h2, .header p { margin: 2px 0; }
         .header h2 { font-size: 14pt; font-weight: bold; }
@@ -38,7 +38,7 @@
             <td class="header-text">
                 <h3><b>PEMERINTAH KOTA SURAKARTA</b></h3>
                 <h2><b>BADAN RISET DAN INOVASI DAERAH</b></h2>
-                <p style="font-size: 10pt;">
+                <p style="font-size: 9pt;">
                     Jalan Jenderal Sudirman No.2 Kampung Baru, Pasar Kliwon, Telp: (0271) 636426<br>
                     Website http://brida.surakarta.go.id dan E-mail:<br>brida@surakarta.go.id; bridasurakarta@gmail.com<br>
                     <b>SURAKARTA</b><br><b>57111</b>
@@ -58,7 +58,7 @@
             <tr>
                 <td style="width: 15%;">Nama</td>
                 <td style="width: 3%; text-align: center;">:</td>
-                <td style="width: 82%;"><b>{{ $pejabat_brida->nama_kepala_instansi }}</b></td>
+                <td style="width: 82%;">{{ $pejabat_brida->nama_kepala_instansi }}</td>
             </tr>
             <tr>
                 <td>Jabatan</td>
@@ -137,7 +137,7 @@
         <p class="statement">
             Telah selesai melakukan {{ $jenisKegiatan }} di Kota Surakarta selama {{ $durasiText }}, 
             terhitung mulai tanggal {{ $start->locale('id')->isoFormat('D MMMM Y') }} sampai dengan {{ $end->locale('id')->isoFormat('D MMMM Y') }} 
-            untuk memperoleh data dalam rangka penyusunan skripsi yang berjudul :
+            {{ strtolower($permohonan->tujuan) }} yang berjudul :
         </p>
 
         <p class="research-title">
@@ -152,7 +152,7 @@
             <tr>
                 <td style="width: 50%; vertical-align: top;"></td>
                 <td style="width: 50%; text-align: center; vertical-align: top;">
-                    Surakarta, {{ $tanggal_cetak }}<br><br>
+                    Surakarta, {{ $tanggal_cetak }}<br>
                     Kepala Badan Riset dan Inovasi Daerah<br>
                     Kota Surakarta<br>
                     Kepala Bidang Riset<br>
@@ -163,7 +163,7 @@
                         @endif
                     </div>
 
-                    <b><u>{{ $pejabat_brida->nama_kepala_instansi ?? 'Nama Pejabat Belum Diatur' }}</u></b><br>
+                    <div>{{ $pejabat_brida->nama_kepala_instansi ?? 'Nama Pejabat Belum Diatur' }}</div><br>
                     NIP. {{ $pejabat_brida->nip ?? '-' }}
                 </td>
             </tr>
@@ -172,7 +172,7 @@
         @if(isset($qr_code))
         <div style="text-align: left; margin-top: 15px;">
             <img src="data:image/svg+xml;base64,{{ $qr_code }}" width="80" height="80" alt="QR Code Verifikasi">           
-            <p style="font-size: 8pt; color: #555; margin-top: 5px;"><i>Dokumen ini telah ditandatangani secara elektronik.<br>Scan QR Code untuk memverifikasi keaslian dokumen.</i></p>
+            <p style="font-size: 8pt; color: #555; margin-top: 5px;"><i>Dokumen ini telah ditandatangani secara elektronik. Scan QR Code untuk memverifikasi keaslian dokumen.</i></p>
         </div>
         @endif
     </div>

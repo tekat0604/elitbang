@@ -18,6 +18,7 @@ class Permohonan extends Model
         'pemohon_id',
         'layanan_id',
         'judul',
+        'tujuan',
         'id_opd_child',
         'tgl_mulai',
         'tgl_selesai',

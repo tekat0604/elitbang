@@ -29,14 +29,17 @@
             <div class="row gy-4" wire:key="step-1">
                 <div class="col-12"><h6 class="fw-bold text-primary border-bottom pb-2">Informasi Kegiatan</h6></div>
                 
-                <!-- 1. Judul (Full Width) -->
                 <div class="col-12">
                     <label class="form-label">Judul Penelitian/Kegiatan<span class="text-danger">*</span></label>
                     <textarea wire:model="judul" class="form-control" rows="2" placeholder="Masukkan judul lengkap"></textarea>
                     @error('judul') <span class="text-danger small">{{ $message }}</span> @enderror
                 </div>
+                <div class="col-12">
+                    <label class="form-label">Tujuan Penelitian/Kegiatan<span class="text-danger">*</span></label>
+                    <textarea wire:model="tujuan" class="form-control" rows="3" placeholder="Jelaskan secara singkat tujuan dari kegiatan/penelitian Anda"></textarea>
+                    @error('tujuan') <span class="text-danger small">{{ $message }}</span> @enderror
+                </div>
                 
-                <!-- 2 & 3. Bidang & Rumpun (2 Kolom Sejajar) -->
                 <div class="col-md-6">
                     <label class="form-label">Bidang Penelitian/Kegiatan<span class="text-danger">*</span></label>
                     <select wire:model.live="bidang_penelitian" class="form-select">
@@ -210,7 +213,6 @@
                         <button type="button" wire:click="addAnggota" class="btn btn-sm btn-primary"><i class="fas fa-plus me-1"></i> Tambah Anggota</button>
                     </div>
                     
-                    <!-- TAMBAHAN: Pesan error muncul jika pengguna nekat menghapus semua baris -->
                     @error('anggota') 
                         <div class="alert alert-danger py-2 small mb-3">
                             <i class="fas fa-exclamation-circle me-1"></i> {{ $message }}

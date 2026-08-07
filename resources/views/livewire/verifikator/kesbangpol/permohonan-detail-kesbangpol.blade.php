@@ -74,6 +74,12 @@
                             <span class="text-muted small">Judul Penelitian</span>
                             <div class="fw-semibold">{{ $permohonan->judul }}</div>
                         </div>
+                        <div class="col-12 mb-3">
+                            <span class="text-muted small">Tujuan Penelitian/Kegiatan</span>
+                            <div class="fw-semibold" style="text-align: justify;">
+                                {{ $permohonan->tujuan ?? '-' }}
+                            </div>
+                        </div>
                         @if ($permohonan->layanan->slug_layanan === 'izin-penelitian')
                         <div class="col-12 mt-2">
                             <a href="{{ $permohonan->link_proposal }}" target="_blank" class="btn btn-outline-primary btn-sm">

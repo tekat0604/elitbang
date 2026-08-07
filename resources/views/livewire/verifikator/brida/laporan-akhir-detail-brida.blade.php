@@ -7,11 +7,41 @@
                 <div class="card-body p-4">
                     <h6 class="fw-bold text-primary border-bottom pb-2">Informasi Pengajuan</h6>
                     <div class="row mb-4">
-                        <div class="col-md-6 mb-3"><span class="text-muted small">Nama Pemohon</span><div class="fw-semibold">{{ $laporan->permohonan->pemohon?->nama_lengkap ?? '-' }}</div></div>
-                        <div class="col-md-6 mb-3"><span class="text-muted small">Jenis Izin</span><div class="fw-semibold">{{ $laporan->permohonan->layanan?->nama_layanan ?? '-' }}</div></div>
-                        <div class="col-12 mb-3"><span class="text-muted small">Judul Penelitian</span><div class="fw-semibold">{{ $laporan->permohonan->judul ?? '-' }}</div></div>
-                        <div class="col-md-6 mb-3"><span class="text-muted small">Instansi / Universitas</span><div class="fw-semibold">{{ $laporan->permohonan->nama_instansi ?? '-' }}</div></div>
-                        <div class="col-md-6 mb-3"><span class="text-muted small">Tanggal Upload</span><div class="fw-semibold">{{ $laporan->tanggal_upload?->locale('id')->isoFormat('D MMMM Y') }}</div></div>
+                        <div class="col-md-6 mb-3">
+                            <span class="text-muted small">Nama Pemohon</span>
+                            <div class="fw-semibold">
+                                {{ $laporan->permohonan->pemohon?->nama_lengkap ?? '-' }}
+                            </div></div>
+                        <div class="col-md-6 mb-3">
+                            <span class="text-muted small">Jenis Izin</span>
+                            <div class="fw-semibold">
+                                {{ $laporan->permohonan->layanan?->nama_layanan ?? '-' }}
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <span class="text-muted small">Judul Penelitian/Kegiatan</span>
+                            <div class="fw-semibold">
+                                {{ $laporan->permohonan->judul ?? '-' }}
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <span class="text-muted small">Tujuan Penelitian/Kegiatan</span>
+                            <div class="fw-semibold" style="text-align: justify;">
+                                {{ $laporan->permohonan->tujuan ?? '-' }}
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <span class="text-muted small">Instansi / Universitas</span>
+                            <div class="fw-semibold">
+                                {{ $laporan->permohonan->nama_instansi ?? '-' }}
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <span class="text-muted small">Tanggal Upload</span>
+                            <div class="fw-semibold">
+                                {{ $laporan->tanggal_upload?->locale('id')->isoFormat('D MMMM Y') }}
+                            </div>
+                        </div>
                     </div>
                     <h6 class="fw-bold text-primary border-bottom pb-2">Dokumen Laporan Akhir</h6>
                     <a href="{{ $laporan->file_laporan }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary"><i class="fas fa-external-link-alt me-1"></i>Buka Laporan Akhir</a>

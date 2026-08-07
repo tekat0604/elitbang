@@ -53,6 +53,12 @@
                     <span class="text-muted small">Judul Penelitian</span>
                     <div class="fw-semibold">{{ $permohonan->judul ?? '-' }}</div>
                 </div>
+                <div class="col-12 mt-3">
+                    <span class="text-muted small">Tujuan Penelitian/Kegiatan</span>
+                    <div class="fw-semibold" style="text-align: justify;">
+                        {{ $permohonan->tujuan ?? '-' }}
+                    </div>
+                </div>
             </div>
 
             <h6 class="fw-bold text-primary border-bottom pb-2">Detail Pelaksanaan</h6>
