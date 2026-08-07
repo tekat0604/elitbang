@@ -64,3 +64,112 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+# 🏛️ E-Litbang - BRIDA Kota Surakarta
+
+**E-Litbang** adalah aplikasi pelayanan perizinan terpadu berbasis web yang dikembangkan untuk Badan Riset dan Inovasi Daerah (BRIDA) Kota Surakarta. Aplikasi ini dirancang untuk mempermudah masyarakat, mahasiswa, dan instansi dalam mengurus berbagai perizinan penelitian, KKN, hingga pengabdian masyarakat secara digital dan terintegrasi dengan Perangkat Daerah (OPD) terkait.
+
+---
+
+## 🌟 Fitur Utama
+
+- **Portal Perizinan Terpadu:** Pengajuan izin secara mandiri untuk berbagai jenis layanan (Penelitian, KKN, Permohonan Data, Survey, Wawancara, dan Pengabdian Masyarakat).
+- **Tracking & Multi-Stage Workflow:** Alur pemrosesan perizinan yang terstruktur dan transparan sebanyak 12-16 tahapan.
+- **Multi-Role User System:** Hak akses khusus untuk *Pemohon/Peneliti*, *Admin BRIDA*, *Admin Kesbangpol*, serta *OPD Terkait*.
+- **Integrasi Dokumen & TTE:** Manajemen unggah persyaratan, verifikasi proposal, hingga penerbitan dokumen terverifikasi Tanda Tangan Elektronik (TTE).
+- **Interaktif & Dynamic UI:** Menggunakan komponen Livewire untuk pemrosesan data secara *real-time* tanpa *reload* halaman.
+
+---
+
+## 🛠️ Teknologi yang Digunakan
+
+- **Framework Backend:** [Laravel](https://laravel.com/)
+- **Frontend Reactive:** [Livewire](https://livewire.laravel.com/)
+- **Database:** MySQL (via Laragon / HeidiSQL)
+- **Styling UI:** Tailwind CSS / Bootstrap & FontAwesome Icons
+- **Web Server:** Nginx / Apache (Laragon Local Environment)
+
+---
+
+## 📋 Persyaratan Sistem
+
+Sebelum menjalankan proyek ini, pastikan sistem Anda sudah terpasang:
+- PHP >= 8.4
+- Laravel >= 13
+- Composer >= 2.0
+- MySQL / MariaDB (Disarankan menggunakan **Laragon**)
+- Node.js & NPM (Opsional, jika mengompilasi aset frontend)
+
+---
+
+## 🚀 Cara Instalasi & Menjalankan Proyek Lokal
+
+Ikuti langkah-langkah berikut untuk menjalankan proyek di lingkungan lokal menggunakan Laragon:
+
+### 1. Clone Repositori
+```bash
+git clone [https://github.com/username/elitbang.git](https://github.com/tekat0604/elitbang.git)
+cd elitbang
+```
+
+### 2. Install Dependensi PHP
+```bash
+composer install
+```
+
+### 3. Konfigurasi Environment (.env)
+Duplikat file .env.example menjadi .env:
+```bash
+cp .env.example .env
+```
+Buka file .env dan atur konfigurasi database sesuai dengan pengaturan MySQL Laragon Anda:
+Misalkan,
+- DB_CONNECTION=mysql
+- DB_HOST=127.0.0.1
+- DB_PORT=3306
+- DB_DATABASE=elitbang
+- DB_USERNAME=root
+- DB_PASSWORD=
+
+### 4. Generate Application Key
+```bash
+php artisan key:generate
+```
+### 5. Jalankan Migrasi Database & Seeder
+Buat database bernama elitbang di HeidiSQL/phpMyAdmin, lalu jalankan migrasi:
+```bash
+php artisan migrate
+```
+Jika ada file seeder untuk data awal layanan atau akun default:
+```bash
+php artisan db seed
+```
+
+### 6. Link Storage (Untuk Manajemen Upload File)
+```bash
+php artisan storage:link
+```
+
+### 7. Jalankan Server
+Jika menggunakan Laragon, Anda cukup mengakses URL lokal seperti:
+```http://elitbang.test:8080``` atau ```http://localhost/elitbang/public``` .
+Atau Anda juga bisa menjalankannya via CLI bawaaan Laravel:
+```bash
+php artisan serve
+```
+Akses aplikasi di browser melalui ```http://127.0.0.1:8000```.
+
+## Kredensial Penguji (Data Dummy Login)
+Jika menggunakan data seed default, gunakan akun dibawah ini untuk pengujian:
+| Role / Hak Akses | Email / Username | Password | Keterangan |
+| :--- | :--- | :--- | :--- |
+| **Pemohon (User 1)** | `budi@example.com` | `password123` | Akun pemohon / mahasiswa |
+| **Kepala Brida (TTE)** | `kepala.brida@surakarta.go.id` | `password123` | TTE |
+| **Kepala Kesbangpol (TTE)** | `kepala.kesbangpol@surakarta.go.id` | `password123` | TTE |
+| **Verifikator BRIDA** | `brida@surakarta.go.id` | `password123` | Verifikator utama, Penerbit Surat |
+| **Verifikator Kesbangpol** | `kesbangpol@surakarta.go.id` | `password123` | Verifikator berkas diawal |
+| **Admin OPD** | `namaopd@surakarta.go.id` | `password123` | Penerima dokumen & data |
+
+## 📄 Lisensi & Hak Cipta
+Proyek ini dikembangkan untuk instansi Badan Riset dan Inovasi Daerah (BRIDA) Kota Surakarta © 2026.
