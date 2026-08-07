@@ -115,11 +115,22 @@
             <div class="row g-3">
                 <div class="col-md-6">
                     <div class="border rounded p-3 h-100">
-                        <i class="fas fa-file-alt text-primary me-2"></i><span class="fw-semibold">Draf Surat Rekomendasi</span>
+                        <i class="fas fa-file-alt text-primary me-2"></i>
+                        <span class="fw-semibold">
+                            {{ $tipe_surat === 'rekomendasi' ? 'Draf Surat Rekomendasi' : 'Draf Surat Selesai Penelitian' }}
+                        </span>
                         <p class="small text-muted mb-2 mt-2">Draf dokumen telah di-generate secara otomatis dan siap untuk ditinjau sebelum ditandatangani.</p>
-                        <a href="{{ route('preview-surat', $permohonan->suratIzin->qr_code_link) }}" class="btn btn-primary w-100" target="_blank">
-                            <i class="fas fa-eye me-1"></i> Buka & Tinjau Surat
-                        </a>
+                        
+                        @if($tipe_surat === 'rekomendasi')
+                            <a href="{{ route('preview-surat', $permohonan->suratIzin->qr_code_link) }}" class="btn btn-primary w-100" target="_blank">
+                                <i class="fas fa-eye me-1"></i> Buka & Tinjau Surat Izin
+                            </a>
+                        @else
+                            <a href="{{ route('preview-selesai', $laporan->suratSelesai->qr_code_link) }}" class="btn btn-primary w-100" target="_blank">
+                                <i class="fas fa-eye me-1"></i> Buka & Tinjau Surat Selesai
+                            </a>
+                        @endif
+
                     </div>
                 </div>
             </div>

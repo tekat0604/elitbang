@@ -9,7 +9,7 @@ use App\Models\SuratSelesai;
 
 class SuratController extends Controller
 {
-    // Ubah parameter menjadi $token
+    // untuk surat izin rekomendasi
     public function preview($token)
     {
         $user = Auth::user();
@@ -59,7 +59,6 @@ class SuratController extends Controller
         return Storage::disk('public')->response($path);
     }
 
-    // Ubah parameter menjadi $token
     public function unduh($token)
     {
         $user = Auth::user();
@@ -74,6 +73,25 @@ class SuratController extends Controller
 
         if (!$path || !Storage::disk('public')->exists($path)) {
             abort(404, 'Surat rekomendasi final belum tersedia atau tidak ditemukan di server.');
+        }
+
+        return Storage::disk('public')->response($path);
+    }
+
+    public function unduhSelesai($token)
+    {
+        $user = Auth::user();
+
+        // Cari berdasarkan qr_code_link dan pastikan laporan tersebut milik user yang sedang login
+        $surat = SuratSelesai::whereHas('laporanAkhir.permohonan', function ($query) use ($user) {
+            $query->where('pemohon_id', $user->pemohon?->id);
+        })->where('qr_code_link', $token)->firstOrFail();
+
+        // Gunakan kolom file_path
+        $path = $surat->file_path;
+
+        if (!$path || !Storage::disk('public')->exists($path)) {
+            abort(404, 'Surat Keterangan Selesai final belum tersedia atau tidak ditemukan di server.');
         }
 
         return Storage::disk('public')->response($path);

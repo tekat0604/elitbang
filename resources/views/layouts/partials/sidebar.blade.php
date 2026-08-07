@@ -30,11 +30,13 @@
         if ($userType === 'verifikator_brida') {
             $jmlRekomendasi = \App\Models\Permohonan::where('status_permohonan', 'disetujui')
                 ->whereDoesntHave('suratIzin', function($query) {
-                    $query->whereNotNull('nomor_surat');
+                    $query->whereNotNull('file_path');
                 })->count();
                 
             $jmlSelesai = \App\Models\LaporanAkhir::where('status_laporan', 'disetujui')
-                ->whereNull('nomor_surat')->count();
+                ->whereDoesntHave('suratSelesai', function($query) {
+                    $query->whereNotNull('file_path');
+                })->count();
                 
             $jumlahPerluNomorSurat = $jmlRekomendasi + $jmlSelesai;
         }
@@ -57,10 +59,10 @@
                 ['label' => 'Pengajuan Perizinan', 'route' => 'verifikator.kesbangpol.permohonan.list', 'active' => 'verifikator.kesbangpol.permohonan*'],
             ],
             'tanda_tangan_brida' => [
-                ['label' => 'Pengajuan Perizinan', 'route' => 'penandatangan.brida.list', 'active' => 'penandatangan.brida*'],
+                ['label' => 'Penandatanganan Surat', 'route' => 'penandatangan.brida.list', 'active' => 'penandatangan.brida*'],
             ],
             'tanda_tangan_kesbangpol' => [
-                ['label' => 'Pengajuan Perizinan', 'route' => 'penandatangan.kesbangpol.list', 'active' => 'penandatangan.kesbangpol*'],
+                ['label' => 'Penandatanganan Surat', 'route' => 'penandatangan.kesbangpol.list', 'active' => 'penandatangan.kesbangpol*'],
             ],
             'super_admin' => [
                 ['label' => 'Data Pengguna', 'route' => 'super-admin.akun-manual', 'active' => 'super-admin.akun-manual*'],
@@ -84,7 +86,6 @@
         Dashboard
       </a>
 
-      <!-- Menu Dinamis (Muncul Berdasarkan Role & Instansi) -->
       @foreach($activeMenus as $menu)
         <a class="nav-link py-2 mb-1 d-flex justify-content-between align-items-center {{ request()->routeIs($menu['active']) ? 'active' : '' }}" href="{{ route($menu['route']) }}">
           <span>{{ $menu['label'] }}</span>

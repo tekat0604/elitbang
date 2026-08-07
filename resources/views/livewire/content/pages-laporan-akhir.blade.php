@@ -97,8 +97,8 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($laporan->file_surat_selesai)
-                                            <a href="{{ $laporan->file_surat_selesai }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-success fw-bold">
+                                        @if($laporan->suratSelesai && $laporan->suratSelesai->status_tte_brida === 'selesai' && $laporan->suratSelesai->file_path)
+                                            <a href="{{ route('user.unduh-selesai', $laporan->suratSelesai->qr_code_link) }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-success fw-bold">
                                                 <i class="fas fa-download me-1"></i> Unduh
                                             </a>
                                         @else

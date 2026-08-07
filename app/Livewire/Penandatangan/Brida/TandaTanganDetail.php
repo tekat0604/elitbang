@@ -3,6 +3,7 @@
 namespace App\Livewire\Penandatangan\Brida;
 
 use App\Models\Permohonan;
+use App\Models\LaporanAkhir;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -12,10 +13,12 @@ use Livewire\Component;
 #[Title('Detail Tanda Tangan - BRIDA')]
 class TandaTanganDetail extends Component
 {
-    public Permohonan $permohonan;
+    public $permohonan;
+    public $laporan;
+    public string $tipe_surat;
     public string $mode = 'detail';
 
-    public function mount($id, $mode = 'detail')
+    public function mount($id, $tipe = 'rekomendasi', $mode = 'detail')
     {
         $user = Auth::user();
 
@@ -25,13 +28,17 @@ class TandaTanganDetail extends Component
 
         abort_unless(in_array($mode, ['detail', 'surat'], true), 404);
         $this->mode = $mode;
+        $this->tipe_surat = $tipe;
 
-        $this->permohonan = Permohonan::with(['pemohon', 'layanan', 'pembimbing', 'anggota', 'opdChild.opd', 'opdChild.kategori', 'suratIzin'])
-            ->where('status_permohonan', 'disetujui')
-            ->whereHas('suratIzin', function ($query) {
-                $query->whereNotNull('file_path');
-            })
-            ->findOrFail($id);
+        if ($tipe === 'rekomendasi') {
+            $this->permohonan = Permohonan::with(['pemohon', 'layanan', 'pembimbing', 'anggota', 'opdChild.opd', 'opdChild.kategori', 'suratIzin'])
+                ->findOrFail($id);
+        } else {
+            $this->laporan = LaporanAkhir::with(['permohonan.pemohon', 'permohonan.layanan', 'suratSelesai'])
+                ->findOrFail($id);
+            // Salin relasi permohonan agar view tidak perlu diubah secara drastis
+            $this->permohonan = $this->laporan->permohonan;
+        }
     }
 
     public function render()

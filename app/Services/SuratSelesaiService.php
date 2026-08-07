@@ -36,8 +36,11 @@ class SuratSelesaiService
     $tanggal_cetak = Carbon::now()->locale('id')->isoFormat('D MMMM Y');
 
     // 4. Buat QR Code menggunakan TOKEN
-    $link_verifikasi = url('/verifikasi/selesai/' . $surat->qr_code_link);
-    $qr_code = base64_encode(QrCode::margin(0)->size(80)->generate($link_verifikasi));
+    $qr_code = null;
+    if ($surat->status_tte_brida === 'selesai') {
+      $link_verifikasi = url('/verifikasi/selesai/' . $surat->qr_code_link);
+      $qr_code = base64_encode(QrCode::margin(0)->size(80)->generate($link_verifikasi));
+    }
 
     $data = [
       'laporan' => $laporan,
@@ -53,15 +56,19 @@ class SuratSelesaiService
     $pdf = Pdf::loadView('pdf.surat-selesai', $data)->setPaper('A4', 'portrait');
 
     // 6. Simpan File PDF ke Storage
-    $fileName = 'surat_selesai_final_' . $surat->qr_code_link . '_' . time() . '.pdf';
-    $filePath = 'surat_selesai/final/' . $fileName;
+    if ($surat->status_tte_brida === 'selesai') {
+      $fileName = 'surat_selesai_final_' . $surat->qr_code_link . '_' . time() . '.pdf';
+      $filePath = 'surat_selesai/final/' . $fileName;
+    } else {
+      $fileName = 'draft_surat_selesai_' . $surat->qr_code_link . '_' . time() . '.pdf';
+      $filePath = 'surat_selesai/draft/' . $fileName;
+    }
     Storage::disk('public')->put($filePath, $pdf->output());
 
     // 7. Update Path dan Status TTE di tabel Surat Selesai
     $surat->update([
       'nomor_surat' => $nomor_surat,
       'file_path' => $filePath,
-      'status_tte_brida' => 'selesai'
     ]);
 
     return true;

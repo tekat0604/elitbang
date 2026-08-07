@@ -24,7 +24,6 @@ return new class extends Migration {
             ])->default('pending');
 
             $table->text('catatan_revisi')->nullable();
-            $table->string('file_surat_selesai')->nullable();
 
             $table->timestamps();
         });

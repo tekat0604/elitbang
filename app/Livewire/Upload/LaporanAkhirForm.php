@@ -57,7 +57,6 @@ class LaporanAkhirForm extends Component
 
             session()->flash('success', 'Laporan akhir berhasil diunggah ulang dan dikirim kembali ke BRIDA.');
         } else {
-            // Logika Buat Baru (Harus Disetujui, Surat Final, dan Sudah Survei)
             $permohonan = Permohonan::whereKey($this->permohonanId)
                 ->where('pemohon_id', $pemohonId)
                 ->where('status_permohonan', 'disetujui')
@@ -119,19 +118,19 @@ class LaporanAkhirForm extends Component
         $pemohonId = auth()->user()->pemohon?->id;
         $baseQuery = Permohonan::where('pemohon_id', $pemohonId)->where('status_permohonan', 'disetujui');
 
-        // 1. Cek: Disetujui tapi TTE Surat belum selesai (Menunggu Pejabat)
+        // Disetujui tapi TTE Surat belum selesai 
         $menungguSurat = (clone $baseQuery)->whereDoesntHave('suratIzin', function ($query) {
             $query->where('status_tte_kesbangpol', 'selesai')
                 ->where('status_tte_brida', 'selesai');
         })->exists();
 
-        // 2. Cek: Surat Final sudah terbit, tapi belum isi Survei
+        // Surat Final sudah terbit, tapi belum isi Survei
         $perluSurvei = (clone $baseQuery)->whereHas('suratIzin', function ($query) {
             $query->where('status_tte_kesbangpol', 'selesai')
                 ->where('status_tte_brida', 'selesai');
         })->doesntHave('surveiKepuasan')->exists();
 
-        // 3. Cek: Lulus semua syarat, siap untuk dibuatkan Laporan
+        // Lulus semua syarat, siap untuk dibuatkan Laporan
         $permohonanList = (clone $baseQuery)->with('layanan')
             ->whereHas('suratIzin', function ($query) {
                 $query->where('status_tte_kesbangpol', 'selesai')
@@ -142,7 +141,7 @@ class LaporanAkhirForm extends Component
             ->latest()
             ->get();
 
-        $laporanList = LaporanAkhir::with(['permohonan.layanan'])
+        $laporanList = LaporanAkhir::with(['permohonan.layanan', 'suratSelesai'])
             ->whereHas('permohonan', fn($query) => $query->where('pemohon_id', $pemohonId))
             ->latest('tanggal_upload')
             ->get();

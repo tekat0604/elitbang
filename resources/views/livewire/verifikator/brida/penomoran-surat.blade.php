@@ -89,7 +89,7 @@
                                                 <i class="fas fa-file-pdf me-1"></i> Buka PDF
                                             </a>
                                         @else
-                                            <a href="{{ route('preview-selesai', $item->qr_code_link) }}" class="btn btn-sm btn-outline-danger fw-bold">
+                                            <a href="{{ route('preview-selesai', $item->qr_code_link) }}" target="_blank" class="btn btn-sm btn-outline-danger fw-bold">
                                                 <i class="fas fa-file-pdf me-1"></i> Buka PDF
                                             </a>
                                         @endif

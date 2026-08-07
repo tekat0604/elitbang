@@ -126,7 +126,7 @@ Route::middleware(['auth'])->group(function () {
   // Role: Penandatangan
   Route::middleware([CekRoleTandaTangan::class])->prefix('penandatangan')->name('penandatangan.')->group(function () {
     Route::get('/brida/permohonan', TandaTanganListBrida::class)->name('brida.list');
-    Route::get('/brida/permohonan/{id}', TandaTanganDetailBrida::class)->name('brida.detail');
+    Route::get('/brida/permohonan/{id}/{tipe?}', TandaTanganDetailBrida::class)->name('brida.detail');
 
     Route::get('/kesbangpol/permohonan', TandaTanganListKesbangpol::class)->name('kesbangpol.list');
     Route::get('/kesbangpol/permohonan/{id}', TandaTanganDetailKesbangpol::class)->name('kesbangpol.detail');
