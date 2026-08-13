@@ -66,6 +66,8 @@ git
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+
 # 🏛️ E-Litbang - BRIDA Kota Surakarta
 
 **E-Litbang** adalah aplikasi pelayanan perizinan terpadu berbasis web yang dikembangkan untuk Badan Riset dan Inovasi Daerah (BRIDA) Kota Surakarta. Aplikasi ini dirancang untuk mempermudah masyarakat, mahasiswa, dan instansi dalam mengurus berbagai perizinan penelitian, KKN, hingga pengabdian masyarakat secara digital dan terintegrasi dengan Perangkat Daerah (OPD) terkait.
@@ -89,6 +91,41 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 - **Database:** MySQL (via Laragon / HeidiSQL)
 - **Styling UI:** Tailwind CSS / Bootstrap & FontAwesome Icons
 - **Web Server:** Nginx / Apache (Laragon Local Environment)
+
+### 📦 Composer Packages Utama
+Aplikasi ini bergantung pada beberapa *package* pihak ketiga via Composer, antara lain:
+- `laravel/framework`: Kerangka kerja utama aplikasi.
+- `livewire/livewire`: Membangun antarmuka dinamis (SPA) menggunakan komponen PHP.
+- `laravel/socialite`: Menangani autentikasi Single Sign-On (SSO) menggunakan akun Google.
+- `barryvdh/laravel-dompdf`: Menghasilkan dan mencetak dokumen PDF secara dinamis untuk surat izin dan surat selesai.
+- `simplesoftwareio/simple-qrcode`: Membuat QR Code untuk validasi keaslian Tanda Tangan Elektronik (TTE) pada dokumen.
+
+---
+
+## 👥 Hak Akses & Role System
+
+Aplikasi ini menggunakan sistem *multi-role* dengan pembagian tugas sebagai berikut:
+
+1. **User (Pemohon / Peneliti)**
+   - Mengisi data profil identitas diri dan memperbaiki jika terdapat hal yang salah.
+   - Mengajukan permohonan perizinan baru.
+   - Mengunggah berkas persyaratan dan laporan akhir.
+   - Mengisi survei kepuasan masyarakat.
+   - Mengunduh surat izin dan surat selesai yang telah disetujui.
+
+2. **Verifikator (BRIDA & Kesbangpol)**
+   - Memeriksa kelengkapan dan keabsahan berkas permohonan.
+   - Menyetujui, menolak, atau mengembalikan berkas (revisi) kepada pemohon.
+   - (Khusus Verifikator BRIDA): Menerbitkan nomor surat dan memproses dokumen hingga tahap akhir.
+
+3. **Admin (Instansi / OPD & UPTD)**
+   - Menerima notifikasi surat masuk dan tembusan perizinan yang berkaitan dengan instansinya.
+   - Membaca dan meninjau dokumen perizinan dari pemohon yang ditugaskan ke lokasi mereka.
+
+4. **Super Admin**
+   - Mengelola dan menambahkan data pengguna (Akun Manual).
+   - Mengelola data referensi instansi (OPD Induk dan UPTD Cabang) secara dinamis.
+   - Mengelola data penandatangan secara continue
 
 ---
 
@@ -132,6 +169,11 @@ Misalkan,
 - DB_USERNAME=root
 - DB_PASSWORD=
 
+⚠️ PENTING: Penyesuaian Fitur Email & Google SSO
+Pastikan Anda juga mengatur kredensial berikut di dalam file .env agar fitur notifikasi dan login berfungsi:
+- Pengaturan SMTP Email: Isi bagian MAIL_MAILER (misal: smtp), MAIL_HOST, MAIL_PORT, MAIL_USERNAME, dan MAIL_PASSWORD sesuai dengan akun mailer Anda (misal: Gmail atau Mailtrap).
+- Pengaturan Google Login: Isi GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, dan GOOGLE_REDIRECT_URI dengan API Keys dari Google Cloud Console Anda.
+
 ### 4. Generate Application Key
 ```bash
 php artisan key:generate
@@ -160,16 +202,93 @@ php artisan serve
 ```
 Akses aplikasi di browser melalui ```http://127.0.0.1:8000```.
 
+## Kekurangan Sistem Saat Ini (Known Issues)
+Aplikasi ini masih dalam tahap pengembangan dan memiliki beberapa poin yang perlu disempurnakan di masa mendatang:
+- Belum menerapkan fitur laporan rekapitulasi data dari masing-masing level admin.
+- Belum menerapkan sistem enkripsi (Crypt) secara penuh pada file foto identitas KTP milik pemohon.
+- Tampilan file PDF surat dan foto identitas masih rentan karena saat ini masih disimpan dan dapat diakses secara langsung melalui direktori storage/public.
+- Tampilan Dashboard utama belum dikustomisasi atau disesuaikan dengan masing-masing role yang login (tampilan masih generik).
+- Belum 100% menerapkan fungsi notifikasi di website elitbang
+
 ## Kredensial Penguji (Data Dummy Login)
-Jika menggunakan data seed default, gunakan akun dibawah ini untuk pengujian:
+Jika menggunakan data seed default, gunakan akun di bawah ini untuk pengujian sistem
+
 | Role / Hak Akses | Email / Username | Password | Keterangan |
 | :--- | :--- | :--- | :--- |
-| **Pemohon (User 1)** | `budi@example.com` | `password123` | Akun pemohon / mahasiswa |
-| **Kepala Brida (TTE)** | `kepala.brida@surakarta.go.id` | `password123` | TTE |
-| **Kepala Kesbangpol (TTE)** | `kepala.kesbangpol@surakarta.go.id` | `password123` | TTE |
-| **Verifikator BRIDA** | `brida@surakarta.go.id` | `password123` | Verifikator utama, Penerbit Surat |
-| **Verifikator Kesbangpol** | `kesbangpol@surakarta.go.id` | `password123` | Verifikator berkas diawal |
-| **Admin OPD** | `namaopd@surakarta.go.id` | `password123` | Penerima dokumen & data |
+| **Super Administrator**| `superadmin@surakarta.go.id` | `password123`| Akun admin utama sistem |
+| **Verifikator BRIDA**| `brida@surakarta.go.id`| `password123` | Verifikator instansi BRIDA |
+| **Verifikator Kesbangpol** | `kesbangpol@surakarta.go.id` | `password123` | Verifikator instansi Kesbangpol |
+| **Kepala BRIDA (TTE)** | `kepala.brida@surakarta.go.id` | `password123` | Pejabat penandatangan instansi BRIDA|
+| **Kepala Kesbangpol (TTE)** | `kepala.kesbangpol@surakarta.go.id`| `password123` | Pejabat penandatangan instansi Kesbangpol |
+| **Pemohon (Pengguna Baru)** | `baru@gmail.com` | `password123` | Akun pemohon / masyarakat umum |
+| **Admin OPD & UPTD (Instansi)** | *(Dihasilkan Otomatis)* | `password123` | Email dibuat otomatis dari data master instansi. Format email menggunakan nama OPD/UPTD tanpa spasi dan huruf kecil semua (contoh: `namaopd@surakarta.go.id`). |
 
+<br> *terdapat kekurangan data dummy yaitu role admin (belum dibuat data dummynya)
+
+## Struktur Direktori Backend yang Berhasil Ditambahkan (Folder `app/`)
+
+Berikut adalah file yang berhasil kami tambahkan pada bagian *backend* dari aplikasi ini:
+
+```text
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── AuthController.php
+│   │   ├── DashboardController.php
+│   │   ├── GoogleController.php
+│   │   └── SuratController.php
+│   └── Middleware/
+│       ├── CekRoleInstansi.php
+│       ├── CekRoleSuperAdmin.php
+│       ├── CekRoleTandaTangan.php
+│       ├── CekRoleUser.php
+│       ├── CekRoleVerifikator.php
+│       ├── CekVerifikasiPemohon.php
+│       └── CekVerifikasiPermohonan.php
+├── Livewire/
+│   ├── Auth/
+│   ├── Instansi/
+│   ├── Penandatangan/
+│   ├── SuperAdmin/
+│   ├── Upload/
+│   └── Verifikator/
+├── Mail/
+│   └── NotifikasiRevisi.php
+├── Models/
+└── Services/
+    ├── SuratIzinService.php
+    └── SuratSelesaiService.php
+
+```
+
+## Struktur Direktori Frontend yang Berhasil Ditambahkan (Folder `resources/views/`)
+
+Berikut adalah file yang berhasil kami tambahkan pada bagian *front end* dari aplikasi ini:
+
+```text
+resources/views/
+├── emails/
+│   └── notifikasi-revisi.blade.php
+├── layouts/
+│   ├── partials/
+│   │   └── sidebar.blade.php
+│   ├── sidebar_layout.blade.php
+│   └── sidebar_layout_livewire.blade.php
+├── livewire/
+│   ├── auth/
+│   ├── content/
+│   ├── instansi/
+│   ├── penandatangan/
+│   ├── super-admin/
+│   └── verifikator/
+├── pdf/
+│   ├── surat-izin.blade.php
+│   └── surat-selesai.blade.php
+└── publik/
+    ├── verifikasi-dokumen.blade.php
+    └── verifikasi-selesai.blade.php
+
+```
+      
 ## 📄 Lisensi & Hak Cipta
 Proyek ini dikembangkan untuk instansi Badan Riset dan Inovasi Daerah (BRIDA) Kota Surakarta © 2026.
