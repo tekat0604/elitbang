@@ -14,17 +14,14 @@ use Livewire\Component;
 class SurveiKepuasanForm extends Component
 {
     public $permohonanId;
-    public $nilai;
-    public $ulasan;
+    public bool $konfirmasiSurvei = false;
 
-    // Penanda jika survei berhasil dikirim
     public bool $isSubmitted = false;
 
     public function mount()
     {
         $butuhSurvei = $this->getPendingSurveys();
 
-        // Jika hanya ada 1 surat yang butuh disurvei, pilih otomatis
         if ($butuhSurvei->count() === 1) {
             $this->permohonanId = $butuhSurvei->first()->id;
         }
@@ -34,8 +31,7 @@ class SurveiKepuasanForm extends Component
     {
         return [
             'permohonanId' => ['required', 'integer'],
-            'nilai' => ['required', 'integer', 'between:1,4'],
-            'ulasan' => ['nullable', 'string', 'max:2000'],
+            'konfirmasiSurvei' => ['accepted'],
         ];
     }
 
@@ -43,12 +39,7 @@ class SurveiKepuasanForm extends Component
     {
         return [
             'permohonanId.required' => 'Silakan pilih permohonan yang akan dinilai.',
-            'permohonanId.integer' => 'Pilihan permohonan tidak valid.',
-            'nilai.required' => 'Silakan pilih penilaian Anda.',
-            'nilai.integer' => 'Format penilaian tidak valid.',
-            'nilai.between' => 'Penilaian harus berada dalam rentang 1 hingga 4.',
-            'ulasan.string' => 'Ulasan harus berupa teks.',
-            'ulasan.max' => 'Ulasan maksimal 2000 karakter.',
+            'konfirmasiSurvei.accepted' => 'Anda harus mengonfirmasi bahwa Anda telah mengisi survei di atas untuk dapat melanjutkan.',
         ];
     }
 
@@ -61,7 +52,7 @@ class SurveiKepuasanForm extends Component
             ->whereHas('suratIzin', function ($query) {
                 $query->whereNotNull('file_path');
             })
-            ->doesntHave('surveiKepuasan') // Belum mengisi survei
+            ->doesntHave('surveiKepuasan')
             ->latest()
             ->get() ?? collect();
     }
@@ -79,19 +70,17 @@ class SurveiKepuasanForm extends Component
             ->first();
 
         if (!$permohonan) {
-            $this->addError('permohonanId', 'Permohonan tidak valid, belum selesai, atau survei sudah diisi.');
+            $this->addError('permohonanId', 'Permohonan tidak valid, belum selesai, atau survei sudah dikonfirmasi.');
             return;
         }
 
         DB::transaction(function () use ($permohonan) {
             SurveiKepuasan::create([
                 'permohonan_id' => $permohonan->id,
-                'nilai' => $this->nilai,
-                'ulasan' => $this->ulasan ?: null
+                'keterangan' => 'Telah mengonfirmasi pengisian survei eksternal (Kesbangpol & BRIDA)'
             ]);
         });
 
-        // Hentikan proses, sembunyikan form, dan tampilkan ucapan terima kasih (tanpa redirect)
         $this->isSubmitted = true;
     }
 

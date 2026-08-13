@@ -6,7 +6,7 @@
   @php
     $jenisIzin = [
         ['nama' => 'Izin Penelitian', 'slug' => 'izin-penelitian', 'deskripsi' => 'Pengajuan izin untuk kegiatan penelitian.', 'gambar' => 'assets/img/jenis-izin/penelitian.jpg' ],
-        ['nama' => 'Izin KKN', 'slug' => 'izin-kkn', 'deskripsi' => 'Pengajuan izin kegiatan Kuliah Kerja Nyata.', 'gambar' => 'assets/img/jenis-izin/kkn.jpeg'],
+        ['nama' => 'Izin Kuliah Kerja Nyata', 'slug' => 'izin-kkn', 'deskripsi' => 'Pengajuan izin kegiatan Kuliah Kerja Nyata.', 'gambar' => 'assets/img/jenis-izin/kkn.jpeg'],
         ['nama' => 'Izin Pengabdian Masyarakat', 'slug' => 'izin-pengabdian-masyarakat', 'deskripsi' => 'Pengajuan izin kegiatan pengabdian kepada masyarakat.', 'gambar' => 'assets/img/jenis-izin/pengabdian_masyarakat.jpg'],
         ['nama' => 'Izin Survey', 'slug' => 'izin-survey', 'deskripsi' => 'Pengajuan izin untuk pelaksanaan survei.', 'gambar' => 'assets/img/jenis-izin/survey.jpg'],
         ['nama' => 'Izin Wawancara', 'slug' => 'izin-wawancara', 'deskripsi' => 'Pengajuan izin untuk kegiatan wawancara.', 'gambar' => 'assets/img/jenis-izin/wawancara.jpg'],

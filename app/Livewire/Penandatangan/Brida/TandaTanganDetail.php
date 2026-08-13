@@ -31,7 +31,7 @@ class TandaTanganDetail extends Component
         $this->tipe_surat = $tipe;
 
         if ($tipe === 'rekomendasi') {
-            $this->permohonan = Permohonan::with(['pemohon', 'layanan', 'pembimbing', 'anggota', 'opdChild.opd', 'opdChild.kategori', 'suratIzin'])
+            $this->permohonan = Permohonan::with(['pemohon', 'layanan', 'pembimbing', 'anggota', 'opd', 'opdChild.opd', 'opdChild.kategori', 'suratIzin'])
                 ->findOrFail($id);
         } else {
             $this->laporan = LaporanAkhir::with(['permohonan.pemohon', 'permohonan.layanan', 'suratSelesai'])

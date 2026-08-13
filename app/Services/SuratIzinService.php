@@ -62,17 +62,29 @@ class SuratIzinService
           'file_path' => $path,
         ]);
 
-        $targetOpdId = $permohonan->opdChild->id_opd;
-        $adminOpdList = User::where('role', 'opd')->where('id_opd', $targetOpdId)->get();
+        // apakah id_opd_child ada isinya
+        $targetOpdId = null;
+        if (!empty($permohonan->id_opd_child)) {
+          // Jika ada UPTD, lacak induknya dari tabel opdChild
+          $targetOpdId = $permohonan->opdChild->id_opd;
+        } else {
+          // Jika tidak ada UPTD, langsung ambil id_opd utama dari tabel permohonan
+          $targetOpdId = $permohonan->id_opd;
+        }
 
-        foreach ($adminOpdList as $adminOpd) {
-          TembusanOpd::firstOrCreate([
-            'permohonan_id' => $permohonan->id,
-            'user_id' => $adminOpd->id,
-          ], [
-            'level_distribusi' => 'opd',
-            'is_read' => false
-          ]);
+        // Jika ID instansi induk ditemukan, kirim tembusan ke semua admin di OPD tersebut
+        if ($targetOpdId) {
+          $adminOpdList = User::where('role', 'opd')->where('id_opd', $targetOpdId)->get();
+
+          foreach ($adminOpdList as $adminOpd) {
+            TembusanOpd::firstOrCreate([
+              'permohonan_id' => $permohonan->id,
+              'user_id' => $adminOpd->id,
+            ], [
+              'level_distribusi' => 'opd',
+              'is_read' => false
+            ]);
+          }
         }
       } else {
 

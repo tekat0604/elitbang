@@ -169,15 +169,25 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label class="form-label">Lokasi Penelitian/Kegiatan<span class="text-danger">*</span></label>
-                    <select wire:model="opd_child_id" class="form-select" {{ empty($daftar_child) ? 'disabled' : '' }}>
-                        <option value="">Pilih Lokasi...</option>
-                        @foreach($daftar_child as $child)
-                            <option value="{{ $child->id }}">{{ $child->nama }}</option>
-                        @endforeach
-                    </select>
-                    @error('opd_child_id') <span class="text-danger small">{{ $message }}</span> @enderror
+                    <label class="form-label">Unit/UPTD Spesifik <span class="text-muted small fw-normal">(Opsional)</span></label>
+                    
+                    @if(!empty($daftar_child) && count($daftar_child) > 0)
+                        <select wire:model="opd_child_id" class="form-select">
+                            <!-- Ubah teks opsi default agar pemohon mengerti -->
+                            <option value="">-- Langsung ke Instansi Induk --</option>
+                            @foreach($daftar_child as $child)
+                                <option value="{{ $child->id }}">{{ $child->nama }}</option>
+                            @endforeach
+                        </select>
+                        @error('opd_child_id') <span class="text-danger small">{{ $message }}</span> @enderror
+                    @else
+                        <input type="text" class="form-control bg-light text-muted" 
+                            value="{{ $opd_id ? 'Surat ditujukan ke Instansi Induk' : 'Pilih instansi induk terlebih dahulu' }}" 
+                            readonly disabled>
+                    @endif
                 </div>
+
+                
 
                 <div class="col-12 mt-4">
                     <div class="d-flex justify-content-between align-items-center mb-2">

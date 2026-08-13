@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->enum('level_distribusi', ['opd', 'uptd']);
             $table->boolean('is_read')->default(false);
+            $table->string('status_penyaluran')->default('menunggu');
             $table->timestamps();
         });
     }

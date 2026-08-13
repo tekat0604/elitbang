@@ -114,7 +114,7 @@
                         <tr>
                             <td>Lokasi</td>
                             <td style="text-align: center;">:</td>
-                            <td>{{ $permohonan->opdChild->nama ?? '-' }}</td>
+                            <td>{{ $permohonan->id_opd_child ? $permohonan->opdChild->nama : $permohonan->opd->nama_opd }}</td>
                         </tr>
                         <tr>
                             <td>Penanggung Jawab<br>(Dosen pembimbing)</td>

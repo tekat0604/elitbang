@@ -18,7 +18,8 @@ return new class extends Migration {
 
             $table->string('judul');
             $table->text('tujuan');
-            $table->foreignId('id_opd_child')->constrained('opd_child')->onDelete('cascade');
+            $table->foreignId('id_opd')->constrained('opd')->onDelete('cascade');
+            $table->foreignId('id_opd_child')->nullable()->constrained('opd_child')->onDelete('cascade');
             $table->date('tgl_mulai');
             $table->date('tgl_selesai');
             $table->string('jenjang_pendidikan');

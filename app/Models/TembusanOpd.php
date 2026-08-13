@@ -17,6 +17,7 @@ class TembusanOpd extends Model
         'user_id',
         'level_distribusi',
         'is_read',
+        'status_penyaluran',
     ];
 
     protected function casts(): array

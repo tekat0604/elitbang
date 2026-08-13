@@ -100,7 +100,7 @@ class SuratController extends Controller
     public function verifikasi($token)
     {
         // Bagian ini sudah menggunakan qr_code_link, jadi dibiarkan saja
-        $surat = SuratIzin::with(['permohonan.pemohon', 'permohonan.layanan'])
+        $surat = SuratIzin::with(['permohonan.pemohon', 'permohonan.layanan', 'permohonan.opd', 'permohonan.opdChild'])
             ->where('qr_code_link', $token)
             ->first();
 
@@ -109,5 +109,21 @@ class SuratController extends Controller
         }
 
         return view('publik.verifikasi-dokumen', compact('surat'));
+    }
+
+    public function verifikasiSelesai($token)
+    {
+        $surat = SuratSelesai::with([
+            'laporanAkhir.permohonan.pemohon',
+            'laporanAkhir.permohonan.layanan',
+            'laporanAkhir.permohonan.opd',
+            'laporanAkhir.permohonan.opdChild'
+        ])->where('qr_code_link', $token)->first();
+
+        if (!$surat) {
+            abort(404, 'Dokumen Surat Selesai tidak valid, dipalsukan, atau tidak ditemukan di sistem kami.');
+        }
+
+        return view('publik.verifikasi-selesai', compact('surat'));
     }
 }

@@ -26,7 +26,6 @@ class PermohonanDetailKesbangpol extends Component
             abort(403, 'Akses ditolak! Verifikasi ini khusus untuk Kesbangpol.');
         }
 
-        // Tambahkan relasi opdChild untuk memunculkan lokasi penelitian
         $this->permohonan = Permohonan::with(['pemohon', 'layanan'])->findOrFail($id);
         $this->status_kesbangpol = $this->permohonan->status_kesbangpol;
         $this->catatan_kesbangpol = $this->permohonan->catatan_kesbangpol;

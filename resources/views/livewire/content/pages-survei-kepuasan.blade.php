@@ -1,5 +1,3 @@
-@section('title', 'Survei Kepuasan Masyarakat')
-
 <div class="row justify-content-center">
   <div class="col-lg-9">
     <div class="card card-dash border-0 shadow-sm">
@@ -42,31 +40,39 @@
               @error('permohonanId') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
             </div>
 
-            <fieldset class="mb-4">
-              <legend class="fs-6 fw-semibold mb-2">Bagaimana penilaian Anda terhadap layanan kami? <span class="text-danger">*</span></legend>
-              <p class="text-body-secondary small mb-3">Pilih satu nilai yang paling sesuai dengan pengalaman Anda selama mengurus perizinan.</p>
-              
-              <div class="row g-2">
-                @foreach ([4 => 'Sangat Puas', 3 => 'Puas', 2 => 'Kurang Puas', 1 => 'Tidak Puas'] as $value => $label)
-                  <div class="col-6 col-md-3">
-                    <input class="btn-check @error('nilai') is-invalid @enderror" type="radio" wire:model="nilai" value="{{ $value }}" id="nilai{{ $value }}" autocomplete="off">
-                    <label class="btn btn-outline-primary w-100 py-2 shadow-sm" for="nilai{{ $value }}">{{ $label }}</label>
-                  </div>
-                @endforeach
+            <!-- Bagian Iframe Survei Kesbangpol -->
+            <div class="mb-5">
+              <h5 class="fw-bold text-primary mb-3"><i class="fas fa-clipboard-list me-2"></i>1. Survei Kesbangpol</h5>
+              <div class="border rounded bg-light p-2">
+                 <iframe src="https://appbagor.surakarta.go.id/sop/skm/instrumen/isi/48" width="100%" height="800" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
               </div>
-              @error('nilai') <div class="text-danger small fw-bold mt-2">{{ $message }}</div> @enderror
-            </fieldset>
+            </div>
 
+            <!-- Bagian Iframe Survei BRIDA -->
             <div class="mb-4">
-              <label for="ulasan" class="form-label fw-semibold">Saran atau ulasan <span class="text-body-secondary fw-normal">(opsional)</span></label>
-              <textarea id="ulasan" wire:model="ulasan" rows="4" maxlength="2000" class="form-control border-2 shadow-sm @error('ulasan') is-invalid @enderror" placeholder="Tuliskan saran atau masukan Anda untuk peningkatan layanan..."></textarea>
-              @error('ulasan') <div class="invalid-feedback fw-bold">{{ $message }}</div> @enderror
+              <h5 class="fw-bold text-primary mb-3"><i class="fas fa-clipboard-list me-2"></i>2. Survei BRIDA</h5>
+              <div class="border rounded bg-light p-2">
+                 <iframe src="https://appbagor.surakarta.go.id/sop/skm/instrumen/isi/61"  width="100%" height="800" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              </div>
+            </div>
+
+            <!-- Kotak Konfirmasi (Pengganti pengecekan sistem) -->
+            <div class="card bg-warning bg-opacity-10 border-warning border-2 rounded-4 mb-4">
+                <div class="card-body p-4">
+                    <div class="form-check">
+                        <input class="form-check-input @error('konfirmasiSurvei') is-invalid @enderror" type="checkbox" wire:model="konfirmasiSurvei" id="konfirmasiSurvei" style="width: 1.5em; height: 1.5em;">
+                        <label class="form-check-label ms-2 pt-1 fw-bold" for="konfirmasiSurvei">
+                            Saya menyatakan dengan jujur bahwa saya telah menyelesaikan dan menekan tombol kirim pada KEDUA survei di atas (Kesbangpol & BRIDA).
+                        </label>
+                    </div>
+                    @error('konfirmasiSurvei') <div class="text-danger fw-bold mt-2"><i class="fas fa-exclamation-triangle me-1"></i> {{ $message }}</div> @enderror
+                </div>
             </div>
 
             <div class="d-flex justify-content-end mt-4 pt-3 border-top">
               <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold shadow-sm" wire:loading.attr="disabled">
-                <span wire:loading.remove wire:target="submit"><i class="fas fa-paper-plane me-2"></i> Kirim Survei</span>
-                <span wire:loading wire:target="submit"><i class="fas fa-spinner fa-spin me-2"></i> Mengirim...</span>
+                <span wire:loading.remove wire:target="submit"><i class="fas fa-unlock me-2"></i> Konfirmasi</span>
+                <span wire:loading wire:target="submit"><i class="fas fa-spinner fa-spin me-2"></i> Memproses...</span>
               </button>
             </div>
           </form>

@@ -26,7 +26,7 @@ class TandaTanganDetail extends Component
         abort_unless(in_array($mode, ['detail', 'surat'], true), 404);
         $this->mode = $mode;
 
-        $this->permohonan = Permohonan::with(['pemohon', 'layanan', 'pembimbing', 'anggota', 'opdChild.opd', 'opdChild.kategori', 'suratIzin'])
+        $this->permohonan = Permohonan::with(['pemohon', 'layanan', 'pembimbing', 'anggota', 'opd', 'opdChild.opd', 'opdChild.kategori', 'suratIzin'])
             ->where('status_permohonan', 'disetujui')
             ->whereHas('suratIzin', function ($query) {
                 $query->whereNotNull('file_path');

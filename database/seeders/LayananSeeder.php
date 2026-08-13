@@ -32,7 +32,7 @@ class LayananSeeder extends Seeder
                 'updated_at' => $now,
             ],
             [
-                'nama_layanan' => 'Izin KKN',
+                'nama_layanan' => 'Izin Kuliah Kerja Nyata',
                 'slug_layanan' => 'izin-kkn',
                 'logo' => 'kkn_logo.png',
                 'deskripsi' => 'Pelayanan izin Kuliah Kerja Nyata (KKN) bagi mahasiswa.',

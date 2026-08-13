@@ -12,7 +12,7 @@ use App\Livewire\Upload\PemohonController;
 use App\Livewire\Upload\PermohonanController;
 use App\Livewire\Upload\SurveiKepuasanForm;
 use App\Livewire\Upload\LaporanAkhirForm;
-use App\Livewire\SuperAdmin\DataInstansi;
+
 
 // Verifikator Components
 use App\Livewire\Verifikator\PemohonList;
@@ -31,6 +31,11 @@ use App\Livewire\Penandatangan\Brida\TandaTanganDetail as TandaTanganDetailBrida
 use App\Livewire\Penandatangan\Kesbangpol\TandaTanganList as TandaTanganListKesbangpol;
 use App\Livewire\Penandatangan\Kesbangpol\TandaTanganDetail as TandaTanganDetailKesbangpol;
 
+// SuperAdmin Components
+use App\Livewire\SuperAdmin\AkunManual;
+use App\Livewire\SuperAdmin\InstansiManager;
+use App\Livewire\SuperAdmin\DataInstansi;
+
 // Controllers
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\AuthController;
@@ -44,7 +49,7 @@ use App\Http\Middleware\CekVerifikasiPemohon;
 use App\Http\Middleware\CekVerifikasiPermohonan;
 use App\Http\Middleware\CekRoleTandaTangan;
 use App\Http\Middleware\CekRoleSuperAdmin;
-use App\Livewire\SuperAdmin\AkunManual;
+
 
 // OPD Components
 use App\Livewire\Instansi\SuratMasukList;
@@ -136,8 +141,9 @@ Route::middleware(['auth'])->group(function () {
 
   // Role: Super Admin
   Route::middleware([CekRoleSuperAdmin::class])->prefix('super-admin')->name('super-admin.')->group(function () {
-    Route::get('/data-instansi', DataInstansi::class)->name('data-instansi');
+    Route::get('/data-penandatangan', DataInstansi::class)->name('data-instansi');
     Route::get('/data-pengguna', AkunManual::class)->name('akun-manual');
+    Route::get('/kelola-instansi', InstansiManager::class)->name('kelola-instansi');
   });
 
   // Role: Instansi

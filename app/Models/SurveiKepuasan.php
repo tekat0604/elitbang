@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class SurveiKepuasan extends Model
 {
@@ -14,12 +13,14 @@ class SurveiKepuasan extends Model
 
     protected $fillable = [
         'permohonan_id',
-        'nilai',
-        'ulasan',
+        'keterangan',
     ];
 
-    public function permohonan(): BelongsTo
+    /**
+     * Relasi balik ke tabel Permohonan
+     */
+    public function permohonan()
     {
-        return $this->belongsTo(Permohonan::class);
+        return $this->belongsTo(Permohonan::class, 'permohonan_id');
     }
 }

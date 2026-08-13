@@ -163,7 +163,7 @@
                         @endif
                     </div>
 
-                    <div>{{ $pejabat_brida->nama_kepala_instansi ?? 'Nama Pejabat Belum Diatur' }}</div><br>
+                    {{ $pejabat_brida->nama_kepala_instansi ?? 'Nama Pejabat Belum Diatur' }}<br>
                     NIP. {{ $pejabat_brida->nip ?? '-' }}
                 </td>
             </tr>

@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <span class="text-muted small">Judul Penelitian</span>
+                    <span class="text-muted small">Judul Penelitian/Kegiatan</span>
                     <div class="fw-semibold">{{ $permohonan->judul ?? '-' }}</div>
                 </div>
                 <div class="col-12 mt-3">
@@ -77,15 +77,11 @@
             <div class="row g-4 mb-4">
                 <div class="col-md-4">
                     <span class="text-muted small">Kategori Lokasi</span>
-                    <div class="fw-semibold">{{ $permohonan->opdChild->kategori->kategori ?? '-' }}</div>
+                    <div class="fw-semibold">{{ $permohonan->opdChild?->kategori?->kategori ?? $permohonan->opd?->kategori?->kategori ?? '-' }}</div>
                 </div>
                 <div class="col-md-4">
-                    <span class="text-muted small">Instansi Induk (Tembusan)</span>
-                    <div class="fw-semibold">{{ $permohonan->opdChild->opd->nama_opd ?? '-' }}</div>
-                </div>
-                <div class="col-md-4">
-                    <span class="text-muted small">Lokasi Penelitian Asli</span>
-                    <div class="fw-semibold">{{ $permohonan->opdChild->nama ?? '-' }}</div>
+                    <span class="text-muted small">Lokasi Tujuan</span>
+                    <div class="fw-semibold">{{ $permohonan->id_opd_child ? $permohonan->opdChild->nama : $permohonan->opd->nama_opd }}</div>
                 </div>
                 <div class="col-12">
                     <span class="text-muted small d-block mb-1">Nama Pembimbing</span>

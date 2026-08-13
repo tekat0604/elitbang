@@ -67,6 +67,7 @@
             'super_admin' => [
                 ['label' => 'Data Pengguna', 'route' => 'super-admin.akun-manual', 'active' => 'super-admin.akun-manual*'],
                 ['label' => 'Data Penandatangan', 'route' => 'super-admin.data-instansi', 'active' => 'super-admin.data-instansi*'],
+                ['label' => 'Kelola Instansi', 'route' => 'super-admin.kelola-instansi', 'active' => 'super-admin.kelola-instansi*'],
             ],
             'opd' => [
                 ['label' => 'Surat Masuk', 'route' => 'instansi.surat-masuk.list', 'active' => 'instansi.surat-masuk*'],
@@ -76,7 +77,7 @@
             ],
         ];
 
-        // 3. Ambil menu yang sesuai, jika tidak ada fallback ke array kosong
+        // ambil menu yang sesuai
         $activeMenus = $menus[$userType] ?? [];
     @endphp
 

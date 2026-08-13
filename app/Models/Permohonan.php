@@ -19,6 +19,7 @@ class Permohonan extends Model
         'layanan_id',
         'judul',
         'tujuan',
+        'id_opd',
         'id_opd_child',
         'tgl_mulai',
         'tgl_selesai',
@@ -74,6 +75,10 @@ class Permohonan extends Model
     public function pembimbing(): HasMany
     {
         return $this->hasMany(PembimbingPermohonan::class);
+    }
+    public function opd()
+    {
+        return $this->belongsTo(Opd::class, 'id_opd');
     }
 
     public function tembusanOpd(): HasMany

@@ -141,8 +141,8 @@
                             <div class="fw-semibold">{{ \Carbon\Carbon::parse($permohonan->tgl_mulai)->format('d M Y') }} - {{ \Carbon\Carbon::parse($permohonan->tgl_selesai)->format('d M Y') }}</div>
                         </div>
                         <div class="col-12 mb-3">
-                            <span class="text-muted small">Lokasi Penelitian (OPD)</span>
-                            <div class="fw-semibold">{{ $permohonan->opdChild->nama ?? '-' }}</div>
+                            <span class="text-muted small">Lokasi Penelitian/Kegiatan</span>
+                            <div class="fw-semibold">{{ $permohonan->id_opd_child ? $permohonan->opdChild->nama : $permohonan->opd->nama_opd }}</div>
                         </div>
                         <div class="col-12 mt-2">
                             <a href="{{ $permohonan->link_pengantar_kampus }}" target="_blank" class="btn btn-outline-primary btn-sm">

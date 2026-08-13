@@ -83,12 +83,13 @@ class PermohonanController extends Component
             $this->link_pengantar_kampus = $permohonan->link_pengantar_kampus;
             $this->link_proposal = $permohonan->link_proposal;
 
-            // NAPAK TILAS OPD UNTUK MEMUNCULKAN DROPDOWN
+            // memunculkan hasil pilihan kategori, opd, dan opd child di form
+            $this->opd_id = $permohonan->id_opd;
             $this->opd_child_id = $permohonan->id_opd_child;
-            $child = OpdChild::find($permohonan->id_opd_child);
-            if ($child) {
-                $this->kategori_id = $child->id_kategori;
-                $this->opd_id = $child->id_opd;
+            $opd = Opd::find($this->opd_id);
+            if ($opd) {
+                // Setel kategori berdasarkan OPD yang tersimpan
+                $this->kategori_id = $opd->id_kategori;
 
                 // Isi kembali array dropdown agar opsi-opsinya muncul di Blade
                 $this->daftar_opd = Opd::where('id_kategori', $this->kategori_id)->get();
@@ -192,7 +193,6 @@ class PermohonanController extends Component
 
             'kategori_id.required' => 'Kategori instansi wajib diisi.',
             'opd_id.required' => 'Instansi wajib diisi.',
-            'opd_child_id.required' => 'Lokasi wajib diisi.',
             'tgl_mulai.required' => 'Tanggal mulai kegiatan wajib diisi.',
             'tgl_mulai.after_or_equal' => 'Tanggal mulai tidak boleh lewat dari hari ini.',
             'tgl_selesai.required' => 'Tanggal selesai kegiatan wajib diisi.',
@@ -242,7 +242,7 @@ class PermohonanController extends Component
             $rules = [
                 'kategori_id' => 'required',
                 'opd_id' => 'required',
-                'opd_child_id' => 'required',
+                'opd_child_id' => 'nullable',
                 'tgl_mulai' => 'required|date|after_or_equal:today',
                 'tgl_selesai' => 'required|date|after_or_equal:tgl_mulai',
                 'jenis_pengajuan' => 'required|in:personal,kelompok',
@@ -291,7 +291,8 @@ class PermohonanController extends Component
                     'layanan_id' => $this->layanan_id,
                     'judul' => $this->judul,
                     'tujuan' => $this->tujuan,
-                    'id_opd_child' => $this->opd_child_id,
+                    'id_opd' => $this->opd_id,
+                    'id_opd_child' => empty($this->opd_child_id) ? null : $this->opd_child_id,
                     'tgl_mulai' => $this->tgl_mulai,
                     'tgl_selesai' => $this->tgl_selesai,
                     'jenjang_pendidikan' => $this->jenjang_pendidikan,
@@ -322,7 +323,8 @@ class PermohonanController extends Component
                     'layanan_id' => $this->layanan_id,
                     'judul' => $this->judul,
                     'tujuan' => $this->tujuan,
-                    'id_opd_child' => $this->opd_child_id,
+                    'id_opd' => $this->opd_id,
+                    'id_opd_child' => empty($this->opd_child_id) ? null : $this->opd_child_id,
                     'tgl_mulai' => $this->tgl_mulai,
                     'tgl_selesai' => $this->tgl_selesai,
                     'jenjang_pendidikan' => $this->jenjang_pendidikan,
