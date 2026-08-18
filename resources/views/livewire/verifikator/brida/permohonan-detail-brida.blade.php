@@ -17,15 +17,23 @@
                     <div class="row mb-4">
                         
                         <!-- Informasi Utama -->
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <span class="text-muted small">Jenis Izin</span>
                             <div class="fw-semibold">{{ $permohonan->layanan->nama_layanan }}</div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <span class="text-muted small">Status BRIDA Saat Ini</span>
+                        <div class="col-md-4 mb-3">
+                            <span class="text-muted small">Status BRIDA</span>
                             <div>
-                                <span class="badge bg-{{ $permohonan->status_brida == 'disetujui' ? 'success' : ($permohonan->status_brida == 'revisi' ? 'warning' : 'secondary') }}">
+                                <span class="badge bg-{{ $permohonan->status_brida == 'disetujui' ? 'success' : ($permohonan->status_brida == 'revisi' ? 'warning' : ($permohonan->status_brida == 'ditolak' ? 'danger' : 'secondary')) }}">
                                     {{ str($permohonan->status_brida)->title() }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <span class="text-muted small">Status KESBANGPOL</span>
+                            <div>
+                                <span class="badge bg-{{ $permohonan->status_kesbangpol == 'disetujui' ? 'success' : ($permohonan->status_kesbangpol == 'revisi' ? 'warning' : ($permohonan->status_kesbangpol == 'ditolak' ? 'danger' : 'secondary')) }}">
+                                    {{ str($permohonan->status_kesbangpol)->title() }}
                                 </span>
                             </div>
                         </div>

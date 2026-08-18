@@ -48,9 +48,21 @@
                     </a>
                 </td>
                 <td class="text-center">
-                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalKonfirmasiTandaTangan" wire:click="openModal({{ $item->id }}, '{{ $item->tipe }}')">
-                        Tanda Tangan <i class="fas fa-pen-nib ms-1"></i>
-                    </button>
+                    @if($item->status_tte === 'selesai')
+                        @if($item->tipe === 'rekomendasi')
+                            <a href="{{ route('preview-surat', $item->qr_code_link) }}" target="_blank" class="btn btn-sm btn-success">
+                                <i class="fas fa-file-pdf me-1"></i> Lihat PDF
+                            </a>
+                        @else
+                            <a href="{{ route('preview-selesai', $item->qr_code_link) }}" target="_blank" class="btn btn-sm btn-success">
+                                <i class="fas fa-file-pdf me-1"></i> Lihat PDF
+                            </a>
+                        @endif
+                    @else
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalKonfirmasiTandaTangan" wire:click="openModal({{ $item->id }}, '{{ $item->tipe }}')">
+                            Tanda Tangan <i class="fas fa-pen-nib ms-1"></i>
+                        </button>
+                    @endif
                 </td>
               </tr>
             @empty

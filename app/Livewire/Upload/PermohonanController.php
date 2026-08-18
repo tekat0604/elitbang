@@ -54,6 +54,12 @@ class PermohonanController extends Component
         if ($id) {
             $this->isEditMode = true;
             $permohonan = Permohonan::with(['layanan', 'pembimbing', 'anggota'])->findOrFail($id);
+
+            if ($permohonan->status_permohonan === 'ditolak') {
+                session()->flash('error', 'Permohonan ini telah ditolak secara permanen dan tidak dapat diedit lagi.');
+                return redirect()->route('permohonan');
+            }
+
             $sedangRevisi = ($permohonan->status_brida === 'revisi' || $permohonan->status_kesbangpol === 'revisi');
 
             if ($permohonan->pemohon_id !== $pemohon->id || !$sedangRevisi) {

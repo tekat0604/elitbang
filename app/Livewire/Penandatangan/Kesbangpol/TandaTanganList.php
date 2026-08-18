@@ -66,9 +66,7 @@ class TandaTanganList extends Component
             'permohonanList' => Permohonan::with(['pemohon', 'layanan'])
                 ->where('status_permohonan', 'disetujui')
                 ->whereHas('suratIzin', function ($query) {
-                    // Tampilkan file draft, tapi sembunyikan jika Kesbangpol sudah selesai TTD
-                    $query->whereNotNull('file_path')
-                        ->where('status_tte_kesbangpol', '!=', 'selesai');
+                    $query->whereNotNull('file_path');
                 })
                 ->latest()
                 ->paginate(10),
