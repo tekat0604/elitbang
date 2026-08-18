@@ -130,7 +130,7 @@
                         {{ str($item->status_permohonan)->replace('_', ' ')->title() }}
                       </span>
 
-                      @if ($item->status_brida === 'revisi' || $item->status_kesbangpol === 'revisi')
+                      @if (($item->status_brida === 'revisi' || $item->status_kesbangpol === 'revisi') && $item->status_permohonan !== 'ditolak')
                         <div class="mt-2">
                           <a href="{{ route('permohonan.revisi', $item->id) }}" class="btn btn-sm btn-warning shadow-sm">
                             <i class="fas fa-edit me-1"></i> Perbaiki Data

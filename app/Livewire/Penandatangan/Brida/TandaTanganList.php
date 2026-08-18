@@ -78,7 +78,7 @@ class TandaTanganList extends Component
         $rekomendasi = Permohonan::with(['pemohon', 'layanan', 'suratIzin'])
             ->where('status_permohonan', 'disetujui')
             ->whereHas('suratIzin', function ($query) {
-                $query->whereNotNull('file_path')->where('status_tte_brida', '!=', 'selesai');
+                $query->whereNotNull('file_path');
             })
             ->get()
             ->map(function ($item) {
@@ -90,6 +90,8 @@ class TandaTanganList extends Component
                     'nama_pemohon' => $item->pemohon->nama_lengkap ?? '-',
                     'layanan' => $item->layanan->nama_layanan ?? '-',
                     'instansi' => $item->nama_instansi,
+                    'status_tte' => $item->suratIzin->status_tte_brida ?? 'pending',
+                    'qr_code_link' => $item->suratIzin->qr_code_link ?? '',
                 ];
             });
 
@@ -97,7 +99,7 @@ class TandaTanganList extends Component
         $selesai = LaporanAkhir::with(['permohonan.pemohon', 'permohonan.layanan', 'suratSelesai'])
             ->where('status_laporan', 'disetujui')
             ->whereHas('suratSelesai', function ($query) {
-                $query->whereNotNull('file_path')->where('status_tte_brida', '!=', 'selesai');
+                $query->whereNotNull('file_path');
             })
             ->get()
             ->map(function ($item) {
@@ -109,6 +111,8 @@ class TandaTanganList extends Component
                     'nama_pemohon' => $item->permohonan->pemohon->nama_lengkap ?? '-',
                     'layanan' => $item->permohonan->layanan->nama_layanan ?? '-',
                     'instansi' => $item->permohonan->nama_instansi,
+                    'status_tte' => $item->suratSelesai->status_tte_brida ?? 'pending',
+                    'qr_code_link' => $item->suratSelesai->qr_code_link ?? '',
                 ];
             });
 

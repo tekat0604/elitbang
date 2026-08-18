@@ -38,7 +38,7 @@ class Register extends Component
       'username.max' => 'Username maksimal 255 karakter.',
       'username.unique' => 'Username sudah digunakan.',
       'password.required' => 'Password wajib diisi.',
-      'password.min' => 'Password minimal 6 karakter.',
+      'password.min' => 'Password minimal 8 karakter.',
       'password.regex' => 'Password harus mengandung minimal huruf besar, angka, dan karakter khusus.',
     ];
   }

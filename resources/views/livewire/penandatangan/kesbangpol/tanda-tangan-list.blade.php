@@ -13,17 +13,44 @@
             <span class="badge bg-primary text-white fs-6 px-3 py-2"><i class="fas fa-pen-nib me-1"></i> PANEL KESBANGPOL</span>
         </div>
         <div class="card-body p-0"><div class="table-responsive"><table class="table table-hover align-middle mb-0">
-            <thead class="table-light"><tr><th class="px-4">Tgl Pengajuan</th><th>Nama Pemohon</th><th>Jenis Izin</th><th>Instansi Asal</th><th class="text-center">Detail</th><th class="text-center">Tanda Tangan</th></tr></thead>
+            <thead class="table-light">
+                <tr>
+                    <th class="px-4">Tgl Pengajuan</th>
+                    <th>Nama Pemohon</th>
+                    <th>Jenis Izin</th>
+                    <th>Instansi Asal</th>
+                    <th class="text-center">Detail</th>
+                    <th class="text-center">Tanda Tangan</th>
+                </tr>
+            </thead>
             <tbody>
                 @forelse ($permohonanList as $item)
                     <tr>
-                        <td class="px-4">{{ $item->created_at->format('d M Y') }}</td><td class="fw-semibold">{{ $item->pemohon->nama_lengkap ?? 'Data Tidak Ditemukan' }}</td><td>{{ $item->layanan->nama_layanan ?? '-' }}</td>
-                        <td><div class="text-truncate" style="max-width: 200px;" title="{{ $item->nama_instansi }}">{{ $item->nama_instansi }}</div></td>
-                        <td class="text-center"><a href="{{ route('penandatangan.kesbangpol.detail', $item->id) }}" class="btn btn-sm btn-outline-primary"><i class="fas fa-file-alt me-1"></i> Detail</a></td>
+                        <td class="px-4">{{ $item->created_at->format('d M Y') }}</td>
+                        <td class="fw-semibold">{{ $item->pemohon->nama_lengkap ?? 'Data Tidak Ditemukan' }}</td>
+                        <td>{{ $item->layanan->nama_layanan ?? '-' }}</td>
+                        <td>
+                            <div class="text-truncate" style="max-width: 200px;" title="{{ $item->nama_instansi }}">
+                                {{ $item->nama_instansi }}
+                            </div>
+                        </td>
                         <td class="text-center">
-                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalKonfirmasiTandaTangan" wire:click="openModal({{ $item->id }})">
-                                Tanda Tangan <i class="fas fa-pen-nib ms-1"></i>
-                            </button>
+                            <a href="{{ route('penandatangan.kesbangpol.detail', $item->id) }}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-file-alt me-1"></i> Detail
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            @if(isset($item->suratIzin) && $item->suratIzin->status_tte_kesbangpol === 'selesai')
+                                <!-- Tampilkan tombol Lihat PDF yang memanggil file terbaru dengan QR Code -->
+                                <a href="{{ route('preview-surat', $item->suratIzin->qr_code_link) }}" target="_blank" class="btn btn-sm btn-success">
+                                    <i class="fas fa-file-pdf me-1"></i> Lihat PDF
+                                </a>
+                            @else
+                                <!-- Tampilkan tombol Tanda Tangan jika Kesbangpol belum TTD -->
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalKonfirmasiTandaTangan" wire:click="openModal({{ $item->id }})">
+                                    Tanda Tangan <i class="fas fa-pen-nib ms-1"></i>
+                                </button>
+                            @endif
                         </td>
                     </tr>
                 @empty
