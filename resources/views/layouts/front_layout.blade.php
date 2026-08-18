@@ -61,12 +61,12 @@
 </head>
 
 <body>
-@livewire('fe.part.header.menu.menu')
-    @yield('content')
+@include('layouts.sections.navbar.navbar-front')
+  @yield('content')
     @if(isset($slot))
         {{ $slot }}
     @endif
-@livewire('fe.part.footer.footer')
+@include('layouts.sections.footer.footer-front')
 
 
   <!-- Include Scripts -->

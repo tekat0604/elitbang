@@ -1,0 +1,235 @@
+<div>
+    @php
+        $pemohon = auth()->user()->pemohon;
+    @endphp
+
+    @if (!$pemohon || $pemohon->status_verifikasi !== 'terverifikasi')
+        <div class="card card-dash border-0 p-5 text-center shadow-sm">
+            @if (!$pemohon)
+                <div class="mb-4">
+                    <i class="fas fa-lock fa-4x text-warning"></i>
+                </div>
+                <h4 class="mb-3 text-warning fw-bold">Akses Terkunci</h4>
+                <p class="mb-4 text-body-secondary">Silakan mengisi data identitas diri Anda terlebih dahulu sebelum dapat mengakses halaman ini.</p>
+                <div>
+                    <a href="{{ route('identitas-form') }}" class="btn btn-primary fw-bold shadow-sm px-4">
+                        <i class="fas fa-user-edit me-1"></i> Isi Identitas Diri
+                    </a>
+                </div>
+            @elseif ($pemohon->status_verifikasi === 'pending')
+                <div class="mb-4">
+                    <i class="fas fa-clock fa-4x text-warning"></i>
+                </div>
+                <h4 class="mb-3 text-warning fw-bold">Menunggu Verifikasi Identitas</h4>
+                <p class="mb-0 text-body-secondary">Silakan menunggu profil identitas Anda diverifikasi oleh BRIDA sebelum dapat mengakses Laporan Akhir.</p>
+            @elseif ($pemohon->status_verifikasi === 'revisi')
+                <div class="mb-4">
+                    <i class="fas fa-user-times fa-4x text-danger"></i>
+                </div>
+                <h4 class="mb-3 text-danger fw-bold">Profil Perlu Revisi</h4>
+                <p class="mb-4 text-body-secondary">Data identitas Anda dikembalikan dengan catatan. Harap perbaiki sebelum dapat mengakses halaman ini.</p>
+                <div>
+                    <a href="{{ route('identitas') }}" class="btn btn-danger fw-bold shadow-sm px-4">
+                        <i class="fas fa-exclamation-triangle me-1"></i> Lihat Catatan BRIDA
+                    </a>
+                </div>
+            @endif
+        </div>
+    @elseif ($perluSurvei)
+        <div class="card card-dash border-0 p-5 text-center shadow-sm">
+            <div class="mb-4">
+                <i class="fas fa-clipboard-list fa-4x text-warning"></i>
+            </div>
+            <h4 class="mb-3 text-warning fw-bold">Survei Kepuasan Belum Diisi</h4>
+            <p class="mb-4 text-body-secondary">Silakan isi survei kepuasan masyarakat terlebih dahulu sebelum Anda dapat mengakses halaman dan mengunggah Laporan Akhir.</p>
+            <div>
+                <a href="{{ route('survei-kepuasan') }}" class="btn btn-warning fw-bold shadow-sm px-4">
+                    <i class="fas fa-edit me-1"></i> Isi Survei Sekarang
+                </a>
+            </div>
+        </div>
+
+    @elseif ($menungguSurat)
+        <!-- TAMPILAN BLOKIR: MENUNGGU SURAT TTE -->
+        <div class="card card-dash border-0 p-5 text-center shadow-sm">
+            <div class="mb-4">
+                <i class="fas fa-hourglass-half fa-4x text-info"></i>
+            </div>
+            <h4 class="mb-3 text-info fw-bold">Menunggu Penerbitan Surat</h4>
+            <p class="mb-0 text-body-secondary">Permohonan Anda telah disetujui, namun dokumen Surat Izin/Rekomendasi masih dalam proses penandatanganan elektronik oleh Pejabat berwenang. Laporan akhir baru dapat diunggah setelah surat terbit.</p>
+        </div>
+
+    @else
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h4 class="fw-bold mb-0">Laporan Akhir Penelitian</h4>
+                <p class="text-body-secondary mb-0">Pantau status verifikasi dan unggah dokumen laporan akhir Anda di sini.</p>
+            </div>
+            <div>
+                @if ($permohonanList->isNotEmpty())
+                    <button type="button" class="btn btn-primary fw-bold" data-bs-toggle="modal" data-bs-target="#modalLaporan" wire:click="batalRevisi">
+                        <i class="fas fa-plus me-1"></i> Tambah Laporan
+                    </button>
+                @endif
+            </div>
+        </div>
+
+        <!-- Alert Success -->
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show d-flex align-items-center shadow-sm" role="alert">
+                <i class="fas fa-check-circle fa-lg me-3"></i>
+                <div>{{ session('success') }}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <!-- Tabel Daftar Laporan -->
+        <div class="card card-dash border-0 shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="px-4">No.</th>
+                                <th>Judul Pengajuan</th>
+                                <th>Tanggal Upload</th>
+                                <th>Link Laporan</th>
+                                <th>Status</th>
+                                <th>Catatan</th>
+                                <th>Surat Ket. Selesai</th>
+                                <th class="text-center px-4">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($laporanList as $laporan)
+                                <tr>
+                                    <td class="px-4">{{ $loop->iteration }}</td>
+                                    <td>
+                                        <div class="fw-semibold text-truncate" style="max-width: 250px;" title="{{ $laporan->permohonan->judul }}">
+                                            {{ $laporan->permohonan->judul }}
+                                        </div>
+                                        <small class="text-muted">{{ $laporan->permohonan->layanan?->nama_layanan ?? '-' }}</small>
+                                    </td>
+                                    <td>{{ $laporan->tanggal_upload?->locale('id')->isoFormat('D MMMM Y') }}</td>
+                                    <td>
+                                        <a href="{{ $laporan->file_laporan }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-external-link-alt me-1"></i> Buka Drive
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <span class="badge {{ $laporan->status_laporan === 'disetujui' ? 'bg-success' : ($laporan->status_laporan === 'revisi' ? 'bg-danger' : 'bg-warning text-dark') }} px-2 py-1">
+                                          {{ str($laporan->status_laporan)->title() }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        @if(!empty($laporan->catatan_revisi))
+                                            <div class="text-body mt-1">{{ $laporan->catatan_revisi }}</div>
+                                        @else
+                                            <span class="text-body-secondary">-</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($laporan->suratSelesai && $laporan->suratSelesai->status_tte_brida === 'selesai' && $laporan->suratSelesai->file_path)
+                                            <a href="{{ route('user.unduh-selesai', $laporan->suratSelesai->qr_code_link) }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-success fw-bold">
+                                                <i class="fas fa-download me-1"></i> Unduh
+                                            </a>
+                                        @else
+                                            <span class="text-body-secondary small">-</span>
+                                        @endif
+                                    </td>
+                                    <td class="text-center px-4">
+                                        @if ($laporan->status_laporan === 'revisi')
+                                            <button type="button" wire:click="revisi({{ $laporan->id }})" class="btn btn-sm btn-warning fw-bold shadow-sm">
+                                                <i class="fas fa-edit me-1"></i> Revisi
+                                            </button>
+                                        @else
+                                            <span class="text-body-secondary">-</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="8" class="text-center py-5 text-body-secondary">Belum ada laporan akhir yang diunggah.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Form Laporan Akhir -->
+        <div wire:ignore.self class="modal fade" id="modalLaporan" tabindex="-1" data-bs-backdrop="static">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content border-0 shadow">
+                    <div class="modal-header bg-light border-bottom-0 pb-3">
+                        <h5 class="modal-title fw-bold">{{ $laporanId ? 'Revisi Laporan Akhir' : 'Unggah Laporan Akhir' }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" wire:click="batalRevisi"></button>
+                    </div>
+                    <form wire:submit.prevent="submit">
+                        <div class="modal-body pt-3">
+                            @if ($laporanId)
+                                <div class="alert alert-warning d-flex align-items-center p-3 mb-4" role="alert">
+                                    <i class="fas fa-exclamation-triangle fa-2x me-3"></i>
+                                    <div>Anda sedang mengunggah ulang dokumen laporan yang sebelumnya diminta untuk direvisi oleh pihak BRIDA.</div>
+                                </div>
+                            @else
+                                <div class="alert alert-info d-flex align-items-center p-3 mb-4" role="alert">
+                                    <i class="fas fa-info-circle fa-2x me-3"></i>
+                                    <div>Pastikan dokumen pada Google Drive Anda telah disetting <strong>"Anyone with the link / Siapa saja yang memiliki tautan"</strong> dapat melihat.</div>
+                                </div>
+                            @endif
+
+                            <div class="mb-4">
+                                <label for="permohonanId" class="form-label fw-semibold">Pilih Permohonan Penelitian</label>
+                                <select wire:model="permohonanId" id="permohonanId" class="form-select form-select-lg @error('permohonanId') is-invalid @enderror" @disabled($laporanId)>
+                                    <option value="">-- Silakan pilih penelitian --</option>
+                                    @foreach ($permohonanList as $item)
+                                        <option value="{{ $item->id }}">{{ $item->judul }}</option>
+                                    @endforeach
+                                    @if ($laporanId)
+                                        @php($laporanRevisi = $laporanList->firstWhere('id', $laporanId))
+                                        @if ($laporanRevisi)
+                                            <option value="{{ $laporanRevisi->permohonan_id }}">{{ $laporanRevisi->permohonan->judul }}</option>
+                                        @endif
+                                    @endif
+                                </select>
+                                @error('permohonanId') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="linkDokumen" class="form-label fw-semibold">Link Dokumen (G-Drive)</label>
+                                <input wire:model="linkDokumen" type="url" id="linkDokumen" class="form-control form-control-lg @error('linkDokumen') is-invalid @enderror" placeholder="https://drive.google.com/file/d/...">
+                                @error('linkDokumen') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                            </div>
+                        </div>
+                        <div class="modal-footer border-top-0 pt-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="batalRevisi">Batal</button>
+                            <button type="submit" class="btn btn-primary fw-bold" wire:loading.attr="disabled">
+                                <span wire:loading.remove><i class="fas fa-paper-plane me-1"></i> {{ $laporanId ? 'Kirim Revisi' : 'Kirim Laporan' }}</span>
+                                <span wire:loading><i class="fas fa-spinner fa-spin me-1"></i> Mengirim...</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Script Listener untuk Membuka/Menutup Modal dari Livewire -->
+        <script>
+            document.addEventListener('livewire:initialized', () => {
+                @this.on('close-modal-laporan', () => {
+                    let modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalLaporan'));
+                    if (modalInstance) modalInstance.hide();
+                });
+
+                @this.on('open-modal-laporan', () => {
+                    let modalElement = document.getElementById('modalLaporan');
+                    let modalInstance = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+                    modalInstance.show();
+                });
+            });
+        </script>
+    @endif
+</div>

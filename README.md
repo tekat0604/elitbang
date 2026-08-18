@@ -60,7 +60,235 @@ In order to ensure that the Laravel community is welcoming to all, please review
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
+git
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+
+# 🏛️ E-Litbang - BRIDA Kota Surakarta
+
+**E-Litbang** adalah aplikasi pelayanan perizinan terpadu berbasis web yang dikembangkan untuk Badan Riset dan Inovasi Daerah (BRIDA) Kota Surakarta. Aplikasi ini dirancang untuk mempermudah masyarakat, mahasiswa, dan instansi dalam mengurus berbagai perizinan penelitian, KKN, hingga pengabdian masyarakat secara digital dan terintegrasi dengan Perangkat Daerah (OPD) terkait.
+
+---
+
+## 🌟 Fitur Utama
+
+- **Portal Perizinan Terpadu:** Pengajuan izin secara mandiri untuk berbagai jenis layanan (Penelitian, KKN, Permohonan Data, Survey, Wawancara, dan Pengabdian Masyarakat).
+- **Tracking & Multi-Stage Workflow:** Alur pemrosesan perizinan yang terstruktur dan transparan sebanyak 12-16 tahapan.
+- **Multi-Role User System:** Hak akses khusus untuk *Pemohon/Peneliti*, *Admin BRIDA*, *Admin Kesbangpol*, serta *OPD Terkait*.
+- **Integrasi Dokumen & TTE:** Manajemen unggah persyaratan, verifikasi proposal, hingga penerbitan dokumen terverifikasi Tanda Tangan Elektronik (TTE).
+- **Interaktif & Dynamic UI:** Menggunakan komponen Livewire untuk pemrosesan data secara *real-time* tanpa *reload* halaman.
+
+---
+
+## 🛠️ Teknologi yang Digunakan
+
+- **Framework Backend:** [Laravel](https://laravel.com/)
+- **Frontend Reactive:** [Livewire](https://livewire.laravel.com/)
+- **Database:** MySQL (via Laragon / HeidiSQL)
+- **Styling UI:** Tailwind CSS / Bootstrap & FontAwesome Icons
+- **Web Server:** Nginx / Apache (Laragon Local Environment)
+
+### 📦 Composer Packages Utama
+Aplikasi ini bergantung pada beberapa *package* pihak ketiga via Composer, antara lain:
+- `laravel/framework`: Kerangka kerja utama aplikasi.
+- `livewire/livewire`: Membangun antarmuka dinamis (SPA) menggunakan komponen PHP.
+- `laravel/socialite`: Menangani autentikasi Single Sign-On (SSO) menggunakan akun Google.
+- `barryvdh/laravel-dompdf`: Menghasilkan dan mencetak dokumen PDF secara dinamis untuk surat izin dan surat selesai.
+- `simplesoftwareio/simple-qrcode`: Membuat QR Code untuk validasi keaslian Tanda Tangan Elektronik (TTE) pada dokumen.
+
+---
+
+## 👥 Hak Akses & Role System
+
+Aplikasi ini menggunakan sistem *multi-role* dengan pembagian tugas sebagai berikut:
+
+1. **User (Pemohon / Peneliti)**
+   - Mengisi data profil identitas diri dan memperbaiki jika terdapat hal yang salah.
+   - Mengajukan permohonan perizinan baru.
+   - Mengunggah berkas persyaratan dan laporan akhir.
+   - Mengisi survei kepuasan masyarakat.
+   - Mengunduh surat izin dan surat selesai yang telah disetujui.
+
+2. **Verifikator (BRIDA & Kesbangpol)**
+   - Memeriksa kelengkapan dan keabsahan berkas permohonan.
+   - Menyetujui, menolak, atau mengembalikan berkas (revisi) kepada pemohon.
+   - (Khusus Verifikator BRIDA): Menerbitkan nomor surat dan memproses dokumen hingga tahap akhir.
+
+3. **Admin (Instansi / OPD & UPTD)**
+   - Menerima notifikasi surat masuk dan tembusan perizinan yang berkaitan dengan instansinya.
+   - Membaca dan meninjau dokumen perizinan dari pemohon yang ditugaskan ke lokasi mereka.
+
+4. **Super Admin**
+   - Mengelola dan menambahkan data pengguna (Akun Manual).
+   - Mengelola data referensi instansi (OPD Induk dan UPTD Cabang) secara dinamis.
+   - Mengelola data penandatangan secara continue
+
+---
+
+## 📋 Persyaratan Sistem
+
+Sebelum menjalankan proyek ini, pastikan sistem Anda sudah terpasang:
+- PHP >= 8.4
+- Laravel >= 13
+- Composer >= 2.0
+- MySQL / MariaDB (Disarankan menggunakan **Laragon**)
+- Node.js & NPM (Opsional, jika mengompilasi aset frontend)
+
+---
+
+## 🚀 Cara Instalasi & Menjalankan Proyek Lokal
+
+Ikuti langkah-langkah berikut untuk menjalankan proyek di lingkungan lokal menggunakan Laragon:
+
+### 1. Clone Repositori
+```bash
+git clone [https://github.com/username/elitbang.git](https://github.com/tekat0604/elitbang.git)
+cd elitbang
+```
+
+### 2. Install Dependensi PHP
+```bash
+composer install
+```
+
+### 3. Konfigurasi Environment (.env)
+Duplikat file .env.example menjadi .env:
+```bash
+cp .env.example .env
+```
+Buka file .env dan atur konfigurasi database sesuai dengan pengaturan MySQL Laragon Anda:
+Misalkan,
+- DB_CONNECTION=mysql
+- DB_HOST=127.0.0.1
+- DB_PORT=3306
+- DB_DATABASE=elitbang
+- DB_USERNAME=root
+- DB_PASSWORD=
+
+⚠️ PENTING: Penyesuaian Fitur Email & Google SSO
+Pastikan Anda juga mengatur kredensial berikut di dalam file .env agar fitur notifikasi dan login berfungsi:
+- Pengaturan SMTP Email: Isi bagian MAIL_MAILER (misal: smtp), MAIL_HOST, MAIL_PORT, MAIL_USERNAME, dan MAIL_PASSWORD sesuai dengan akun mailer Anda (misal: Gmail atau Mailtrap).
+- Pengaturan Google Login: Isi GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, dan GOOGLE_REDIRECT_URI dengan API Keys dari Google Cloud Console Anda.
+
+### 4. Generate Application Key
+```bash
+php artisan key:generate
+```
+### 5. Jalankan Migrasi Database & Seeder
+Buat database bernama elitbang di HeidiSQL/phpMyAdmin, lalu jalankan migrasi:
+```bash
+php artisan migrate
+```
+Jika ada file seeder untuk data awal layanan atau akun default:
+```bash
+php artisan db seed
+```
+
+### 6. Link Storage (Untuk Manajemen Upload File)
+```bash
+php artisan storage:link
+```
+
+### 7. Jalankan Server
+Jika menggunakan Laragon, Anda cukup mengakses URL lokal seperti:
+```http://elitbang.test:8080``` atau ```http://localhost/elitbang/public``` .
+Atau Anda juga bisa menjalankannya via CLI bawaaan Laravel:
+```bash
+php artisan serve
+```
+Akses aplikasi di browser melalui ```http://127.0.0.1:8000```.
+
+## Kekurangan Sistem Saat Ini (Known Issues)
+Aplikasi ini masih dalam tahap pengembangan dan memiliki beberapa poin yang perlu disempurnakan di masa mendatang:
+- Belum menerapkan fitur laporan rekapitulasi data dari masing-masing level admin.
+- Belum menerapkan sistem enkripsi (Crypt) secara penuh pada file foto identitas KTP milik pemohon.
+- Tampilan file PDF surat dan foto identitas masih rentan karena saat ini masih disimpan dan dapat diakses secara langsung melalui direktori storage/public.
+- Tampilan Dashboard utama belum dikustomisasi atau disesuaikan dengan masing-masing role yang login (tampilan masih generik).
+- Belum 100% menerapkan fungsi notifikasi di website elitbang
+
+## Kredensial Penguji (Data Dummy Login)
+Jika menggunakan data seed default, gunakan akun di bawah ini untuk pengujian sistem
+
+| Role / Hak Akses | Email / Username | Password | Keterangan |
+| :--- | :--- | :--- | :--- |
+| **Super Administrator**| `superadmin@surakarta.go.id` | `password123`| Akun admin utama sistem |
+| **Verifikator BRIDA**| `brida@surakarta.go.id`| `password123` | Verifikator instansi BRIDA |
+| **Verifikator Kesbangpol** | `kesbangpol@surakarta.go.id` | `password123` | Verifikator instansi Kesbangpol |
+| **Kepala BRIDA (TTE)** | `kepala.brida@surakarta.go.id` | `password123` | Pejabat penandatangan instansi BRIDA|
+| **Kepala Kesbangpol (TTE)** | `kepala.kesbangpol@surakarta.go.id`| `password123` | Pejabat penandatangan instansi Kesbangpol |
+| **Pemohon (Pengguna Baru)** | `baru@gmail.com` | `password123` | Akun pemohon / masyarakat umum |
+| **Admin OPD & UPTD (Instansi)** | *(Dihasilkan Otomatis)* | `password123` | Email dibuat otomatis dari data master instansi. Format email menggunakan nama OPD/UPTD tanpa spasi dan huruf kecil semua (contoh: `namaopd@surakarta.go.id`). |
+
+<br> *terdapat kekurangan data dummy yaitu role admin (belum dibuat data dummynya)
+
+## Struktur Direktori Backend yang Berhasil Ditambahkan (Folder `app/`)
+
+Berikut adalah file yang berhasil kami tambahkan pada bagian *backend* dari aplikasi ini:
+
+```text
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── AuthController.php
+│   │   ├── DashboardController.php
+│   │   ├── GoogleController.php
+│   │   └── SuratController.php
+│   └── Middleware/
+│       ├── CekRoleInstansi.php
+│       ├── CekRoleSuperAdmin.php
+│       ├── CekRoleTandaTangan.php
+│       ├── CekRoleUser.php
+│       ├── CekRoleVerifikator.php
+│       ├── CekVerifikasiPemohon.php
+│       └── CekVerifikasiPermohonan.php
+├── Livewire/
+│   ├── Auth/
+│   ├── Instansi/
+│   ├── Penandatangan/
+│   ├── SuperAdmin/
+│   ├── Upload/
+│   └── Verifikator/
+├── Mail/
+│   └── NotifikasiRevisi.php
+├── Models/
+└── Services/
+    ├── SuratIzinService.php
+    └── SuratSelesaiService.php
+
+```
+
+## Struktur Direktori Frontend yang Berhasil Ditambahkan (Folder `resources/views/`)
+
+Berikut adalah file yang berhasil kami tambahkan pada bagian *front end* dari aplikasi ini:
+
+```text
+resources/views/
+├── emails/
+│   └── notifikasi-revisi.blade.php
+├── layouts/
+│   ├── partials/
+│   │   └── sidebar.blade.php
+│   ├── sidebar_layout.blade.php
+│   └── sidebar_layout_livewire.blade.php
+├── livewire/
+│   ├── auth/
+│   ├── content/
+│   ├── instansi/
+│   ├── penandatangan/
+│   ├── super-admin/
+│   └── verifikator/
+├── pdf/
+│   ├── surat-izin.blade.php
+│   └── surat-selesai.blade.php
+└── publik/
+    ├── verifikasi-dokumen.blade.php
+    └── verifikasi-selesai.blade.php
+
+```
+      
+## 📄 Lisensi & Hak Cipta
+Proyek ini dikembangkan untuk instansi Badan Riset dan Inovasi Daerah (BRIDA) Kota Surakarta © 2026.

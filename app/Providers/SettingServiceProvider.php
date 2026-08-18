@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 use App\Models\Setting;
@@ -21,6 +22,10 @@ class SettingServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (! Schema::hasTable((new Setting)->getTable())) {
+            return;
+        }
+
         $setting = Setting::first();
         config()->set('id', $setting->id ?? null);
         config()->set('title_nav', $setting->title_nav ?? null);
@@ -29,7 +34,7 @@ class SettingServiceProvider extends ServiceProvider
         config()->set('deskripsi', $setting->deskripsi ?? null);
         config()->set('logo_page_login', $setting->logo_page_login ?? null);
         config()->set('logo_branding', $setting->logo_branding ?? null);
-        config()->set('theme.primary_color', $setting->primary_color ?? '#0c5896');
-        config()->set('theme.secondary_color', $setting->secondary_color ?? '#28c76f');
+        config()->set('theme.primary_color', $setting->primary_color ?? '#D32F2F');
+        config()->set('theme.secondary_color', $setting->secondary_color ?? '#FFFFFF');
     }
 }
